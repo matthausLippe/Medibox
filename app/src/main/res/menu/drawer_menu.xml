@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view"
+    >
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/medicacao_item"
+            android:icon="@drawable/ic_medicacao"
+            android:title="Medicações" />
+
+        <item
+            android:id="@+id/paciente_item"
+            android:icon="@drawable/ic_paciente"
+            android:title="Residentes" />
+
+        <item
+            android:id="@+id/timeline_item"
+            android:icon="@drawable/ic_timeline"
+            android:title="Timeline" />
+
+        <item
+            android:id="@+id/conf_item"
+            android:icon="@drawable/ic_conf"
+            android:title="Configuração" />
+    </group>
+
+    <item android:title="Outros">
+        <menu>
+            <item
+                android:id="@+id/info_item"
+                android:icon="@drawable/ic_info"
+                android:title="Info" />
+
+            <item
+                android:id="@+id/logout_item"
+                android:icon="@drawable/ic_logout"
+                android:title="Logout" />
+        </menu>
+    </item>
+
+</menu>

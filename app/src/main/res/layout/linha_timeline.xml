@@ -48,6 +48,14 @@
         android:id="@+id/horário"
         android:paddingLeft="5dp"
     />
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Gaveta A1"
+            android:textAppearance="@style/TextAppearance.AppCompat.Small"
+            android:id="@+id/gaveta"
+            android:paddingLeft="5dp"
+            />
 
         <androidx.appcompat.widget.AppCompatImageView
             android:id="@+id/imagem"
