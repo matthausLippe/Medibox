@@ -1,3 +1,16 @@
 <resources>
     <string name="app_name">Medibox</string>
+    <string name="data_nascimento">Data Nascimento:</string>
+    <string name="sexo">Sexo:</string>
+    <string name="nome_responsavel">Nome Responsavel:</string>
+    <string name="tel_responsavel">Tel. Responsavel:</string>
+    <string name="cadastro_residente">Cadastro Residente</string>
+    <string name="nome">Nome:</string>
+    <string name="observa_es">Observações:</string>
+    <string name="residente">Residente</string>
+    <string name="data_nascimento_residente">Data Nascimento Residente</string>
+    <string name="quarto">Quarto</string>
+    <string name="nome_residente">Nome Residente</string>
+    <string name="residente_">Residente:</string>
+    <string name="quarto_">Quarto:</string>
 </resources>
