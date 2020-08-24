@@ -13,4 +13,6 @@
     <string name="nome_residente">Nome Residente</string>
     <string name="residente_">Residente:</string>
     <string name="quarto_">Quarto:</string>
+    <string name="navigation_drawer_open">Open navigation drawer</string>
+    <string name="navigation_drawer_close">Close navigation drawer</string>
 </resources>
