@@ -1,7 +1,7 @@
 package br.com.fiap.medibox.model;
 
 import java.sql.Date;
-import java.util.ArrayList;
+import java.util.List;
 
 public class Residente {
     private int id_Residente;
@@ -10,11 +10,30 @@ public class Residente {
     private String nomeResponsavel;
     private String telResponsavel;
     private String observacoes;
+    private List<Residente_Medicamento> listaMedicamentos;
 
     public Residente(int id_Residente, String nomeResidente, Date dataNascimento) {
         this.id_Residente = id_Residente;
         this.nomeResidente = nomeResidente;
         this.dataNascimento = dataNascimento;
+    }
+
+    public void addMedicamento(Residente_Medicamento medicamento){
+        listaMedicamentos.add(medicamento);
+    }
+
+    public void delMedicamento (Residente_Medicamento medicamento){
+        for (int i = 0; i< listaMedicamentos.size(); i++) {
+            Residente_Medicamento m = listaMedicamentos.get(i);
+            if (medicamento.getMedicamento().getId_Medicamento() == m.getMedicamento().getId_Medicamento()){
+                listaMedicamentos.remove(i);
+                break;
+            }
+        }
+    }
+
+    public List<Residente_Medicamento> getListaMedicamentos() {
+        return listaMedicamentos;
     }
 
     public int getId_Residente() {

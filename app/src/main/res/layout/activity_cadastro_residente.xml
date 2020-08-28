@@ -4,14 +4,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".CadastroResidente">
+    tools:context=".viewModel.CadastroResidente">
 
 
     <TextView
         android:id="@+id/idTitulo"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginTop="15dp"
+        android:layout_marginTop="30dp"
         android:layout_marginBottom="30dp"
         android:text="@string/cadastro_residente"
         android:textAlignment="center"
@@ -68,12 +68,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:ems="10"
+        android:importantForAutofill="no"
         android:inputType="date"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/idSexo"
         app:layout_constraintStart_toEndOf="@+id/textNascimento"
-        app:layout_constraintTop_toBottomOf="@+id/idNome"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/idNome" />
 
     <TextView
         android:id="@+id/textSexo"
@@ -94,12 +94,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:ems="10"
+        android:importantForAutofill="no"
         android:inputType="text"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/idResponsavel"
         app:layout_constraintStart_toEndOf="@+id/textSexo"
-        app:layout_constraintTop_toBottomOf="@+id/idNascimento"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/idNascimento" />
 
     <TextView
         android:id="@+id/textResponsavel"
@@ -120,12 +120,12 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:ems="10"
+        android:importantForAutofill="no"
         android:inputType="text"
         android:textSize="14sp"
         app:layout_constraintBottom_toTopOf="@+id/idTelResponsavel"
         app:layout_constraintStart_toEndOf="@+id/textResponsavel"
-        app:layout_constraintTop_toBottomOf="@+id/idSexo"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/idSexo" />
 
     <TextView
         android:id="@+id/textTelResponsavel"
@@ -147,11 +147,11 @@
         android:layout_height="wrap_content"
         android:layout_marginStart="10dp"
         android:ems="10"
+        android:importantForAutofill="no"
         android:inputType="phone"
         app:layout_constraintBottom_toTopOf="@+id/textObs"
         app:layout_constraintStart_toEndOf="@+id/textTelResponsavel"
-        app:layout_constraintTop_toBottomOf="@+id/idResponsavel"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/idResponsavel" />
 
     <TextView
         android:id="@+id/textObs"
@@ -173,11 +173,31 @@
         android:layout_marginTop="10dp"
         android:ems="10"
         android:gravity="start|top"
+        android:importantForAutofill="no"
         android:inputType="textMultiLine"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textObs"
-        android:importantForAutofill="no" />
+        app:layout_constraintTop_toBottomOf="@+id/textObs" />
+
+    <Button
+        android:id="@+id/idCancelar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Cancelar"
+        app:layout_constraintEnd_toStartOf="@+id/idSalvar"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/idObs" />
+
+    <Button
+        android:id="@+id/idSalvar"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dp"
+        android:text="Salvar"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/idCancelar"
+        app:layout_constraintTop_toBottomOf="@+id/idObs" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

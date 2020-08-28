@@ -15,4 +15,7 @@
     <string name="quarto_">Quarto:</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
+    <string name="dosagem_">Dosagem:</string>
+    <string name="laboratorio_">Laboratório:</string>
+    <string name="descricao_">Descrição:</string>
 </resources>
