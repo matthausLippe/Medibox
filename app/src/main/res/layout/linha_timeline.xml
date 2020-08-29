@@ -27,7 +27,7 @@
         android:layout_height="wrap_content"
         android:text="Remédio: Loren"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:id="@+id/remédio"
+        android:id="@+id/remedio"
         android:paddingLeft="5dp"
         />
 
@@ -45,7 +45,7 @@
         android:layout_height="wrap_content"
         android:text="Horário: 17:00"
         android:textAppearance="@style/TextAppearance.AppCompat.Small"
-        android:id="@+id/horário"
+        android:id="@+id/horario"
         android:paddingLeft="5dp"
     />
         <TextView

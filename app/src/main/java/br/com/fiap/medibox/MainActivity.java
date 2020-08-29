@@ -44,21 +44,25 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case R.id.medicacao_item:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new MedicacoesFragment()).commit();
+                        drawer.closeDrawers();
                 break;
 
             case R.id.paciente_item:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new ResidentesFragment()).commit();
+                        drawer.closeDrawers();
                 break;
 
             case R.id.timeline_item:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new TimeLineFragment()).commit();
+                        drawer.closeDrawers();
                 break;
 
             case R.id.conf_item:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                         new ConfiguracoesFragment()).commit();
+                        drawer.closeDrawers();
                 break;
         }
 

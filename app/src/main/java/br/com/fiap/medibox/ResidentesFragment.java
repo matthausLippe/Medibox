@@ -14,6 +14,6 @@ public class ResidentesFragment extends Fragment {
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_test2, container, false);
+        return inflater.inflate(R.layout.activity_lista_residente, container, false);
     }
 }
