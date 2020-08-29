@@ -40,6 +40,8 @@ public class TimeLineFragment extends Fragment {
             listItems.add(listItem);
 
         adapter = new TimeLineAdapter(listItems, view.getContext());
+
+        recyclerView.setAdapter(adapter);
         
         return view;
     }

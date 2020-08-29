@@ -64,5 +64,6 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
             horarioRemedio = (TextView) itemView.findViewById(R.id.horario);
             gavetaRemedio = (TextView) itemView.findViewById(R.id.gaveta);
         }
+
     }
 }
