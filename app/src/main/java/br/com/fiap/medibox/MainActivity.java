@@ -12,6 +12,8 @@ import android.view.MenuItem;
 
 import com.google.android.material.navigation.NavigationView;
 
+import br.com.fiap.medibox.viewModel.ListaResidenteActivity;
+
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
@@ -49,7 +51,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
             case R.id.paciente_item:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new ResidentesFragment()).commit();
+                        new ListaResidenteActivity()).commit();
                         drawer.closeDrawers();
                 break;
 

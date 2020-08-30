@@ -1,21 +1,35 @@
 package br.com.fiap.medibox.model;
 
-import java.sql.Date;
+import java.util.Date;
 import java.util.List;
 
 public class Residente {
     private int id_Residente;
     private String nomeResidente;
     private Date dataNascimento;
+    private String Sexo;
     private String nomeResponsavel;
     private String telResponsavel;
     private String observacoes;
+    private String quarto;
     private List<Residente_Medicamento> listaMedicamentos;
 
-    public Residente(int id_Residente, String nomeResidente, Date dataNascimento) {
+    public Residente(int id_Residente, String nomeResidente, Date dataNascimento, String quarto) {
         this.id_Residente = id_Residente;
         this.nomeResidente = nomeResidente;
         this.dataNascimento = dataNascimento;
+        this.quarto = quarto;
+    }
+
+    public Residente(int id_Residente, String nomeResidente, Date dataNascimento, String sexo, String nomeResponsavel, String telResponsavel, String observacoes, String quarto) {
+        this.id_Residente = id_Residente;
+        this.nomeResidente = nomeResidente;
+        this.dataNascimento = dataNascimento;
+        Sexo = sexo;
+        this.nomeResponsavel = nomeResponsavel;
+        this.telResponsavel = telResponsavel;
+        this.observacoes = observacoes;
+        this.quarto = quarto;
     }
 
     public void addMedicamento(Residente_Medicamento medicamento){
@@ -84,5 +98,21 @@ public class Residente {
         this.observacoes = observacoes;
     }
 
+    public String getQuarto() {
+        return quarto;
+    }
 
+    public void setQuarto(String quarto) {
+        this.quarto = quarto;
+    }
+
+    public String getSexo() {
+        return Sexo;
+    }
+
+    public void setSexo(String sexo) {
+        Sexo = sexo;
+    }
 }
+
+
