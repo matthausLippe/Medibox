@@ -32,14 +32,14 @@ public class Residente {
         this.quarto = quarto;
     }
 
-    public void addMedicamento(Residente_Medicamento medicamento){
+    public void addMedicamento(Residente_Medicamento medicamento) {
         listaMedicamentos.add(medicamento);
     }
 
-    public void delMedicamento (Residente_Medicamento medicamento){
-        for (int i = 0; i< listaMedicamentos.size(); i++) {
+    public void delMedicamento(Residente_Medicamento medicamento) {
+        for (int i = 0; i < listaMedicamentos.size(); i++) {
             Residente_Medicamento m = listaMedicamentos.get(i);
-            if (medicamento.getMedicamento().getId_Medicamento() == m.getMedicamento().getId_Medicamento()){
+            if (medicamento.getMedicamento().getId_Medicamento() == m.getMedicamento().getId_Medicamento()) {
                 listaMedicamentos.remove(i);
                 break;
             }

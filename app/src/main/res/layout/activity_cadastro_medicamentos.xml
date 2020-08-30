@@ -1,144 +1,154 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".viewModel.CadastroMedicamentos">
 
-    <EditText
-        android:id="@+id/idDosagem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:ems="10"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/textDescricao"
-        app:layout_constraintStart_toEndOf="@+id/textDosagem"
-        app:layout_constraintTop_toBottomOf="@+id/idLaboratorio" />
+    <androidx.constraintlayout.widget.ConstraintLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
 
-    <TextView
-        android:id="@+id/textDosagem"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/dosagem_"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/textDescricao"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textLaboratorio" />
 
-    <TextView
-        android:id="@+id/textNome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/nome"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/textLaboratorio"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        <TextView
+            android:id="@+id/textView"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="Cadastro de Medicamentos"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <EditText
-        android:id="@+id/idNome"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:ems="10"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/idLaboratorio"
-        app:layout_constraintStart_toEndOf="@+id/textNome"
-        app:layout_constraintTop_toBottomOf="@+id/textView" />
+        <TextView
+            android:id="@+id/textNome"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="30dp"
+            android:text="@string/nome"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            android:gravity="center"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <TextView
-        android:id="@+id/textLaboratorio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/laboratorio_"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/textDosagem"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textNome" />
+        <EditText
+            android:id="@+id/idNome"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:ems="10"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/textNome"
+            app:layout_constraintTop_toBottomOf="@+id/textView" />
 
-    <EditText
-        android:id="@+id/idLaboratorio"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:ems="10"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:textSize="14sp"
-        app:layout_constraintBottom_toTopOf="@+id/idDosagem"
-        app:layout_constraintStart_toEndOf="@+id/textLaboratorio"
-        app:layout_constraintTop_toBottomOf="@+id/idNome" />
+        <TextView
+            android:id="@+id/textLaboratorio"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/laboratorio_"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textNome" />
 
-    <EditText
-        android:id="@+id/idDescricao"
-        android:layout_width="335dp"
-        android:layout_height="103dp"
-        android:layout_marginTop="10dp"
-        android:ems="10"
-        android:gravity="start|top"
-        android:importantForAutofill="no"
-        android:inputType="textMultiLine"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textDescricao" />
+        <EditText
+            android:id="@+id/idLaboratorio"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/textLaboratorio"
+            app:layout_constraintTop_toBottomOf="@+id/idNome" />
 
-    <Button
-        android:id="@+id/idSalvar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:text="Salvar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/idCancelar"
-        app:layout_constraintTop_toBottomOf="@+id/idDescricao" />
+        <TextView
+            android:id="@+id/textDosagem"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/dosagem_"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textLaboratorio" />
 
-    <TextView
-        android:id="@+id/textDescricao"
-        android:layout_width="109dp"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/descricao_"
-        android:textColor="#000000"
-        android:textSize="18sp"
-        app:layout_constraintBottom_toTopOf="@+id/idDescricao"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textDosagem" />
+        <EditText
+            android:id="@+id/idDosagem"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/textDosagem"
+            app:layout_constraintTop_toBottomOf="@+id/idLaboratorio" />
 
-    <Button
-        android:id="@+id/idCancelar"
-        android:layout_width="96dp"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="44dp"
-        android:text="Cancelar"
-        app:layout_constraintEnd_toStartOf="@+id/idSalvar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idDescricao" />
+        <TextView
+            android:id="@+id/textDescricao"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/descricao_"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textDosagem" />
 
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="30dp"
-        android:text="Cadastro de Medicamentos"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-</androidx.constraintlayout.widget.ConstraintLayout>
+        <EditText
+            android:id="@+id/idDescricao"
+            android:layout_width="335dp"
+            android:layout_height="103dp"
+            android:layout_marginTop="10dp"
+            android:ems="10"
+            android:gravity="start|top"
+            android:importantForAutofill="no"
+            android:inputType="textMultiLine"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textDescricao" />
+
+
+        <Button
+            android:id="@+id/idSalvar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:text="Salvar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/idCancelar"
+            app:layout_constraintTop_toBottomOf="@+id/idDescricao" />
+
+        <Button
+            android:id="@+id/idCancelar"
+            android:layout_width="96dp"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="44dp"
+            android:text="Cancelar"
+            app:layout_constraintEnd_toStartOf="@+id/idSalvar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/idDescricao" />
+
+
+    </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

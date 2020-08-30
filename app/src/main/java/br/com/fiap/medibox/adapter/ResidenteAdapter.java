@@ -41,7 +41,7 @@ public class ResidenteAdapter extends RecyclerView.Adapter<ResidenteViewHolder> 
         Residente residentePosicao = residentes.get(position);
         holder.nome.setText(residentePosicao.getNomeResidente());
         holder.quarto.setText(residentePosicao.getQuarto());
-        if (residentePosicao.getDataNascimento() != null){
+        if (residentePosicao.getDataNascimento() != null) {
             holder.nascimento.setText(format.format(residentePosicao.getDataNascimento()));
         }
         holder.setLongClickListener(new MyLongClickListener() {
@@ -64,21 +64,20 @@ public class ResidenteAdapter extends RecyclerView.Adapter<ResidenteViewHolder> 
         return residentes != null ? residentes.size() : 0;
     }
 
-    public void deleteResidente(){
+    public void deleteResidente() {
         Residente residente = residentes.get(selectedPos);
         int id = selectedPos;
 
-        if(residentes.remove(residente))
-        {
-            Toast.makeText(context,"Exclusão realizada com sucesso!", Toast.LENGTH_SHORT).show();
-        }else {
+        if (residentes.remove(residente)) {
+            Toast.makeText(context, "Exclusão realizada com sucesso!", Toast.LENGTH_SHORT).show();
+        } else {
             Toast.makeText(context, "Exclusão não permitida!", Toast.LENGTH_SHORT).show();
         }
 
         this.notifyItemRemoved(selectedPos);
     }
 
-    public int getSelectedPos(){
+    public int getSelectedPos() {
         return selectedPos;
     }
 }

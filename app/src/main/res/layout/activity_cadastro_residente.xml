@@ -13,195 +13,199 @@
         android:layout_height="match_parent">
 
 
-    <TextView
-        android:id="@+id/idTitulo"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginTop="40dp"
-        android:text="@string/cadastro_residente"
-        android:textAlignment="center"
-        android:textColor="#000000"
-        android:textSize="24sp"
-        android:gravity="center"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        <TextView
+            android:id="@+id/idTitulo"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginTop="10dp"
+            android:gravity="center"
+            android:text="@string/cadastro_residente"
+            android:textAlignment="center"
+            android:textColor="#000000"
+            android:textSize="24sp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent" />
 
-    <TextView
-        android:id="@+id/textNome"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="30dp"
-        android:text="@string/nome"
-        android:textAllCaps="false"
-        android:textColor="#000000"
-        android:textIsSelectable="false"
-        android:textSize="14sp"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idTitulo" />
+        <TextView
+            android:id="@+id/textNome"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="30dp"
+            android:gravity="center"
+            android:text="@string/nome"
+            android:textAllCaps="false"
+            android:textColor="#000000"
+            android:textIsSelectable="false"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/idTitulo" />
 
-    <EditText
-        android:id="@+id/idNome"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="30dp"
-        android:ems="10"
-        android:importantForAutofill="no"
-        android:inputType="textPersonName"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/textNome"
-        app:layout_constraintTop_toBottomOf="@+id/idTitulo" />
+        <EditText
+            android:id="@+id/idNome"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="30dp"
+            android:ems="10"
+            android:importantForAutofill="no"
+            android:inputType="textPersonName"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/textNome"
+            app:layout_constraintTop_toBottomOf="@+id/idTitulo" />
 
-    <TextView
-        android:id="@+id/textNascimento"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/data_nascimento"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textNome" />
-
-
-    <EditText
-        android:id="@+id/idNascimento"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:importantForAutofill="no"
-        android:inputType="date"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/textNascimento"
-        app:layout_constraintTop_toBottomOf="@+id/idNome" />
-
-    <TextView
-        android:id="@+id/textSexo"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/sexo"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textNascimento" />
-
-    <EditText
-        android:id="@+id/idSexo"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/textSexo"
-        app:layout_constraintTop_toBottomOf="@+id/idNascimento" />
-
-    <TextView
-        android:id="@+id/textResponsavel"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/nome_responsavel"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textSexo" />
-
-    <EditText
-        android:id="@+id/idResponsavel"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:importantForAutofill="no"
-        android:inputType="text"
-        android:textSize="14sp"
-        app:layout_constraintStart_toEndOf="@+id/textResponsavel"
-        app:layout_constraintTop_toBottomOf="@+id/idSexo" />
-
-    <TextView
-        android:id="@+id/textTelResponsavel"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/tel_responsavel"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textResponsavel" />
+        <TextView
+            android:id="@+id/textNascimento"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/data_nascimento"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textNome" />
 
 
-    <EditText
-        android:id="@+id/idTelResponsavel"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:importantForAutofill="no"
-        android:inputType="phone"
-        app:layout_constraintStart_toEndOf="@+id/textTelResponsavel"
-        app:layout_constraintTop_toBottomOf="@+id/idResponsavel" />
+        <EditText
+            android:id="@+id/idNascimento"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:importantForAutofill="no"
+            android:inputType="date"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/textNascimento"
+            app:layout_constraintTop_toBottomOf="@+id/idNome" />
 
-    <TextView
-        android:id="@+id/textQuarto"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/quarto_"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textTelResponsavel" />
+        <TextView
+            android:id="@+id/textSexo"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/sexo"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textNascimento" />
 
-    <EditText
-        android:id="@+id/idQuarto"
-        android:layout_width="wrap_content"
-        android:layout_height="40dp"
-        android:layout_marginStart="10dp"
-        android:layout_marginTop="20dp"
-        android:ems="10"
-        android:importantForAutofill="no"
-        app:layout_constraintStart_toEndOf="@+id/textQuarto"
-        app:layout_constraintTop_toBottomOf="@+id/idTelResponsavel" />
+        <EditText
+            android:id="@+id/idSexo"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/textSexo"
+            app:layout_constraintTop_toBottomOf="@+id/idNascimento" />
 
-    <TextView
-        android:id="@+id/textObs"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="20dp"
-        android:text="@string/observa_es"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textQuarto" />
+        <TextView
+            android:id="@+id/textResponsavel"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/nome_responsavel"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textSexo" />
+
+        <EditText
+            android:id="@+id/idResponsavel"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:importantForAutofill="no"
+            android:inputType="text"
+            android:textSize="14sp"
+            app:layout_constraintStart_toEndOf="@+id/textResponsavel"
+            app:layout_constraintTop_toBottomOf="@+id/idSexo" />
+
+        <TextView
+            android:id="@+id/textTelResponsavel"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/tel_responsavel"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textResponsavel" />
+
+
+        <EditText
+            android:id="@+id/idTelResponsavel"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:importantForAutofill="no"
+            android:inputType="phone"
+            android:textSize="14dp"
+            app:layout_constraintStart_toEndOf="@+id/textTelResponsavel"
+            app:layout_constraintTop_toBottomOf="@+id/idResponsavel" />
+
+        <TextView
+            android:id="@+id/textQuarto"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/quarto_"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textTelResponsavel" />
+
+        <EditText
+            android:id="@+id/idQuarto"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="20dp"
+            android:ems="10"
+            android:importantForAutofill="no"
+            android:textSize="14dp"
+            app:layout_constraintStart_toEndOf="@+id/textQuarto"
+            app:layout_constraintTop_toBottomOf="@+id/idTelResponsavel" />
+
+        <TextView
+            android:id="@+id/textObs"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/observa_es"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textQuarto" />
 
         <EditText
             android:id="@+id/idObs"
             android:layout_width="335dp"
             android:layout_height="130dp"
+            android:layout_marginStart="20dp"
             android:layout_marginTop="10dp"
+            android:layout_marginEnd="20dp"
             android:ems="10"
             android:gravity="start|top"
             android:importantForAutofill="no"
@@ -211,47 +215,47 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textObs" />
 
-    <TextView
-        android:id="@+id/textMedicamentos"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="21dp"
-        android:layout_marginTop="10dp"
-        android:text="@string/medicamentos_"
-        android:textColor="#000000"
-        android:textSize="14sp"
-        android:gravity="center"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/idObs" />
+        <TextView
+            android:id="@+id/textMedicamentos"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="21dp"
+            android:layout_marginTop="20dp"
+            android:gravity="center"
+            android:text="@string/medicamentos_"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/idObs" />
 
-    <androidx.recyclerview.widget.RecyclerView
-        android:id="@+id/recyclerListaMedicamentosResidente"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="10dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/textMedicamentos" />
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/recyclerListaMedicamentosResidente"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textMedicamentos" />
 
-    <Button
-        android:id="@+id/idCancelar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:text="Cancelar"
-        app:layout_constraintEnd_toStartOf="@+id/idSalvar"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerListaMedicamentosResidente" />
+        <Button
+            android:id="@+id/idCancelar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="Cancelar"
+            app:layout_constraintEnd_toStartOf="@+id/idSalvar"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerListaMedicamentosResidente" />
 
-    <Button
-        android:id="@+id/idSalvar"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="25dp"
-        android:text="Salvar"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toEndOf="@+id/idCancelar"
-        app:layout_constraintTop_toBottomOf="@+id/recyclerListaMedicamentosResidente" />
+        <Button
+            android:id="@+id/idSalvar"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="25dp"
+            android:text="Salvar"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/idCancelar"
+            app:layout_constraintTop_toBottomOf="@+id/recyclerListaMedicamentosResidente" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 

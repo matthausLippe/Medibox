@@ -67,12 +67,12 @@ public class ListaResidenteActivity extends Fragment {
         recycler.setLayoutManager(layoutManager);
         residentes = new ArrayList<Residente>();
         dataNascimento = new Date();
-        residente = new Residente(1, "Antonio Santos", dataNascimento, "Masculino","Regina Santos","11-99999-8888","Com problemas cardiaco","14");
+        residente = new Residente(1, "Antonio Santos", dataNascimento, "Masculino", "Regina Santos", "11-99999-8888", "Com problemas cardiaco", "14");
         residentes.add(residente);
         populate(residentes);
     }
 
-    private void populate(final List<Residente> residentes){
+    private void populate(final List<Residente> residentes) {
         getActivity().runOnUiThread(new Runnable() {
             @Override
             public void run() {
@@ -87,7 +87,7 @@ public class ListaResidenteActivity extends Fragment {
         residente = residentes.get(adapter.getSelectedPos());
         if (item.getTitle() == "Editar") {
             //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-             //       new CadastroResidente()).commit();
+            //       new CadastroResidente()).commit();
             editarResidente();
 
         } else if (item.getTitle() == "Deletar") {
@@ -97,7 +97,7 @@ public class ListaResidenteActivity extends Fragment {
         return super.onContextItemSelected(item);
     }
 
-    private void editarResidente(){
+    private void editarResidente() {
         final Dialog dialog = new Dialog(context);
         dialog.setTitle("Cadastrar");
         dialog.setContentView(R.layout.activity_cadastro_residente);

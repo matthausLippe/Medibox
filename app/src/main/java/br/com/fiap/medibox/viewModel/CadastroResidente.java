@@ -49,7 +49,6 @@ public class CadastroResidente extends Fragment {
         cancelar = view.findViewById(R.id.idCancelar);
     }
 
-    //Criar função carregar dados para editar
 
     //função botão salvar
 
@@ -57,5 +56,5 @@ public class CadastroResidente extends Fragment {
 
     //Função para carregar informações dos medicamentos ligados ao residente
 
-    //Função para vincular novo remedio ao residente
+    //Função para vincular novo medicamento ao residente
 }
