@@ -3,6 +3,7 @@
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
+    android:id="@+id/detalhe_timeline"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -98,11 +99,12 @@
         app:layout_constraintTop_toBottomOf="@+id/frequencia_txt" />
 
     <TextView
-        android:id="@+id/textView2"
+        android:id="@+id/observacoes"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
         android:layout_marginTop="8dp"
+        android:padding="5dp"
         android:text="Observacoes: Lorem Ipsum Dolor"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
         android:textSize="18sp"

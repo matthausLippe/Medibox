@@ -7,13 +7,30 @@ import android.view.ViewGroup;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.cardview.widget.CardView;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentTransaction;
 
 public class ConfiguracoesFragment extends Fragment {
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.fragment_test4, container, false);
+        View v = inflater.inflate(R.layout.configuracao, container, false);
+        CardView a1 =  v.findViewById(R.id.a1);
+
+
+        a1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                ConfiguracoesCaixaFragment a1Fragment = new ConfiguracoesCaixaFragment();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, a1Fragment).addToBackStack(null).commit();
+            }
+        });
+        return v;
+
+
     }
 }

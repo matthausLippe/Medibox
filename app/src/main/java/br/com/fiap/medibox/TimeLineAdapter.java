@@ -12,6 +12,7 @@ import org.w3c.dom.Text;
 import java.util.List;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.RecyclerView;
 import br.com.fiap.medibox.model.ItemTimeline;
 
@@ -41,6 +42,15 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
         holder.quantidadeRemedio.setText(listItem.getQuantidade());
         holder.horarioRemedio.setText(listItem.getHorario());
         holder.gavetaRemedio.setText(listItem.getGaveta());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                TimelineItemFragment detalheFragment = new TimelineItemFragment();
+                activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, detalheFragment).addToBackStack(null).commit();
+            }
+        });
     }
 
     @Override
@@ -66,4 +76,6 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineAdapter.ViewHo
         }
 
     }
+
+
 }
