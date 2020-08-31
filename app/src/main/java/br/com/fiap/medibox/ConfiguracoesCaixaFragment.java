@@ -6,6 +6,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.SeekBar;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -22,6 +23,8 @@ public class ConfiguracoesCaixaFragment extends Fragment {
         View v = inflater.inflate(R.layout.configuracoes_caixa, container, false);
         tempBar = v.findViewById(R.id.seekBar);
         txtTemp = v.findViewById(R.id.txt_temperatura);
+        getActivity().setTitle("Configuração do Dispenser");
+
 
         tempBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
             @Override

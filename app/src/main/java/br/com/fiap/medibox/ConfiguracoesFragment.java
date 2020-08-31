@@ -20,7 +20,6 @@ public class ConfiguracoesFragment extends Fragment {
         View v = inflater.inflate(R.layout.configuracao, container, false);
         CardView a1 =  v.findViewById(R.id.a1);
 
-
         a1.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {

@@ -23,21 +23,22 @@ public class TimeLineFragment extends Fragment {
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.timeline, container, false);
-
         RecyclerView recyclerView = (RecyclerView) view.findViewById(R.id.lista_timeline);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
         ArrayList<ItemTimeline> listItems = new ArrayList<>();
-        
 
+        for (int i = 0; i < 10; i++) {
             ItemTimeline listItem = new ItemTimeline(
-                    "Nome do Paciente: Paciente",
+                    "Nome do Paciente: Paciente "+i,
                     "Comprimidos de 0,5,g",
                     "15:00",
                     "A1",
                     "Loren Ipsum Dolor"
             );
             listItems.add(listItem);
+        }
+
 
         adapter = new TimeLineAdapter(listItems, view.getContext());
 
