@@ -2,8 +2,10 @@ package br.com.fiap.medibox.viewModel;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,7 +13,12 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.fiap.medibox.R;
+import br.com.fiap.medibox.model.Residente_Medicamento;
+import br.com.fiap.medibox.viewModel.recyclerView.adapter.MedicamentoResidenteAdapter;
 
 public class CadastroResidente extends Fragment {
 
@@ -25,6 +32,11 @@ public class CadastroResidente extends Fragment {
     private RecyclerView recycler;
     private Button salvar;
     private Button cancelar;
+    private ArrayList<Residente_Medicamento> medicamentos;
+    private MedicamentoResidenteAdapter adapter;
+    private View view;
+    private Context context;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -36,7 +48,10 @@ public class CadastroResidente extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
 
         super.onActivityCreated(savedInstanceState);
-        View view = getView();
+        super.onCreate(savedInstanceState);
+        view = getView();
+        context = getContext();
+
         nome = view.findViewById(R.id.idNome);
         dataNascimento = view.findViewById(R.id.idNascimento);
         sexo = view.findViewById(R.id.idSexo);
@@ -48,15 +63,18 @@ public class CadastroResidente extends Fragment {
         salvar = view.findViewById(R.id.idSalvar);
         cancelar = view.findViewById(R.id.idCancelar);
 
+        RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+        recycler.setLayoutManager(layoutManager);
+    }
 
+    public void populate (final List<Residente_Medicamento> medicametos){
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run() {
+                adapter = new MedicamentoResidenteAdapter((ArrayList<Residente_Medicamento>) medicametos, context);
+            }
+        });
     }
 
 
-    //função botão salvar
-
-    //função para o botão cancelar
-
-    //Função para carregar informações dos medicamentos ligados ao residente
-
-    //Função para vincular novo medicamento ao residente
 }

@@ -8,6 +8,14 @@ public class Medicamento {
     private String dosagem;
     private String descricao;
 
+    public Medicamento(int id_Medicamento, String nomeMedicamento, String laboratorio, String dosagem, String descricao) {
+        this.id_Medicamento = id_Medicamento;
+        this.nomeMedicamento = nomeMedicamento;
+        this.laboratorio = laboratorio;
+        this.dosagem = dosagem;
+        this.descricao = descricao;
+    }
+
     public int getId_Medicamento() {
         return id_Medicamento;
     }

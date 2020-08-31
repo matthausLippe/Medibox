@@ -15,7 +15,12 @@ public class Residente_Medicamento {
     private Time hora_fim;
     private String gaveta;
 
-
+    public Residente_Medicamento(Medicamento medicamento, String dosagem, String intervalo, String gaveta) {
+        this.medicamento = medicamento;
+        this.dosagem = dosagem;
+        this.intervalo = intervalo;
+        this.gaveta = gaveta;
+    }
 
     public Medicamento getMedicamento() {
         return medicamento;

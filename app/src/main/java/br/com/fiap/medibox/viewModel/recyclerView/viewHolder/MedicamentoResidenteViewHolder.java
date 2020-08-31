@@ -20,7 +20,7 @@ public class MedicamentoResidenteViewHolder extends RecyclerView.ViewHolder impl
     MyLongClickListener longClickListener;
     MyClickListener clickListener;
 
-    public MedicamentoResidenteViewHolder (@NonNull View itemView){
+    public MedicamentoResidenteViewHolder(@NonNull View itemView) {
         super(itemView);
         medicamento = (TextView) itemView.findViewById(R.id.idMedicamentoLinha);
         dosagem = (TextView) itemView.findViewById(R.id.idDosagemLinha);
@@ -33,6 +33,7 @@ public class MedicamentoResidenteViewHolder extends RecyclerView.ViewHolder impl
 
 
     }
+
     @Override
     public void onClick(View view) {
         this.clickListener.onClick((getLayoutPosition()));
@@ -40,8 +41,8 @@ public class MedicamentoResidenteViewHolder extends RecyclerView.ViewHolder impl
 
     @Override
     public void onCreateContextMenu(ContextMenu contextMenu, View view, ContextMenu.ContextMenuInfo contextMenuInfo) {
-        contextMenu.add(0,0,0,"Editar");
-        contextMenu.add(0,1,0,"Deletar");
+        contextMenu.add(0, 0, 0, "Editar");
+        contextMenu.add(0, 1, 0, "Deletar");
     }
 
     @Override
@@ -49,11 +50,12 @@ public class MedicamentoResidenteViewHolder extends RecyclerView.ViewHolder impl
         this.longClickListener.onLongClick(getLayoutPosition());
         return false;
     }
-    public void setClickListener (MyClickListener clickListener){
+
+    public void setClickListener(MyClickListener clickListener) {
         this.clickListener = clickListener;
     }
 
-    public void setLongClickListener (MyLongClickListener longClickListener){
+    public void setLongClickListener(MyLongClickListener longClickListener) {
         this.longClickListener = longClickListener;
     }
 

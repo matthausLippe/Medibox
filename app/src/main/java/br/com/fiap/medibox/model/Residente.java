@@ -1,5 +1,6 @@
 package br.com.fiap.medibox.model;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -12,7 +13,7 @@ public class Residente {
     private String telResponsavel;
     private String observacoes;
     private String quarto;
-    private List<Residente_Medicamento> listaMedicamentos;
+    private ArrayList<Residente_Medicamento> listaMedicamentos = new ArrayList<Residente_Medicamento>();
 
     public Residente(int id_Residente, String nomeResidente, Date dataNascimento, String quarto) {
         this.id_Residente = id_Residente;
@@ -46,7 +47,7 @@ public class Residente {
         }
     }
 
-    public List<Residente_Medicamento> getListaMedicamentos() {
+    public ArrayList<Residente_Medicamento> getListaMedicamentos() {
         return listaMedicamentos;
     }
 

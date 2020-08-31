@@ -7,6 +7,7 @@ import androidx.recyclerview.widget.RecyclerView;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.text.format.Time;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -16,20 +17,25 @@ import android.widget.EditText;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.Date;
 import java.util.ArrayList;
 import java.util.List;
 
 import br.com.fiap.medibox.R;
+import br.com.fiap.medibox.model.Medicamento;
+import br.com.fiap.medibox.model.Residente_Medicamento;
+import br.com.fiap.medibox.viewModel.recyclerView.adapter.MedicamentoResidenteAdapter;
 import br.com.fiap.medibox.viewModel.recyclerView.adapter.ResidenteAdapter;
 import br.com.fiap.medibox.model.Residente;
 
 public class ListaResidenteActivity extends Fragment {
 
 
-    private RecyclerView recycler;
+    private RecyclerView recycler, recyclerMedicamento;
     private List<Residente> residentes;
     ResidenteAdapter adapter;
+    MedicamentoResidenteAdapter adapterMedicamento;
     Residente residente;
     Date dataNascimento;
     View v;
@@ -42,7 +48,6 @@ public class ListaResidenteActivity extends Fragment {
     private EditText telResponsavel;
     private EditText quarto;
     private EditText observacoes;
-    private RecyclerView recyclerMedicamento;
     private Button salvar;
     private Button cancelar;
 
@@ -62,10 +67,36 @@ public class ListaResidenteActivity extends Fragment {
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recycler.setLayoutManager(layoutManager);
         residentes = new ArrayList<Residente>();
-        dataNascimento = new Date();
-        residente = new Residente(1, "Antonio Santos", dataNascimento, "Masculino", "Regina Santos", "11-99999-8888", "Com problemas cardiaco", "14");
+        residente = criarResidente();
         residentes.add(residente);
         populate(residentes);
+    }
+
+    private Residente criarResidente(){
+        Residente res;
+        dataNascimento = new Date();
+        Medicamento medicamento = new Medicamento(
+                01,
+                "Paracetamol",
+                "Medley",
+                "750mg",
+                "Paracetamol é indicado para alívio temporário de dores associadas a gripes");
+        Residente_Medicamento residenteMedicamento = new Residente_Medicamento(
+                medicamento,
+                "750mg",
+                "8h",
+                "1A");
+        res = new Residente(
+                1,
+                "Antonio Santos",
+                dataNascimento, "Masculino",
+                "Regina Santos",
+                "11-99999-8888",
+                "Com problemas cardiaco",
+                "14");
+        res.addMedicamento(residenteMedicamento);
+
+        return res;
     }
 
     private void populate(final List<Residente> residentes) {
@@ -82,10 +113,7 @@ public class ListaResidenteActivity extends Fragment {
     public boolean onContextItemSelected(MenuItem item) {
         residente = residentes.get(adapter.getSelectedPos());
         if (item.getTitle() == "Editar") {
-            //getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-            //       new CadastroResidente()).commit();
             editarResidente();
-
         } else if (item.getTitle() == "Deletar") {
             adapter.deleteResidente();
 
@@ -107,6 +135,7 @@ public class ListaResidenteActivity extends Fragment {
         observacoes = (EditText) dialog.findViewById(R.id.idObs);
         salvar = (Button) dialog.findViewById(R.id.idSalvar);
         cancelar = (Button) dialog.findViewById(R.id.idCancelar);
+        recyclerMedicamento = (RecyclerView) dialog.findViewById(R.id.recyclerListaMedicamentosResidente);
 
         nome.setText(residente.getNomeResidente());
         DateFormat format = new SimpleDateFormat("dd/MM/yyyy");
@@ -116,6 +145,13 @@ public class ListaResidenteActivity extends Fragment {
         telResponsavel.setText(residente.getTelResponsavel());
         quarto.setText(residente.getQuarto());
         observacoes.setText(residente.getObservacoes());
+
+        RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
+        recyclerMedicamento.setLayoutManager(layoutManager1);
+        adapterMedicamento = new MedicamentoResidenteAdapter((ArrayList<Residente_Medicamento>) residente.getListaMedicamentos(), context);
+        recyclerMedicamento.setAdapter(adapterMedicamento);
+
+
 
         cancelar.setOnClickListener(new View.OnClickListener() {
             @Override

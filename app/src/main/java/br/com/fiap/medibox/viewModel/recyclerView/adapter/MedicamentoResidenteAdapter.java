@@ -103,7 +103,7 @@ public class MedicamentoResidenteAdapter extends RecyclerView.Adapter<Medicament
         }
     }
 
-    public int getSelectedPos(){
+    public int getSelectedPos() {
         return selectedPos;
     }
 }
