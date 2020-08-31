@@ -1,17 +1,22 @@
-package br.com.fiap.medibox.adapter;
+package br.com.fiap.medibox.viewModel.recyclerView.viewHolder;
 
 import android.view.ContextMenu;
 import android.view.View;
+import android.widget.Button;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.RecyclerView;
 
 import br.com.fiap.medibox.R;
 
 public class ResidenteViewHolder  extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener, View.OnCreateContextMenuListener {
 
-    TextView nome, nascimento, quarto;
+    public TextView nome;
+    public TextView nascimento;
+    public TextView quarto;
+    public CardView adicionar;
     MyLongClickListener longClickListener;
     MyClickListener clickListener;
 
@@ -24,6 +29,8 @@ public class ResidenteViewHolder  extends RecyclerView.ViewHolder implements Vie
         itemView.setOnLongClickListener(this);
         itemView.setOnClickListener(this);
         itemView.setOnCreateContextMenuListener(this);
+
+        adicionar = (CardView) itemView.findViewById(R.id.itemAdd);
     }
 
     @Override

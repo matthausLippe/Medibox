@@ -8,7 +8,7 @@ public class Residente_Medicamento {
 
     private Medicamento medicamento;
     private String dosagem;
-    private String frequencia;
+    private String intervalo;
     private Date data_Inicio;
     private Time hora_Inicio;
     private Date data_Fim;
@@ -33,12 +33,12 @@ public class Residente_Medicamento {
         this.dosagem = dosagem;
     }
 
-    public String getFrequencia() {
-        return frequencia;
+    public String getIntervalo() {
+        return intervalo;
     }
 
-    public void setFrequencia(String frequencia) {
-        this.frequencia = frequencia;
+    public void setIntervalo(String frequencia) {
+        this.intervalo = frequencia;
     }
 
     public Date getData_Inicio() {

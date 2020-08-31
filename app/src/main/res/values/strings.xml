@@ -19,4 +19,6 @@
     <string name="laboratorio_">Laboratório:</string>
     <string name="descricao_">Descrição:</string>
     <string name="medicamentos_">Medicamentos:</string>
+    <string name="adicionar">Adicionar</string>
+    <string name="intervalo_">Intervalo:</string>
 </resources>

@@ -1,20 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
-    <LinearLayout
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:padding="16dp">
+    android:layout_height="wrap_content"
+    android:padding="5dp">
 
     <androidx.cardview.widget.CardView
+        android:id="@+id/cv"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:id="@+id/cv">
+        android:layout_height="wrap_content">
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:baselineAligned="false">
+            android:layout_height="match_parent"
+            android:baselineAligned="false"
+            android:orientation="horizontal">
 
             <LinearLayout
                 android:layout_width="124dp"
@@ -25,19 +24,22 @@
                     android:id="@+id/residente"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/residente_" />
+                    android:text="@string/residente_"
+                    android:textColor="#000000" />
 
                 <TextView
                     android:id="@+id/dataNascimento"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/data_nascimento" />
+                    android:text="@string/data_nascimento"
+                    android:textColor="#000000"/>
 
                 <TextView
                     android:id="@+id/quarto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
-                    android:text="@string/quarto_" />
+                    android:text="@string/quarto_"
+                    android:textColor="#000000"/>
 
             </LinearLayout>
 
@@ -72,4 +74,4 @@
         </LinearLayout>
     </androidx.cardview.widget.CardView>
 
-    </LinearLayout>
+</LinearLayout>

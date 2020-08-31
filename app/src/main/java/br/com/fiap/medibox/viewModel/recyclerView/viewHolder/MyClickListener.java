@@ -1,4 +1,4 @@
-package br.com.fiap.medibox.adapter;
+package br.com.fiap.medibox.viewModel.recyclerView.viewHolder;
 
 public interface MyClickListener {
 

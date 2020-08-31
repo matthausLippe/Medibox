@@ -47,6 +47,8 @@ public class CadastroResidente extends Fragment {
         recycler = view.findViewById(R.id.recyclerListaMedicamentosResidente);
         salvar = view.findViewById(R.id.idSalvar);
         cancelar = view.findViewById(R.id.idCancelar);
+
+
     }
 
 
