@@ -21,8 +21,9 @@
             android:gravity="center"
             android:text="@string/cadastro_residente"
             android:textAlignment="center"
-            android:textColor="#000000"
+            android:textColor="@color/cardview_dark_background"
             android:textSize="24sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
@@ -31,12 +32,12 @@
             android:id="@+id/textNome"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
+            android:textColor="@color/cardview_dark_background"
             android:layout_marginStart="21dp"
             android:layout_marginTop="30dp"
             android:gravity="center"
             android:text="@string/nome"
             android:textAllCaps="false"
-            android:textColor="#000000"
             android:textIsSelectable="false"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
@@ -63,7 +64,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:text="@string/data_nascimento"
-            android:textColor="#000000"
+            android:textColor="@color/cardview_dark_background"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textNome" />
@@ -90,7 +91,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:text="@string/sexo"
-            android:textColor="#000000"
+            android:textColor="@color/cardview_dark_background"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textNascimento" />
@@ -116,7 +117,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:text="@string/nome_responsavel"
-            android:textColor="#000000"
+            android:textColor="@color/cardview_dark_background"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textSexo" />
@@ -142,7 +143,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:text="@string/tel_responsavel"
-            android:textColor="#000000"
+            android:textColor="@color/cardview_dark_background"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textResponsavel" />
@@ -169,7 +170,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:text="@string/quarto_"
-            android:textColor="#000000"
+            android:textColor="@color/cardview_dark_background"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textTelResponsavel" />
@@ -194,7 +195,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:text="@string/observa_es"
-            android:textColor="#000000"
+            android:textColor="@color/cardview_dark_background"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textQuarto" />
@@ -209,6 +210,7 @@
             android:ems="10"
             android:gravity="start|top"
             android:importantForAutofill="no"
+            android:background="@drawable/edit"
             android:inputType="textMultiLine"
             android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
@@ -223,7 +225,7 @@
             android:layout_marginTop="20dp"
             android:gravity="center"
             android:text="@string/medicamentos_"
-            android:textColor="#000000"
+            android:textColor="@color/cardview_dark_background"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/idObs" />
@@ -243,6 +245,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:text="Cancelar"
+            android:background="@drawable/loginbutton"
+            android:textColor="#ffffff"
             app:layout_constraintEnd_toStartOf="@+id/idSalvar"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recyclerListaMedicamentosResidente" />
@@ -253,6 +257,8 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="25dp"
             android:text="Salvar"
+            android:background="@drawable/loginbutton"
+            android:textColor="#ffffff"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/idCancelar"
             app:layout_constraintTop_toBottomOf="@+id/recyclerListaMedicamentosResidente" />

@@ -25,21 +25,21 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/residente_"
-                    android:textColor="#000000" />
+                    android:textColor="@color/cardview_dark_background" />
 
                 <TextView
                     android:id="@+id/dataNascimento"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/data_nascimento"
-                    android:textColor="#000000"/>
+                    android:textColor="@color/cardview_dark_background"/>
 
                 <TextView
                     android:id="@+id/quarto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/quarto_"
-                    android:textColor="#000000"/>
+                    android:textColor="@color/cardview_dark_background"/>
 
             </LinearLayout>
 

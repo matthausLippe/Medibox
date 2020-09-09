@@ -41,8 +41,12 @@ public class ConfiguracoesCaixaFragment extends Fragment {
             public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
+
+
         });
 
         return v;
     }
+
+    
 }

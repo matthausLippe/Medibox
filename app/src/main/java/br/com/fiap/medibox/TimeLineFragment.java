@@ -1,6 +1,7 @@
 package br.com.fiap.medibox;
 
 import android.os.Bundle;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -38,6 +39,19 @@ public class TimeLineFragment extends Fragment {
             );
             listItems.add(listItem);
         }
+
+        //previne o botão voltar de ir pra tela de login ou sair do app
+        view.setOnKeyListener(new View.OnKeyListener() {
+            @Override
+            public boolean onKey(View v, int keyCode, KeyEvent event) {
+                if (event.getAction() == KeyEvent.ACTION_DOWN) {
+                    if (keyCode == KeyEvent.KEYCODE_BACK) {
+                        return true;
+                    }
+                }
+                return false;
+            }
+        });
 
 
         adapter = new TimeLineAdapter(listItems, view.getContext());
