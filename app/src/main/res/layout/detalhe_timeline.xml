@@ -5,27 +5,28 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/detalhe_timeline"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:background="@drawable/bg">
 
     <TextView
         android:id="@+id/hora_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="180dp"
+        android:layout_marginTop="34dp"
         android:padding="5dp"
         android:text="Hora da Medicação: 15:00"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toBottomOf="@+id/txt_paciente" />
 
     <TextView
         android:id="@+id/quantidade_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:padding="5dp"
         android:text="Quantidade: Loren Ipsum Dolor"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
@@ -38,7 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:padding="5dp"
         android:text="Frequencia da medicação: de 24 em 24 horas"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
@@ -50,21 +51,23 @@
         android:id="@+id/txt_paciente"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginEnd="84dp"
+        android:layout_marginTop="20dp"
         android:padding="5dp"
-        android:text="Paciente: Loren Ipsum Dolor"
+        android:text="Loren Ipsum Dolor"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
-        android:textSize="18sp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/remedio_txt" />
+        android:textColor="#FFFFFF"
+        android:textSize="28sp"
+        android:textStyle="bold"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/imagem" />
 
     <TextView
         android:id="@+id/remedio_txt"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:padding="5dp"
         android:text="Remédio: Lorem Ipsum Dolor"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
@@ -77,7 +80,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:padding="5dp"
         android:text="Telefone do Responsável: (11) 95678-3464"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
@@ -90,7 +93,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:padding="5dp"
         android:text="Horário: 15:30"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
@@ -103,25 +106,25 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="8dp"
+        android:layout_marginTop="16dp"
         android:padding="5dp"
         android:text="Observacoes: Lorem Ipsum Dolor"
         android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Subtitle"
         android:textSize="18sp"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/txt_paciente" />
+        app:layout_constraintTop_toBottomOf="@+id/remedio_txt" />
 
     <Button
         android:id="@+id/medicar_btn"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_marginBottom="104dp"
+        android:layout_marginBottom="44dp"
+        android:background="@drawable/loginbutton"
         android:text="Medicar"
+        android:textColor="#ffffff"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.498"
-        android:background="@drawable/loginbutton"
-        android:textColor="#ffffff"
         app:layout_constraintStart_toStartOf="parent" />
 
     <androidx.appcompat.widget.AppCompatImageView
@@ -129,14 +132,12 @@
         android:layout_width="105dp"
         android:layout_height="111dp"
         android:layout_margin="5dp"
-        android:layout_marginStart="24dp"
         android:scaleType="fitXY"
         android:src="@drawable/profile_icon"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.531"
-        app:layout_constraintStart_toEndOf="@+id/hora_txt"
+        app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.153" />
+        app:layout_constraintVertical_bias="0.041" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
