@@ -47,7 +47,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         switch (menuItem.getItemId()){
             case R.id.medicacao_item:
                 getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
-                        new MedicacoesFragment()).commit();
+                        new MedicamentosFragment()).commit();
                         setTitle("Medicações");
                         drawer.closeDrawers();
                 break;
