@@ -1,27 +1,34 @@
 package br.com.fiap.medibox.model;
 
-public class Medicamento {
+public class MedicamentoModel {
 
-    private int id_Medicamento;
+    private long idMedicamento;
     private String nomeMedicamento;
     private String laboratorio;
     private String dosagem;
     private String descricao;
 
-    public Medicamento(int id_Medicamento, String nomeMedicamento, String laboratorio, String dosagem, String descricao) {
-        this.id_Medicamento = id_Medicamento;//medicamento
-        this.nomeMedicamento = nomeMedicamento; //medicamento
-        this.laboratorio = laboratorio; //medicamento
-        this.dosagem = dosagem; //medicamento
-        this.descricao = descricao; //medicamento
+    public MedicamentoModel(long idMedicamento, String nomeMedicamento, String laboratorio, String dosagem, String descricao) {
+        this.idMedicamento = idMedicamento;
+        this.nomeMedicamento = nomeMedicamento;
+        this.laboratorio = laboratorio;
+        this.dosagem = dosagem;
+        this.descricao = descricao;
     }
 
-    public int getId_Medicamento() {
-        return id_Medicamento;
+    public MedicamentoModel(long idMedicamento, String nomeMedicamento, String laboratorio, String dosagem) {
+        this.idMedicamento = idMedicamento;
+        this.nomeMedicamento = nomeMedicamento;
+        this.laboratorio = laboratorio;
+        this.dosagem = dosagem;
     }
 
-    public void setId_Medicamento(int id_Medicamento) {
-        this.id_Medicamento = id_Medicamento;
+    public long getIdMedicamento() {
+        return idMedicamento;
+    }
+
+    public void setIdMedicamento(long idMedicamento) {
+        this.idMedicamento = idMedicamento;
     }
 
     public String getNomeMedicamento() {

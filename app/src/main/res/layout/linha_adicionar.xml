@@ -4,8 +4,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="wrap_content"
-    android:paddingLeft="5dp"
-    android:paddingRight="5dp">
+    android:paddingLeft="0dp"
+    android:paddingRight="0dp">
 
     <androidx.cardview.widget.CardView
         android:id="@+id/itemAdd"
@@ -20,10 +20,10 @@
             android:layout_height="match_parent">
 
             <ImageView
-                android:id="@+id/imageView"
+                android:id="@+id/imageViewTimeLine"
                 android:layout_width="40dp"
                 android:layout_height="20dp"
-                android:layout_marginEnd="20dp"
+                android:layout_marginEnd="5dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintEnd_toEndOf="parent"
                 app:layout_constraintTop_toTopOf="parent"
@@ -35,10 +35,9 @@
                 android:layout_height="wrap_content"
                 android:layout_marginStart="10dp"
                 android:gravity="center"
-                android:paddingLeft="10dp"
                 android:text="@string/adicionar"
                 android:textColor="@color/cardview_dark_background"
-                android:textSize="20dp"
+                android:textSize="14dp"
                 app:layout_constraintBottom_toBottomOf="parent"
                 app:layout_constraintStart_toStartOf="parent"
                 app:layout_constraintTop_toTopOf="parent" />

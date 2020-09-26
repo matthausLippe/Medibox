@@ -11,16 +11,18 @@ public class Residente_Medicamento {
     private String intervalo;
     private Date data_Inicio;
     private Time hora_Inicio;
-    private Date data_Fim;
-    private Time hora_fim;
+    private int doses;
     private String gaveta;
 
-    public Residente_Medicamento(Medicamento medicamento, String dosagem, String intervalo, String gaveta) {
+    public Residente_Medicamento(Medicamento medicamento, String dosagem, String intervalo,int doses, String gaveta) {
         this.medicamento = medicamento;
         this.dosagem = dosagem;
         this.intervalo = intervalo;
+        this.doses = doses;
         this.gaveta = gaveta;
     }
+
+
 
     public Medicamento getMedicamento() {
         return medicamento;
@@ -62,20 +64,12 @@ public class Residente_Medicamento {
         this.hora_Inicio = hora_Inicio;
     }
 
-    public Date getData_Fim() {
-        return data_Fim;
+    public int getDoses() {
+        return doses;
     }
 
-    public void setData_Fim(Date data_Fim) {
-        this.data_Fim = data_Fim;
-    }
-
-    public Time getHora_fim() {
-        return hora_fim;
-    }
-
-    public void setHora_fim(Time hora_fim) {
-        this.hora_fim = hora_fim;
+    public void setDoses(int doses) {
+        this.doses = doses;
     }
 
     public String getGaveta() {
