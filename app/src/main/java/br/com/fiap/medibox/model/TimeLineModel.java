@@ -1,24 +1,41 @@
 package br.com.fiap.medibox.model;
 
-import java.sql.Date;
-import java.sql.Time;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
 
+import java.sql.Timestamp;
+
+@Entity(tableName = "tb_timeLine")
 public class TimeLineModel {
+
+    @PrimaryKey()
     private long idTimeLine;
+
+    @ForeignKey(entity = ResidenteMedicamentoModel.class, parentColumns = "idResidenteMedicamento", childColumns = "idResidenteMedicamento")
+    @ColumnInfo(name = "idResidenteMedicamento")
     private long idResidenteMedicamento;
+
+    @ForeignKey(entity = ClienteModel.class, parentColumns = "idCliente", childColumns = "idCliente")
+    @ColumnInfo(name = "idCliente")
     private long idCliente;
-    private Date dataMedicacao;
-    private Time horaMedicacao;
+
+    @ColumnInfo(name = "dataHoraMedicacao")
+    private Timestamp dataHoraMedicacao;
+
+    @ColumnInfo(name = "status")
     private int status ;
+
+
     public static int MEDICADO = 1;
     public static int NAO_MEDICADO = 0;
 
-    public TimeLineModel(long idTimeLine, long idResidenteMedicamento, long idCliente, Date dataMedicacao, Time horaMedicacao, int status) {
+    public TimeLineModel(long idTimeLine, long idResidenteMedicamento, long idCliente, Timestamp dataHoraMedicacao, int status) {
         this.idTimeLine = idTimeLine;
         this.idResidenteMedicamento = idResidenteMedicamento;
         this.idCliente = idCliente;
-        this.dataMedicacao = dataMedicacao;
-        this.horaMedicacao = horaMedicacao;
+        this.dataHoraMedicacao = dataHoraMedicacao;
         this.status = status;
     }
 
@@ -46,20 +63,12 @@ public class TimeLineModel {
         this.idCliente = idCliente;
     }
 
-    public Date getDataMedicacao() {
-        return dataMedicacao;
+    public Timestamp getDataHoraMedicacao() {
+        return dataHoraMedicacao;
     }
 
-    public void setDataMedicacao(Date dataMedicacao) {
-        this.dataMedicacao = dataMedicacao;
-    }
-
-    public Time getHoraMedicacao() {
-        return horaMedicacao;
-    }
-
-    public void setHoraMedicacao(Time horaMedicacao) {
-        this.horaMedicacao = horaMedicacao;
+    public void setDataHoraMedicacao(Timestamp dataHoraMedicacao) {
+        this.dataHoraMedicacao = dataHoraMedicacao;
     }
 
     public int getStatus() {

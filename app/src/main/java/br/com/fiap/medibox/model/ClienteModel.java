@@ -1,14 +1,30 @@
 package br.com.fiap.medibox.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "tb_cliente")
 public class ClienteModel {
 
+    @PrimaryKey()
     private long idCliente;
+
+    @ColumnInfo(name = "nomeCliente")
     private String nomeCliente;
+
+    @ColumnInfo(name = "cpfCnpj")
     private String cpfCnpj;
+
+    @ColumnInfo(name = "email")
     private String email;
+
+    @ColumnInfo(name = "senha")
     private String senha;
+
+    @ColumnInfo(name = "telefone")
     private String telefone;
-    private long idEndereco;
+
 
     public ClienteModel(long idCliente, String nomeCliente, String cpfCnpj, String email, String senha, String telefone, long idEndereco) {
         this.idCliente = idCliente;
@@ -17,7 +33,6 @@ public class ClienteModel {
         this.email = email;
         this.senha = senha;
         this.telefone = telefone;
-        this.idEndereco = idEndereco;
     }
 
 
@@ -69,11 +84,4 @@ public class ClienteModel {
         this.telefone = telefone;
     }
 
-    public long getIdEndereco() {
-        return idEndereco;
-    }
-
-    public void setIdEndereco(long idEndereco) {
-        this.idEndereco = idEndereco;
-    }
 }

@@ -1,11 +1,25 @@
 package br.com.fiap.medibox.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "tb_medicamento")
 public class MedicamentoModel {
 
+    @PrimaryKey()
     private long idMedicamento;
+
+    @ColumnInfo(name = "nomeMedicamento")
     private String nomeMedicamento;
+
+    @ColumnInfo(name = "laboratorio")
     private String laboratorio;
+
+    @ColumnInfo(name = "dosagem")
     private String dosagem;
+
+    @ColumnInfo(name = "descricao")
     private String descricao;
 
     public MedicamentoModel(long idMedicamento, String nomeMedicamento, String laboratorio, String dosagem, String descricao) {

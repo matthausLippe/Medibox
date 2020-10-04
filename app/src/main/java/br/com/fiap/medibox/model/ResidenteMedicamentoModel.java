@@ -1,20 +1,61 @@
 package br.com.fiap.medibox.model;
 
-import java.sql.Date;
-import java.sql.Time;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
 
+import java.sql.Timestamp;
+
+@Entity(tableName = "tb_residenteMedicamento")
 public class ResidenteMedicamentoModel {
 
+    @PrimaryKey
     private long idResidenteMedicamento;
+
+    @ForeignKey(entity = ResidenteModel.class, parentColumns = "idResidente", childColumns = "idResidente")
+    @ColumnInfo(name = "idResidente")
     private long idResidente;
+
+    @ForeignKey(entity = MedicamentoModel.class, parentColumns = "idMedicamento", childColumns = "idMedicamento")
+    @ColumnInfo(name = "idMedicamento")
     private long idMedicamento;
+
+    @ForeignKey(entity = ClienteModel.class, parentColumns = "idCliente", childColumns = "idCliente")
+    @ColumnInfo(name = "idCliente")
     private long idCliente;
+
+    @ForeignKey(entity = GavetaModel.class, parentColumns = "idGaveta", childColumns = "idGaveta")
+    @ColumnInfo(name = "idGaveta")
     private long idGaveta;
+
+    @ColumnInfo(name = "dosagem")
     private String dosagem;
+
+    @ColumnInfo(name = "intervalo")
     private double intervalo;
-    private Date dataInicio;
-    private Time horaInicio;
+
+    @ColumnInfo(name = "dataHoraInicio")
+    private Timestamp dataHoraInicio;
+
+    @ColumnInfo(name = "doses")
     private int doses;
+
+
+    public ResidenteMedicamentoModel(long idResidenteMedicamento, long idResidente, long idMedicamento, long idCliente,
+                                     long idGaveta, String dosagem, double intervalo, Timestamp dataHoraInicio, int doses) {
+        this.idResidenteMedicamento = idResidenteMedicamento;
+        this.idResidente = idResidente;
+        this.idMedicamento = idMedicamento;
+        this.idCliente = idCliente;
+        this.idGaveta = idGaveta;
+        this.dosagem = dosagem;
+        this.intervalo = intervalo;
+        this.dataHoraInicio = dataHoraInicio;
+        this.doses = doses;
+
+    }
+
 
     public long getIdResidenteMedicamento() {
         return idResidenteMedicamento;
@@ -72,21 +113,6 @@ public class ResidenteMedicamentoModel {
         this.intervalo = intervalo;
     }
 
-    public Date getDataInicio() {
-        return dataInicio;
-    }
-
-    public void setDataInicio(Date dataInicio) {
-        this.dataInicio = dataInicio;
-    }
-
-    public Time getHoraInicio() {
-        return horaInicio;
-    }
-
-    public void setHoraInicio(Time horaInicio) {
-        this.horaInicio = horaInicio;
-    }
 
     public int getDoses() {
         return doses;
@@ -96,19 +122,5 @@ public class ResidenteMedicamentoModel {
         this.doses = doses;
     }
 
-    public ResidenteMedicamentoModel(long idResidenteMedicamento, long idResidente, long idMedicamento, long idCliente,
-                                     long idGaveta, String dosagem, double intervalo, Date dataInicio, Time horaInicio, int doses) {
-        this.idResidenteMedicamento = idResidenteMedicamento;
-        this.idResidente = idResidente;
-        this.idMedicamento = idMedicamento;
-        this.idCliente = idCliente;
-        this.idGaveta = idGaveta;
-        this.dosagem = dosagem;
-        this.intervalo = intervalo;
-        this.dataInicio = dataInicio;
-        this.horaInicio = horaInicio;
-        this.doses = doses;
 
-
-    }
 }

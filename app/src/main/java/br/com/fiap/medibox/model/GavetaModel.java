@@ -1,11 +1,28 @@
 package br.com.fiap.medibox.model;
 
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.ForeignKey;
+import androidx.room.PrimaryKey;
+
+@Entity(tableName = "tb_gaveta")
 public class GavetaModel {
-	
+
+	@PrimaryKey()
 	private long idGaveta;
+
+	@ForeignKey(entity = MedicamentoModel.class, parentColumns = "idMedicamento", childColumns = "idMedicamento")
+	@ColumnInfo(name = "idMedicamento")
 	private long idMedicamento;
+
+	@ForeignKey(entity = CaixaModel.class, parentColumns = "idCaixa", childColumns = "idCaixa")
+	@ColumnInfo(name = "idCaixa")
 	private long idCaixa;
+
+	@ColumnInfo(name = "temperatura")
 	private double temperatura;
+
+	@ColumnInfo(name = "nomeGaveta")
 	private String nomeGaveta;
 		
 	
