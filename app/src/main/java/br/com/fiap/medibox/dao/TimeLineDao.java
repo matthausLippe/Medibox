@@ -1,5 +1,6 @@
 package br.com.fiap.medibox.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -13,16 +14,21 @@ import br.com.fiap.medibox.model.TimeLineModel;
 @Dao
 public interface TimeLineDao {
     @Query("SELECT * FROM tb_timeLine")
-    List<TimeLineModel> getAll();
+    LiveData<List<TimeLineModel>> getAll();
 
     @Query("SELECT * FROM tb_timeLine WHERE idTimeLine LIKE :id LIMIT 1")
-    TimeLineModel findById(long id);
+    LiveData<TimeLineModel> getById(long id);
 
     @Query("SELECT * FROM tb_timeLine WHERE idCliente LIKE :id ")
-    List<TimeLineModel> getByIdCliente(long id);
+    LiveData<List<TimeLineModel>> getByIdCliente(long id);
 
     @Query("SELECT * FROM tb_timeLine WHERE idResidenteMedicamento LIKE :id ")
-    List<TimeLineModel> getByIdResidenteMedicamento(long id);
+    LiveData<List<TimeLineModel>> getByIdResidenteMedicamento(long id);
+
+    @Query("SELECT * FROM tb_timeLine WHERE dataHoraMedicacao LIKE :data ")
+    LiveData<List<TimeLineModel>> getByDate(String data); //AAAAMMdd
+
+
 
     @Insert
     void insertAll(List<TimeLineModel> list);

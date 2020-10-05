@@ -26,8 +26,8 @@ public class ClienteModel {
     private String telefone;
 
 
-    public ClienteModel(long idCliente, String nomeCliente, String cpfCnpj, String email, String senha, String telefone, long idEndereco) {
-        this.idCliente = idCliente;
+    public ClienteModel(String nomeCliente, String cpfCnpj, String email, String senha, String telefone, long idEndereco) {
+
         this.nomeCliente = nomeCliente;
         this.cpfCnpj = cpfCnpj;
         this.email = email;

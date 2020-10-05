@@ -26,9 +26,8 @@ public class GavetaModel {
 	private String nomeGaveta;
 		
 	
-	public GavetaModel(long idGaveta, long idMedicamento, long idCaixa, double temperatura, String nomeGaveta) {
+	public GavetaModel(long idMedicamento, long idCaixa, double temperatura, String nomeGaveta) {
 		super();
-		this.idGaveta = idGaveta;
 		this.idMedicamento = idMedicamento;
 		this.idCaixa = idCaixa;
 		this.temperatura = temperatura;

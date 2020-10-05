@@ -1,5 +1,6 @@
 package br.com.fiap.medibox.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -14,13 +15,13 @@ import br.com.fiap.medibox.model.EnderecoModel;
 public interface EnderecoDao {
 
     @Query("SELECT * FROM tb_endereco ")
-    List<EnderecoModel> getAll();
+    LiveData<List<EnderecoModel>> getAll();
 
     @Query("SELECT * FROM tb_endereco WHERE idEndereco LIKE :id LIMIT 1")
-    EnderecoModel findById(long id);
+    LiveData<EnderecoModel> getById(long id);
 
     @Query("SELECT * FROM tb_endereco WHERE idCliente LIKE :id ")
-    List<EnderecoModel> getByIdCliente(long id);
+    LiveData<List<EnderecoModel>> getByIdCliente(long id);
 
     @Insert
     void insertAll(List<EnderecoModel> list);

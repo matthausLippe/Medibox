@@ -43,8 +43,7 @@ public class ResidenteModel {
     private ArrayList<ResidenteMedicamentoModel> residenteMedicamento;
 
 
-    public ResidenteModel(long idResidente, String nomeResidente, Date dataNascimento, String sexo, String nomeResponsavel, String telResponsavel, String quarto, String observacoes) {
-        this.idResidente = idResidente;
+    public ResidenteModel(String nomeResidente, Date dataNascimento, String sexo, String nomeResponsavel, String telResponsavel, String quarto, String observacoes) {
         this.nomeResidente = nomeResidente;
         this.dataNascimento = dataNascimento;
         this.sexo = sexo;

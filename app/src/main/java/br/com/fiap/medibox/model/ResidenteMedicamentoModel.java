@@ -42,9 +42,9 @@ public class ResidenteMedicamentoModel {
     private int doses;
 
 
-    public ResidenteMedicamentoModel(long idResidenteMedicamento, long idResidente, long idMedicamento, long idCliente,
+    public ResidenteMedicamentoModel(long idResidente, long idMedicamento, long idCliente,
                                      long idGaveta, String dosagem, double intervalo, Timestamp dataHoraInicio, int doses) {
-        this.idResidenteMedicamento = idResidenteMedicamento;
+
         this.idResidente = idResidente;
         this.idMedicamento = idMedicamento;
         this.idCliente = idCliente;
@@ -113,6 +113,13 @@ public class ResidenteMedicamentoModel {
         this.intervalo = intervalo;
     }
 
+    public Timestamp getDataHoraInicio() {
+        return dataHoraInicio;
+    }
+
+    public void setDataHoraInicio(Timestamp dataHoraInicio) {
+        this.dataHoraInicio = dataHoraInicio;
+    }
 
     public int getDoses() {
         return doses;

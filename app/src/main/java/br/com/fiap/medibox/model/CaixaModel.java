@@ -25,9 +25,8 @@ public class CaixaModel {
 	
 	
 	
-	public CaixaModel(long idCaixa, long idCliente, String mac, int status) {
+	public CaixaModel(long idCliente, String mac, int status) {
 		super();
-		this.idCaixa = idCaixa;
 		this.idCliente = idCliente;
 		this.mac = mac;
 		this.status = status;

@@ -38,8 +38,7 @@ public class EnderecoModel {
 
 
 
-    public EnderecoModel(long idEndereco, long idCliente, String rua, String numero, String complemento, String bairro, String cidade, String estado, String cep) {
-        this.idEndereco = idEndereco;
+    public EnderecoModel(long idCliente, String rua, String numero, String complemento, String bairro, String cidade, String estado, String cep) {
         this.idCliente = idCliente;
         this.rua = rua;
         this.numero = numero;
@@ -50,7 +49,7 @@ public class EnderecoModel {
         this.cep = cep;
     }
 
-    public EnderecoModel(long idEndereco, String numero, String bairro, String cidade, String estado, String cep) {
+    public EnderecoModel(String numero, String bairro, String cidade, String estado, String cep) {
         this.idEndereco = idEndereco;
         this.numero = numero;
         this.bairro = bairro;

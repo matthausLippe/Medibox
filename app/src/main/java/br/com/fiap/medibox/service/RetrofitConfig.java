@@ -6,7 +6,7 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 public class RetrofitConfig {
     private static Retrofit retrofit;
-    private static final String BASE_URL = "";
+    private static final String BASE_URL = "http://ec2-3-16-107-112.us-east-2.compute.amazonaws.com:8080/";
 
     public static Retrofit getRetrofitInstance() {
         if (retrofit == null) {
@@ -14,7 +14,6 @@ public class RetrofitConfig {
                     .baseUrl(BASE_URL)
                     .addConverterFactory(GsonConverterFactory.create())
                     .build();
-
         }
         return retrofit;
     }

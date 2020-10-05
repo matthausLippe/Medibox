@@ -22,7 +22,7 @@ public class MedicamentoModel {
     @ColumnInfo(name = "descricao")
     private String descricao;
 
-    public MedicamentoModel(long idMedicamento, String nomeMedicamento, String laboratorio, String dosagem, String descricao) {
+    public MedicamentoModel(String nomeMedicamento, String laboratorio, String dosagem, String descricao) {
         this.idMedicamento = idMedicamento;
         this.nomeMedicamento = nomeMedicamento;
         this.laboratorio = laboratorio;
@@ -30,7 +30,7 @@ public class MedicamentoModel {
         this.descricao = descricao;
     }
 
-    public MedicamentoModel(long idMedicamento, String nomeMedicamento, String laboratorio, String dosagem) {
+    public MedicamentoModel(String nomeMedicamento, String laboratorio, String dosagem) {
         this.idMedicamento = idMedicamento;
         this.nomeMedicamento = nomeMedicamento;
         this.laboratorio = laboratorio;

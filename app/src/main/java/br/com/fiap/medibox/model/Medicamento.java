@@ -8,12 +8,11 @@ public class Medicamento {
     private String dosagem;
     private String descricao;
 
-    public Medicamento(int id_Medicamento, String nomeMedicamento, String laboratorio, String dosagem, String descricao) {
-        this.id_Medicamento = id_Medicamento;//medicamento
-        this.nomeMedicamento = nomeMedicamento; //medicamento
-        this.laboratorio = laboratorio; //medicamento
-        this.dosagem = dosagem; //medicamento
-        this.descricao = descricao; //medicamento
+    public Medicamento(String nomeMedicamento, String laboratorio, String dosagem, String descricao) {
+        this.nomeMedicamento = nomeMedicamento;
+        this.laboratorio = laboratorio;
+        this.dosagem = dosagem;
+        this.descricao = descricao;
     }
 
     public int getId_Medicamento() {

@@ -1,5 +1,6 @@
 package br.com.fiap.medibox.dao;
 
+import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -14,22 +15,22 @@ import br.com.fiap.medibox.model.ResidenteMedicamentoModel;
 public interface ResidenteMedicamentoDao {
 
     @Query("SELECT * FROM tb_residenteMedicamento")
-    List<ResidenteMedicamentoModel> getAll();
+    LiveData<List<ResidenteMedicamentoModel>> getAll();
 
     @Query("SELECT * FROM tb_residenteMedicamento WHERE idResidenteMedicamento LIKE :id LIMIT 1")
-    ResidenteMedicamentoModel findById(long id);
+    LiveData<ResidenteMedicamentoModel> getById(long id);
 
     @Query("SELECT * FROM tb_residenteMedicamento WHERE idCliente LIKE :id ")
-    List<ResidenteMedicamentoModel> getByIdCliente(long id);
+    LiveData<List<ResidenteMedicamentoModel>> getByIdCliente(long id);
 
     @Query("SELECT * FROM tb_residenteMedicamento WHERE idMedicamento LIKE :id ")
-    List<ResidenteMedicamentoModel> getByIdMedicamento(long id);
+    LiveData<List<ResidenteMedicamentoModel>> getByIdMedicamento(long id);
 
     @Query("SELECT * FROM tb_residenteMedicamento WHERE idResidente LIKE :id ")
-    List<ResidenteMedicamentoModel> getByIdResidente(long id);
+    LiveData<List<ResidenteMedicamentoModel>> getByIdResidente(long id);
 
     @Query("SELECT * FROM tb_residenteMedicamento WHERE idResidenteMedicamento LIKE :id ")
-    List<ResidenteMedicamentoModel> getByIdResidenteMedicamento(long id);
+    LiveData<List<ResidenteMedicamentoModel>> getByIdResidenteMedicamento(long id);
 
     @Insert
     void insertAll(List<ResidenteMedicamentoModel> list);
