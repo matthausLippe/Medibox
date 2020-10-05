@@ -22,20 +22,6 @@ public class MedicamentoModel {
     @ColumnInfo(name = "descricao")
     private String descricao;
 
-    public MedicamentoModel(String nomeMedicamento, String laboratorio, String dosagem, String descricao) {
-        this.idMedicamento = idMedicamento;
-        this.nomeMedicamento = nomeMedicamento;
-        this.laboratorio = laboratorio;
-        this.dosagem = dosagem;
-        this.descricao = descricao;
-    }
-
-    public MedicamentoModel(String nomeMedicamento, String laboratorio, String dosagem) {
-        this.idMedicamento = idMedicamento;
-        this.nomeMedicamento = nomeMedicamento;
-        this.laboratorio = laboratorio;
-        this.dosagem = dosagem;
-    }
 
     public long getIdMedicamento() {
         return idMedicamento;

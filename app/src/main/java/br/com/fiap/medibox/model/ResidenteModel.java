@@ -3,6 +3,7 @@ package br.com.fiap.medibox.model;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.sql.Date;
@@ -39,7 +40,7 @@ public class ResidenteModel {
     @ColumnInfo(name = "observacoes")
     private String observacoes;
 
-
+    @Ignore
     private ArrayList<ResidenteMedicamentoModel> residenteMedicamento;
 
 

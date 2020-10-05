@@ -18,7 +18,7 @@ public interface ResidenteMedicamentoDao {
     LiveData<List<ResidenteMedicamentoModel>> getAll();
 
     @Query("SELECT * FROM tb_residenteMedicamento WHERE idResidenteMedicamento LIKE :id LIMIT 1")
-    LiveData<ResidenteMedicamentoModel> getById(long id);
+    ResidenteMedicamentoModel getById(long id);
 
     @Query("SELECT * FROM tb_residenteMedicamento WHERE idCliente LIKE :id ")
     LiveData<List<ResidenteMedicamentoModel>> getByIdCliente(long id);

@@ -15,6 +15,9 @@ public class Medicamento {
         this.descricao = descricao;
     }
 
+    public Medicamento(long id, String paracetamol, String medley, String s, String s1) {
+    }
+
     public int getId_Medicamento() {
         return id_Medicamento;
     }

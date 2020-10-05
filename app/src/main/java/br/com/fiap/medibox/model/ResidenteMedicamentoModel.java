@@ -4,7 +4,10 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity(tableName = "tb_residenteMedicamento")
@@ -35,15 +38,18 @@ public class ResidenteMedicamentoModel {
     @ColumnInfo(name = "intervalo")
     private double intervalo;
 
+    @TypeConverters(Converter.class)
     @ColumnInfo(name = "dataHoraInicio")
-    private Timestamp dataHoraInicio;
+    private Date dataHoraInicio;
+
+
 
     @ColumnInfo(name = "doses")
     private int doses;
 
 
     public ResidenteMedicamentoModel(long idResidente, long idMedicamento, long idCliente,
-                                     long idGaveta, String dosagem, double intervalo, Timestamp dataHoraInicio, int doses) {
+                                     long idGaveta, String dosagem, double intervalo, Date dataHoraInicio, int doses) {
 
         this.idResidente = idResidente;
         this.idMedicamento = idMedicamento;
@@ -113,11 +119,11 @@ public class ResidenteMedicamentoModel {
         this.intervalo = intervalo;
     }
 
-    public Timestamp getDataHoraInicio() {
+    public Date getDataHoraInicio() {
         return dataHoraInicio;
     }
 
-    public void setDataHoraInicio(Timestamp dataHoraInicio) {
+    public void setDataHoraInicio(Date dataHoraInicio) {
         this.dataHoraInicio = dataHoraInicio;
     }
 

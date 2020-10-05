@@ -8,32 +8,23 @@ import androidx.room.PrimaryKey;
 public class ClienteModel {
 
     @PrimaryKey()
-    private long idCliente;
+    private long idCliente = 0;
 
     @ColumnInfo(name = "nomeCliente")
-    private String nomeCliente;
+    private String nomeCliente = "";
 
     @ColumnInfo(name = "cpfCnpj")
-    private String cpfCnpj;
+    private String cpfCnpj = "";
 
     @ColumnInfo(name = "email")
-    private String email;
+    private String email = "";
 
     @ColumnInfo(name = "senha")
-    private String senha;
+    private String senha = "";
 
     @ColumnInfo(name = "telefone")
-    private String telefone;
+    private String telefone = "";
 
-
-    public ClienteModel(String nomeCliente, String cpfCnpj, String email, String senha, String telefone, long idEndereco) {
-
-        this.nomeCliente = nomeCliente;
-        this.cpfCnpj = cpfCnpj;
-        this.email = email;
-        this.senha = senha;
-        this.telefone = telefone;
-    }
 
 
     public long getIdCliente() {

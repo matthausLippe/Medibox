@@ -1,12 +1,13 @@
 package br.com.fiap.medibox.data;
 
 
-
 import android.content.Context;
 
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
+import androidx.room.TypeConverter;
+import androidx.room.TypeConverters;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -21,6 +22,7 @@ import br.com.fiap.medibox.dao.ResidenteMedicamentoDao;
 import br.com.fiap.medibox.dao.TimeLineDao;
 import br.com.fiap.medibox.model.CaixaModel;
 import br.com.fiap.medibox.model.ClienteModel;
+import br.com.fiap.medibox.model.Converter;
 import br.com.fiap.medibox.model.EnderecoModel;
 import br.com.fiap.medibox.model.GavetaModel;
 import br.com.fiap.medibox.model.MedicamentoModel;
@@ -30,7 +32,8 @@ import br.com.fiap.medibox.model.TimeLineModel;
 
 @Database(entities = {CaixaModel.class, ClienteModel.class, EnderecoModel.class, GavetaModel.class
         , MedicamentoModel.class, ResidenteMedicamentoModel.class, ResidenteModel.class
-        , TimeLineModel.class} ,version = 1)
+        , TimeLineModel.class} ,version = 1, exportSchema = false)
+@TypeConverters(Converter.class)
 public abstract class MyDataBase extends RoomDatabase {
 
     public abstract CaixaDao caixaDao();

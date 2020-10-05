@@ -14,13 +14,13 @@ import br.com.fiap.medibox.model.CaixaModel;
 @Dao
 public interface CaixaDao {
     @Query("SELECT * FROM tb_caixa ")
-    LiveData<List<CaixaModel>> getAll();
+    List<CaixaModel> getAll();
 
     @Query("SELECT * FROM tb_caixa WHERE idCaixa LIKE :id LIMIT 1")
-    LiveData<CaixaModel> getById(long id);
+    CaixaModel getById(long id);
 
     @Query("SELECT * FROM tb_caixa WHERE idCliente LIKE :id ")
-    LiveData<List<CaixaModel>> getByIdCliente(long id);
+    List<CaixaModel> getByIdCliente(long id);
 
     @Insert
     void insertAll(List<CaixaModel> listCaixa);

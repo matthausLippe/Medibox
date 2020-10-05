@@ -52,7 +52,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineViewHolder> {
         if (listItem.getSituacao() == ItemTimeline.MEDICADO){
             holder.image.setImageResource(R.drawable.icon_check);
         } else {
-            holder.image.setImageResource(R.drawable.icon_x);
+            holder.image.setImageResource(R.drawable.x_icon);
         }
 
         holder.setClickListener(new MyClickListener() {

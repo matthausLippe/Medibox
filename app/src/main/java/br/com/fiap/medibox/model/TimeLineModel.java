@@ -5,6 +5,7 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
+import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity(tableName = "tb_timeLine")
@@ -22,7 +23,7 @@ public class TimeLineModel {
     private long idCliente;
 
     @ColumnInfo(name = "dataHoraMedicacao")
-    private Timestamp dataHoraMedicacao;
+    private Date dataHoraMedicacao;
 
     @ColumnInfo(name = "status")
     private int status ;
@@ -31,7 +32,7 @@ public class TimeLineModel {
     public static int MEDICADO = 1;
     public static int NAO_MEDICADO = 0;
 
-    public TimeLineModel( long idResidenteMedicamento, long idCliente, Timestamp dataHoraMedicacao, int status) {
+    public TimeLineModel(long idResidenteMedicamento, long idCliente, Date dataHoraMedicacao, int status) {
         this.idResidenteMedicamento = idResidenteMedicamento;
         this.idCliente = idCliente;
         this.dataHoraMedicacao = dataHoraMedicacao;
@@ -62,11 +63,11 @@ public class TimeLineModel {
         this.idCliente = idCliente;
     }
 
-    public Timestamp getDataHoraMedicacao() {
+    public Date getDataHoraMedicacao() {
         return dataHoraMedicacao;
     }
 
-    public void setDataHoraMedicacao(Timestamp dataHoraMedicacao) {
+    public void setDataHoraMedicacao(Date dataHoraMedicacao) {
         this.dataHoraMedicacao = dataHoraMedicacao;
     }
 
