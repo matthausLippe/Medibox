@@ -66,8 +66,10 @@ public class GavetaModel {
 	public void setNomeGaveta(String nomeGaveta) {
 		this.nomeGaveta = nomeGaveta;
 	}
-
-	
-	
-	
+	public int getSituacaoGaveta() {
+		return situacaoGaveta;
+	}
+	public void setSituacaoGaveta(int situacaoGaveta) {
+		this.situacaoGaveta = situacaoGaveta;
+	}
 }

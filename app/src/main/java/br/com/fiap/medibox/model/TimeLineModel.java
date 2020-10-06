@@ -3,6 +3,7 @@ package br.com.fiap.medibox.model;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import java.sql.Date;
@@ -33,6 +34,14 @@ public class TimeLineModel {
 
     public TimeLineModel() {
 
+    }
+
+    @Ignore
+    public TimeLineModel(long idResidenteMedicamento, long idCliente, Date dataHoraMedicacao, int status) {
+        this.idResidenteMedicamento = idResidenteMedicamento;
+        this.idCliente = idCliente;
+        this.dataHoraMedicacao = dataHoraMedicacao;
+        this.status = status;
     }
 
     public long getIdTimeLine() {
