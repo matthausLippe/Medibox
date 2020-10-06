@@ -1,6 +1,5 @@
 package br.com.fiap.medibox.dao;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -15,10 +14,10 @@ import br.com.fiap.medibox.model.MedicamentoModel;
 public interface MedicamentoDao {
 
     @Query("SELECT * FROM tb_medicamento ")
-    LiveData<List<MedicamentoModel>> getAll();
+   List<MedicamentoModel> getAll();
 
     @Query("SELECT * FROM tb_medicamento WHERE idMedicamento LIKE :id LIMIT 1")
-    LiveData<MedicamentoModel> getById(long id);
+    MedicamentoModel getById(long id);
 
     @Insert
     void insertAll(List<MedicamentoModel> list);

@@ -1,6 +1,5 @@
 package br.com.fiap.medibox.dao;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
@@ -15,10 +14,10 @@ import br.com.fiap.medibox.model.ClienteModel;
 public interface ClienteDao {
 
     @Query("SELECT * FROM tb_cliente ")
-    LiveData<List<ClienteModel>>getAll();
+   List<ClienteModel>getAll();
 
     @Query("SELECT * FROM tb_cliente WHERE idCliente LIKE :id LIMIT 1")
-    LiveData<ClienteModel> getById(long id);
+    ClienteModel getById(long id);
 
     @Insert
     void insertAll(List<ClienteModel> list);

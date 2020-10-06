@@ -24,15 +24,18 @@ public class GavetaModel {
 
 	@ColumnInfo(name = "nomeGaveta")
 	private String nomeGaveta;
+
+	@ColumnInfo(name = "situacaoGaveta")
+	private int situacaoGaveta;
+
+	public static int ATIVA = 1;
+	public static int INATIVA = 0;
 		
 	
-	public GavetaModel(long idMedicamento, long idCaixa, double temperatura, String nomeGaveta) {
-		super();
-		this.idMedicamento = idMedicamento;
-		this.idCaixa = idCaixa;
-		this.temperatura = temperatura;
-		this.nomeGaveta = nomeGaveta;
+	public GavetaModel() {
+
 	}
+
 	public long getIdGaveta() {
 		return idGaveta;
 	}

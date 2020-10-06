@@ -39,7 +39,6 @@ public class ResidenteMedicamentoBusiness {
     private List<ResidenteMedicamentoModel> listResidenteMedicamento;
     private ResidenteMedicamentoModel residenteMedicamentoModel;
 
-    private Boolean result = false;
 
     ResidenteMedicamentoBusiness(Application application){
         MyDataBase db = MyDataBase.getDatabase(application);
@@ -78,7 +77,7 @@ public class ResidenteMedicamentoBusiness {
     }
 
     // Obter item ResidenteMedicamento
-    public ResidenteMedicamentoModel get(long id){
+    public ResidenteMedicamentoModel getById(long id){
         try {
             Call<ResidenteMedicamentoModel> call = residenteMedicamentoService.findById(id);
             call.enqueue(new Callback<ResidenteMedicamentoModel>() {
@@ -101,7 +100,6 @@ public class ResidenteMedicamentoBusiness {
 
     //Inserir item Residente Medicamento
     public void insert(ResidenteMedicamentoModel model){
-        result = false;
         try {
             residenteMedicamentoDao.insert(model);
             Call<ResidenteMedicamentoModel> call = residenteMedicamentoService.save(model);
@@ -195,5 +193,14 @@ public class ResidenteMedicamentoBusiness {
         TimeLineModel timeLineModel = new TimeLineModel(residenteMedicamentoModel.getIdResidenteMedicamento(),
                 residenteMedicamentoModel.getIdCliente(), data, TimeLineModel.NAO_MEDICADO);
         return timeLineModel;
+    }
+
+    private List<ResidenteMedicamentoModel> getListByIdCliente(long idCliente){
+        try{
+            listResidenteMedicamento = residenteMedicamentoDao.getByIdCliente(idCliente);
+        }catch(Exception e){
+            Toast.makeText(context, "Falha ao realizar alterações!", Toast.LENGTH_SHORT).show();
+        }
+        return listResidenteMedicamento;
     }
 }

@@ -6,7 +6,6 @@ import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 import java.sql.Date;
-import java.sql.Timestamp;
 
 @Entity(tableName = "tb_timeLine")
 public class TimeLineModel {
@@ -32,11 +31,8 @@ public class TimeLineModel {
     public static int MEDICADO = 1;
     public static int NAO_MEDICADO = 0;
 
-    public TimeLineModel(long idResidenteMedicamento, long idCliente, Date dataHoraMedicacao, int status) {
-        this.idResidenteMedicamento = idResidenteMedicamento;
-        this.idCliente = idCliente;
-        this.dataHoraMedicacao = dataHoraMedicacao;
-        this.status = status;
+    public TimeLineModel() {
+
     }
 
     public long getIdTimeLine() {

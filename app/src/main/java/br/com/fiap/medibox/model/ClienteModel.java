@@ -25,7 +25,8 @@ public class ClienteModel {
     @ColumnInfo(name = "telefone")
     private String telefone = "";
 
-
+    public ClienteModel() {
+    }
 
     public long getIdCliente() {
         return idCliente;

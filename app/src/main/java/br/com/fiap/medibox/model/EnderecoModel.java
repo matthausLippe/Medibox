@@ -38,17 +38,8 @@ public class EnderecoModel {
 
 
 
-    public EnderecoModel(long idEndereco, long idCliente, String rua, String numero, String complemento, String bairro, String cidade, String estado, String cep) {
+    public EnderecoModel() {
 
-        this.idEndereco = idEndereco;
-        this.idCliente = idCliente;
-        this.rua = rua;
-        this.numero = numero;
-        this.complemento = complemento;
-        this.bairro = bairro;
-        this.cidade = cidade;
-        this.estado = estado;
-        this.cep = cep;
     }
 
     public long getIdCliente() {

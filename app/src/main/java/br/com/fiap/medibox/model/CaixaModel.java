@@ -25,11 +25,8 @@ public class CaixaModel {
 	
 	
 	
-	public CaixaModel(long idCliente, String mac, int status) {
-		super();
-		this.idCliente = idCliente;
-		this.mac = mac;
-		this.status = status;
+	public CaixaModel() {
+
 	}
 	
 	public long getIdCaixa() {

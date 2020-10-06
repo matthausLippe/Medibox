@@ -28,4 +28,8 @@ public interface ResidenteMedicamentoService {
 
     @DELETE("residenteMedicamento/{id}")
     Call<ResidenteMedicamentoModel> delete(@Path("id") long id);
+
+
+
+
 }

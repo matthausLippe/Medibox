@@ -4,11 +4,10 @@ import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
-import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
 import java.sql.Date;
-import java.sql.Timestamp;
+
 
 @Entity(tableName = "tb_residenteMedicamento")
 public class ResidenteMedicamentoModel {
