@@ -14,16 +14,16 @@ import br.com.fiap.medibox.model.ResidenteMedicamentoModel;
 public interface ResidenteMedicamentoDao {
 
     @Query("SELECT * FROM tb_residenteMedicamento")
-   List<ResidenteMedicamentoModel> getAll();
+    List<ResidenteMedicamentoModel> getAll();
 
-    @Query("SELECT * FROM tb_residenteMedicamento WHERE idCliente like :idCliente")
-    List<ResidenteMedicamentoModel> getAllByIdCliente(long idCliente);
+    @Query("SELECT * FROM tb_residenteMedicamento WHERE idResidente like :id")
+    List<ResidenteMedicamentoModel> getAllByIdResidente(long id);
 
     @Query("SELECT * FROM tb_residenteMedicamento WHERE idResidenteMedicamento LIKE :id LIMIT 1")
     ResidenteMedicamentoModel getById(long id);
 
     @Query("SELECT * FROM tb_residenteMedicamento WHERE idCliente LIKE :id ")
-  List<ResidenteMedicamentoModel> getByIdCliente(long id);
+    List<ResidenteMedicamentoModel> getByIdCliente(long id);
 
     @Query("SELECT * FROM tb_residenteMedicamento WHERE idMedicamento LIKE :id ")
     List<ResidenteMedicamentoModel> getByIdMedicamento(long id);

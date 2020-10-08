@@ -14,10 +14,13 @@ import br.com.fiap.medibox.model.MedicamentoModel;
 public interface MedicamentoDao {
 
     @Query("SELECT * FROM tb_medicamento ")
-   List<MedicamentoModel> getAll();
+    List<MedicamentoModel> getAll();
 
     @Query("SELECT * FROM tb_medicamento WHERE idMedicamento LIKE :id LIMIT 1")
     MedicamentoModel getById(long id);
+
+    @Query("SELECT * FROM tb_medicamento WHERE idGaveta LIKE :id")
+    MedicamentoModel getByIdGaveta(long id);
 
     @Insert
     void insertAll(List<MedicamentoModel> list);

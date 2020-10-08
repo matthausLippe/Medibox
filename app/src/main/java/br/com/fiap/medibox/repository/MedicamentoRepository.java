@@ -1,4 +1,4 @@
-package br.com.fiap.medibox.business;
+package br.com.fiap.medibox.repository;
 
 import android.app.Application;
 import android.content.Context;
@@ -16,7 +16,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class MedicamentoBusiness {
+public class MedicamentoRepository {
 
     private MedicamentoDao medicamentoDao;
 
@@ -28,7 +28,7 @@ public class MedicamentoBusiness {
 
     private List<MedicamentoModel> list = new ArrayList<MedicamentoModel>();
 
-    MedicamentoBusiness(Application application){
+    public MedicamentoRepository(Application application){
         MyDataBase db = MyDataBase.getDatabase(application);
         medicamentoDao = db.medicamentoDao();
         medicamentoService = APIUtils.getMedicamentoService();
@@ -37,55 +37,66 @@ public class MedicamentoBusiness {
 
     public void insert(MedicamentoModel model){
         try{
-            medicamentoDao.insert(model);
+            MyDataBase.databaseWriteExecutor.execute(() ->{
+                medicamentoDao.insert(model);
+            });
             Call<MedicamentoModel> call = medicamentoService.save(model);
             call.enqueue(new Callback<MedicamentoModel>() {
                 @Override
                 public void onResponse(Call<MedicamentoModel> call, Response<MedicamentoModel> response) {
-                    if(response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         Toast.makeText(context, "Cadastrado realizado com sucesso!", Toast.LENGTH_SHORT).show();
-                    }else{
-                        medicamentoDao.delete(model);
+                    }else {
+                        MyDataBase.databaseWriteExecutor.execute(() ->{
+                            medicamentoDao.delete(model);
+                        });
                         Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override
                 public void onFailure(Call<MedicamentoModel> call, Throwable t) {
-                    medicamentoDao.delete(model);
+                    MyDataBase.databaseWriteExecutor.execute(() ->{
+                        medicamentoDao.delete(model);
+                    });
                     Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                 }
             });
         }catch (Exception e){
-            medicamentoDao.delete(model);
             Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void update(MedicamentoModel model){
+    public void update (MedicamentoModel model){
         MedicamentoModel modelAnterior = medicamentoDao.getById(model.getIdMedicamento());
         try{
-            medicamentoDao.update(model);
+            MyDataBase.databaseWriteExecutor.execute(() ->{
+                medicamentoDao.update(model);
+            });
             Call<MedicamentoModel> call = medicamentoService.update(model.getIdMedicamento(),model);
             call.enqueue(new Callback<MedicamentoModel>() {
                 @Override
                 public void onResponse(Call<MedicamentoModel> call, Response<MedicamentoModel> response) {
-                    if(response.isSuccessful()){
+                    if (response.isSuccessful()){
                         Toast.makeText(context, "Alteração realizada com sucesso!", Toast.LENGTH_SHORT).show();
                     }else{
-                        medicamentoDao.update(modelAnterior);
+                        MyDataBase.databaseWriteExecutor.execute(() ->{
+                            medicamentoDao.update(modelAnterior);
+                        });
                         Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override
                 public void onFailure(Call<MedicamentoModel> call, Throwable t) {
-                    medicamentoDao.update(modelAnterior);
+                    MyDataBase.databaseWriteExecutor.execute(() ->{
+                        medicamentoDao.update(modelAnterior);
+                    });
                     Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                 }
             });
-
-
         }catch (Exception e){
-            medicamentoDao.update(modelAnterior);
+            MyDataBase.databaseWriteExecutor.execute(() ->{
+                medicamentoDao.update(modelAnterior);
+            });
             Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -93,26 +104,34 @@ public class MedicamentoBusiness {
     public void delete(MedicamentoModel model){
         MedicamentoModel modelAnterior = medicamentoDao.getById(model.getIdMedicamento());
         try{
-            medicamentoDao.delete(model);
+            MyDataBase.databaseWriteExecutor.execute(() ->{
+                medicamentoDao.delete(model);
+            });
             Call<MedicamentoModel> call = medicamentoService.delete(model.getIdMedicamento());
             call.enqueue(new Callback<MedicamentoModel>() {
                 @Override
                 public void onResponse(Call<MedicamentoModel> call, Response<MedicamentoModel> response) {
-                    if(response.isSuccessful()){
-                        Toast.makeText(context, "Operação relaizada com sucesso!", Toast.LENGTH_SHORT).show();
+                    if (response.isSuccessful()){
+                        Toast.makeText(context, "Alteração realizada com sucesso!", Toast.LENGTH_SHORT).show();
                     }else{
-                        medicamentoDao.insert(modelAnterior);
+                        MyDataBase.databaseWriteExecutor.execute(() ->{
+                            medicamentoDao.insert(modelAnterior);
+                        });
                         Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override
                 public void onFailure(Call<MedicamentoModel> call, Throwable t) {
-                    medicamentoDao.insert(modelAnterior);
+                    MyDataBase.databaseWriteExecutor.execute(() ->{
+                        medicamentoDao.insert(modelAnterior);
+                    });
                     Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                 }
             });
         }catch (Exception e){
-            medicamentoDao.insert(modelAnterior);
+            MyDataBase.databaseWriteExecutor.execute(() ->{
+                medicamentoDao.insert(modelAnterior);
+            });
             Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -124,8 +143,16 @@ public class MedicamentoBusiness {
                 @Override
                 public void onResponse(Call<MedicamentoModel> call, Response<MedicamentoModel> response) {
                     if(response.isSuccessful()){
-                       medicamentoModel = response.body();
-                        medicamentoDao.insert(medicamentoModel);
+                        medicamentoModel = response.body();
+                        if(medicamentoModel.getIdMedicamento() == medicamentoDao.getById(medicamentoModel.getIdMedicamento()).getIdMedicamento()){
+                            MyDataBase.databaseWriteExecutor.execute(() ->{
+                                medicamentoDao.update(medicamentoModel);
+                            });
+                        }else {
+                            MyDataBase.databaseWriteExecutor.execute(() ->{
+                                medicamentoDao.insert(medicamentoModel);
+                            });
+                        }
                     }else{
                         Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                     }
@@ -149,7 +176,18 @@ public class MedicamentoBusiness {
                 public void onResponse(Call<List<MedicamentoModel>> call, Response<List<MedicamentoModel>> response) {
                     if(response.isSuccessful()){
                         list = response.body();
-                        medicamentoDao.insertAll(list);
+                        for (int i = 0; i<list.size(); i++){
+                            MedicamentoModel medicamento = list.get(i);
+                            if(medicamento.getIdMedicamento() == medicamentoDao.getById(medicamento.getIdMedicamento()).getIdMedicamento()){
+                                MyDataBase.databaseWriteExecutor.execute(() ->{
+                                    medicamentoDao.update(medicamento);
+                                });
+                            }else {
+                                MyDataBase.databaseWriteExecutor.execute(() ->{
+                                    medicamentoDao.insert(medicamento);
+                                });
+                            }
+                        }
                     }else{
                         Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                     }
@@ -164,9 +202,4 @@ public class MedicamentoBusiness {
         }
         return list;
     }
-
-
-
-
-
 }

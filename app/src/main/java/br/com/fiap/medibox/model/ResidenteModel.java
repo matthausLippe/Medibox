@@ -6,6 +6,8 @@ import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+
 import java.sql.Date;
 import java.util.ArrayList;
 
@@ -22,6 +24,7 @@ public class ResidenteModel {
     @ColumnInfo(name = "nomeResidente")
     private String nomeResidente;
 
+    @JsonFormat(pattern = "aaaa-MM-dd")
     @ColumnInfo(name = "dataNascimento")
     private Date dataNascimento;
 
@@ -39,6 +42,11 @@ public class ResidenteModel {
 
     @ColumnInfo(name = "observacoes")
     private String observacoes;
+
+    @ForeignKey(entity = ResidenteMedicamentoModel.class, parentColumns = "idResidenteMedicamento"
+            , childColumns = "idResidenteMedicamento")
+    @ColumnInfo(name = "idResidenteMedicamento")
+    private long idResidenteMedicamento;
 
     @Ignore
     private ArrayList<ResidenteMedicamentoModel> residenteMedicamento;
@@ -124,6 +132,14 @@ public class ResidenteModel {
 
     public void setObservacoes(String observacoes) {
         this.observacoes = observacoes;
+    }
+
+    public long getIdResidenteMedicamento() {
+        return idResidenteMedicamento;
+    }
+
+    public void setIdResidenteMedicamento(long idResidenteMedicamento) {
+        this.idResidenteMedicamento = idResidenteMedicamento;
     }
 
     public ArrayList<ResidenteMedicamentoModel> getResidenteMedicamento() {

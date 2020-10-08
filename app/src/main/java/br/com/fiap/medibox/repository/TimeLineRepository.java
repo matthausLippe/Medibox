@@ -1,4 +1,4 @@
-package br.com.fiap.medibox.business;
+package br.com.fiap.medibox.repository;
 
 import android.app.Application;
 import android.content.Context;
@@ -17,7 +17,7 @@ import retrofit2.Callback;
 import retrofit2.Response;
 
 
-public class TimeLineBusiness {
+public class TimeLineRepository {
     private SimpleDateFormat formataData = new SimpleDateFormat("yyyyMMdd");
 
     private Context context;
@@ -28,82 +28,110 @@ public class TimeLineBusiness {
     private List<TimeLineModel> list;
 
 
-    public TimeLineBusiness(Application application) {
+    public TimeLineRepository(Application application) {
         MyDataBase db = MyDataBase.getDatabase(application);
         timeLineDao = db.timeLineDao();
         context = application.getApplicationContext();
         timeLineService = APIUtils.getTimeLineService();
     }
 
-    public void insert (TimeLineModel model){
+    public void insert(TimeLineModel model){
         try{
-            timeLineDao.insert(model);
+            MyDataBase.databaseWriteExecutor.execute(() ->{
+                timeLineDao.insert(model);
+            });
             Call<TimeLineModel> call = timeLineService.save(model);
             call.enqueue(new Callback<TimeLineModel>() {
                 @Override
                 public void onResponse(Call<TimeLineModel> call, Response<TimeLineModel> response) {
-                    if(response.isSuccessful()){
+                    if (response.isSuccessful()) {
                         Toast.makeText(context, "Cadastrado realizado com sucesso!", Toast.LENGTH_SHORT).show();
-                    }else{
-                        timeLineDao.delete(model);
+                    }else {
+                        MyDataBase.databaseWriteExecutor.execute(() ->{
+                            timeLineDao.delete(model);
+                        });
                         Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                     }
                 }
-
                 @Override
                 public void onFailure(Call<TimeLineModel> call, Throwable t) {
-                    timeLineDao.delete(model);
+                    MyDataBase.databaseWriteExecutor.execute(() ->{
+                        timeLineDao.delete(model);
+                    });
                     Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                 }
             });
-
         }catch (Exception e){
-            timeLineDao.delete(model);
             Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
         }
     }
 
-    public void update(TimeLineModel model){
+    public void update (TimeLineModel model){
         TimeLineModel modelAnterior = timeLineDao.getById(model.getIdTimeLine());
         try{
-            Call<TimeLineModel> call = timeLineService.update(model.getIdTimeLine(), model);
-            call.enqueue(new Callback<TimeLineModel>() {
-                @Override
-                public void onResponse(Call<TimeLineModel> call, Response<TimeLineModel> response) {
-                    Toast.makeText(context, "Atualizado com Sucesso!", Toast.LENGTH_SHORT).show();
-                }
-                @Override
-                public void onFailure(Call<TimeLineModel> call, Throwable t) {
-                    timeLineDao.update(modelAnterior);
-                }
+            MyDataBase.databaseWriteExecutor.execute(() ->{
+                timeLineDao.update(model);
             });
-        }catch (Exception e){
-            Toast.makeText(context, "Falha ao carregar dados!", Toast.LENGTH_SHORT).show();
-        }
-    }
-
-    public void delete(TimeLineModel model){
-       TimeLineModel modelAntigo = timeLineDao.getById(model.getIdTimeLine());
-        try{
-            Call<TimeLineModel> call = timeLineService.delete(model.getIdTimeLine());
+            Call<TimeLineModel> call = timeLineService.update(model.getIdTimeLine(),model);
             call.enqueue(new Callback<TimeLineModel>() {
                 @Override
                 public void onResponse(Call<TimeLineModel> call, Response<TimeLineModel> response) {
-                    if(response.isSuccessful()){
+                    if (response.isSuccessful()){
                         Toast.makeText(context, "Alteração realizada com sucesso!", Toast.LENGTH_SHORT).show();
-                    }else {
-                        timeLineDao.insert(modelAntigo);
+                    }else{
+                        MyDataBase.databaseWriteExecutor.execute(() ->{
+                            timeLineDao.update(modelAnterior);
+                        });
                         Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override
                 public void onFailure(Call<TimeLineModel> call, Throwable t) {
-                    timeLineDao.insert(modelAntigo);
+                    MyDataBase.databaseWriteExecutor.execute(() ->{
+                        timeLineDao.update(modelAnterior);
+                    });
                     Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                 }
             });
         }catch (Exception e){
-            timeLineDao.insert(modelAntigo);
+            MyDataBase.databaseWriteExecutor.execute(() ->{
+                timeLineDao.update(modelAnterior);
+            });
+            Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void delete(TimeLineModel model){
+        TimeLineModel modelAnterior = timeLineDao.getById(model.getIdTimeLine());
+        try{
+            MyDataBase.databaseWriteExecutor.execute(() ->{
+                timeLineDao.delete(model);
+            });
+            Call<TimeLineModel> call = timeLineService.delete(model.getIdTimeLine());
+            call.enqueue(new Callback<TimeLineModel>() {
+                @Override
+                public void onResponse(Call<TimeLineModel> call, Response<TimeLineModel> response) {
+                    if (response.isSuccessful()){
+                        Toast.makeText(context, "Alteração realizada com sucesso!", Toast.LENGTH_SHORT).show();
+                    }else{
+                        MyDataBase.databaseWriteExecutor.execute(() ->{
+                            timeLineDao.insert(modelAnterior);
+                        });
+                        Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                @Override
+                public void onFailure(Call<TimeLineModel> call, Throwable t) {
+                    MyDataBase.databaseWriteExecutor.execute(() ->{
+                        timeLineDao.insert(modelAnterior);
+                    });
+                    Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        }catch (Exception e){
+            MyDataBase.databaseWriteExecutor.execute(() ->{
+                timeLineDao.insert(modelAnterior);
+            });
             Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -116,23 +144,30 @@ public class TimeLineBusiness {
                 public void onResponse(Call<TimeLineModel> call, Response<TimeLineModel> response) {
                     if(response.isSuccessful()){
                         timeLineModel = response.body();
-                        timeLineDao.insert(timeLineModel);
-                    }else {
-                        timeLineModel = timeLineDao.getById(id);
+                        if(timeLineModel.getIdTimeLine() == timeLineDao.getById(timeLineModel.getIdTimeLine()).getIdTimeLine()){
+                            MyDataBase.databaseWriteExecutor.execute(() ->{
+                                timeLineDao.update(timeLineModel);
+                            });
+                        }else {
+                            MyDataBase.databaseWriteExecutor.execute(() ->{
+                                timeLineDao.insert(timeLineModel);
+                            });
+                        }
+                    }else{
+                        Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override
                 public void onFailure(Call<TimeLineModel> call, Throwable t) {
-                    timeLineModel = timeLineDao.getById(id);
+                    Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                 }
             });
         }catch (Exception e){
-            Toast.makeText(context, "Falha ao carregar dados!", Toast.LENGTH_SHORT).show();
+            Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
         }
         return timeLineModel;
     }
 
-    //Obter Lista TimeLine
     public List<TimeLineModel> getList(){
         try{
             Call<List<TimeLineModel>> call = timeLineService.findAll();
@@ -141,7 +176,18 @@ public class TimeLineBusiness {
                 public void onResponse(Call<List<TimeLineModel>> call, Response<List<TimeLineModel>> response) {
                     if(response.isSuccessful()){
                         list = response.body();
-                        timeLineDao.insertAll(list);
+                        for (int i = 0; i<list.size(); i++){
+                            TimeLineModel timeLine = list.get(i);
+                            if(timeLine.getIdTimeLine() == timeLineDao.getById(timeLine.getIdTimeLine()).getIdTimeLine()){
+                                MyDataBase.databaseWriteExecutor.execute(() ->{
+                                    timeLineDao.update(timeLine);
+                                });
+                            }else {
+                                MyDataBase.databaseWriteExecutor.execute(() ->{
+                                    timeLineDao.insert(timeLine);
+                                });
+                            }
+                        }
                     }else{
                         Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                     }
@@ -156,6 +202,10 @@ public class TimeLineBusiness {
         }
         return list;
     }
+
+
+
+
 
     public List<TimeLineModel> getListHoje(String date){
         try{

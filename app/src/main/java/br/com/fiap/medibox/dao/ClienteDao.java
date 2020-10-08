@@ -14,7 +14,7 @@ import br.com.fiap.medibox.model.ClienteModel;
 public interface ClienteDao {
 
     @Query("SELECT * FROM tb_cliente ")
-   List<ClienteModel>getAll();
+    List<ClienteModel>getAll();
 
     @Query("SELECT * FROM tb_cliente WHERE idCliente LIKE :id LIMIT 1")
     ClienteModel getById(long id);

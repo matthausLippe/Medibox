@@ -20,6 +20,9 @@ public interface ResidenteMedicamentoService {
     @GET("residenteMedicamento/{id}")
     Call<ResidenteMedicamentoModel> findById(@Path("id") long id);
 
+    @GET("residenteMedicamento/residente/{id}")
+    Call<List<ResidenteMedicamentoModel>> findByIdResidente(@Path("id") long id);
+
     @POST("residenteMedicamento/")
     Call<ResidenteMedicamentoModel> save(@Body ResidenteMedicamentoModel residenteMedicamentoModel);
 
@@ -28,6 +31,7 @@ public interface ResidenteMedicamentoService {
 
     @DELETE("residenteMedicamento/{id}")
     Call<ResidenteMedicamentoModel> delete(@Path("id") long id);
+
 
 
 

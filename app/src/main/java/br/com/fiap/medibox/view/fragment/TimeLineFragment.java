@@ -6,17 +6,17 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.ArrayList;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 import br.com.fiap.medibox.R;
-import br.com.fiap.medibox.model.ItemTimeline;
 import br.com.fiap.medibox.adapter.TimeLineAdapter;
+import br.com.fiap.medibox.model.ItemTimeline;
 
 public class TimeLineFragment extends Fragment {
 
@@ -41,7 +41,7 @@ public class TimeLineFragment extends Fragment {
                     "Paracetamol",
                     "11-99988-7766",
                     "",
-                    1
+                    0
 
             );
             listItems.add(listItem);

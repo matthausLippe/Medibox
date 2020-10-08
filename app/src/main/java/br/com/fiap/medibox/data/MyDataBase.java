@@ -6,7 +6,6 @@ import android.content.Context;
 import androidx.room.Database;
 import androidx.room.Room;
 import androidx.room.RoomDatabase;
-import androidx.room.TypeConverter;
 import androidx.room.TypeConverters;
 
 import java.util.concurrent.ExecutorService;
@@ -53,8 +52,8 @@ public abstract class MyDataBase extends RoomDatabase {
     public abstract TimeLineDao timeLineDao();
 
     private static volatile MyDataBase INSTANCE;
-    private static final int NUMBER_OF_THREADS = 4;
-    static final ExecutorService databaseWriteExecutor =
+    private static final int NUMBER_OF_THREADS = 8;
+    public static final ExecutorService databaseWriteExecutor =
             Executors.newFixedThreadPool(NUMBER_OF_THREADS);
 
     public static MyDataBase getDatabase(final Context context) {

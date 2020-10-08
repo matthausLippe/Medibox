@@ -1,4 +1,4 @@
-package br.com.fiap.medibox.business;
+package br.com.fiap.medibox.repository;
 
 import android.app.Application;
 import android.content.Context;
@@ -16,7 +16,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class EnderecoBusiness {
+public class EnderecoRepository {
 
     private EnderecoDao enderecoDao;
 
@@ -26,7 +26,7 @@ public class EnderecoBusiness {
     private EnderecoModel enderecoModel;
     private List<EnderecoModel> list = new ArrayList<EnderecoModel>();
 
-    EnderecoBusiness(Application application){
+    EnderecoRepository(Application application){
         MyDataBase db = MyDataBase.getDatabase(application);
         enderecoDao = db.enderecoDao();
         enderecoService = APIUtils.getEnderecoService();
@@ -35,7 +35,9 @@ public class EnderecoBusiness {
 
     public void insert(EnderecoModel model){
         try{
-            enderecoDao.insert(model);
+            MyDataBase.databaseWriteExecutor.execute(() ->{
+                enderecoDao.insert(model);
+            });
             Call<EnderecoModel> call = enderecoService.save(model);
             call.enqueue(new Callback<EnderecoModel>() {
                 @Override
@@ -43,13 +45,17 @@ public class EnderecoBusiness {
                     if (response.isSuccessful()) {
                         Toast.makeText(context, "Cadastrado realizado com sucesso!", Toast.LENGTH_SHORT).show();
                     }else {
-                        enderecoDao.delete(model);
+                        MyDataBase.databaseWriteExecutor.execute(() ->{
+                            enderecoDao.delete(model);
+                        });
                         Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override
                 public void onFailure(Call<EnderecoModel> call, Throwable t) {
-                    enderecoDao.delete(model);
+                    MyDataBase.databaseWriteExecutor.execute(() ->{
+                        enderecoDao.delete(model);
+                    });
                     Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -61,7 +67,9 @@ public class EnderecoBusiness {
     public void update (EnderecoModel model){
         EnderecoModel modelAnterior = enderecoDao.getById(model.getIdEndereco());
         try{
-            enderecoDao.update(model);
+            MyDataBase.databaseWriteExecutor.execute(() ->{
+                enderecoDao.update(model);
+            });
             Call<EnderecoModel> call = enderecoService.update(model.getIdEndereco(),model);
             call.enqueue(new Callback<EnderecoModel>() {
                 @Override
@@ -69,18 +77,24 @@ public class EnderecoBusiness {
                     if (response.isSuccessful()){
                         Toast.makeText(context, "Alteração realizada com sucesso!", Toast.LENGTH_SHORT).show();
                     }else{
-                        enderecoDao.update(modelAnterior);
+                        MyDataBase.databaseWriteExecutor.execute(() ->{
+                            enderecoDao.update(modelAnterior);
+                        });
                         Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override
                 public void onFailure(Call<EnderecoModel> call, Throwable t) {
-                    enderecoDao.update(modelAnterior);
+                    MyDataBase.databaseWriteExecutor.execute(() ->{
+                        enderecoDao.update(modelAnterior);
+                    });
                     Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                 }
             });
         }catch (Exception e){
-            enderecoDao.update(modelAnterior);
+            MyDataBase.databaseWriteExecutor.execute(() ->{
+                enderecoDao.update(modelAnterior);
+            });
             Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -88,6 +102,9 @@ public class EnderecoBusiness {
     public void delete(EnderecoModel model){
         EnderecoModel modelAnterior = enderecoDao.getById(model.getIdEndereco());
         try{
+            MyDataBase.databaseWriteExecutor.execute(() ->{
+                enderecoDao.delete(model);
+            });
             Call<EnderecoModel> call = enderecoService.delete(model.getIdEndereco());
             call.enqueue(new Callback<EnderecoModel>() {
                 @Override
@@ -95,18 +112,24 @@ public class EnderecoBusiness {
                     if (response.isSuccessful()){
                         Toast.makeText(context, "Alteração realizada com sucesso!", Toast.LENGTH_SHORT).show();
                     }else{
-                        enderecoDao.insert(modelAnterior);
+                        MyDataBase.databaseWriteExecutor.execute(() ->{
+                            enderecoDao.insert(modelAnterior);
+                        });
                         Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override
                 public void onFailure(Call<EnderecoModel> call, Throwable t) {
-                    enderecoDao.insert(modelAnterior);
+                    MyDataBase.databaseWriteExecutor.execute(() ->{
+                        enderecoDao.insert(modelAnterior);
+                    });
                     Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                 }
             });
         }catch (Exception e){
-            enderecoDao.insert(modelAnterior);
+            MyDataBase.databaseWriteExecutor.execute(() ->{
+                enderecoDao.insert(modelAnterior);
+            });
             Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -119,7 +142,15 @@ public class EnderecoBusiness {
                 public void onResponse(Call<EnderecoModel> call, Response<EnderecoModel> response) {
                     if(response.isSuccessful()){
                         enderecoModel = response.body();
-                        enderecoDao.insert(enderecoModel);
+                        if(enderecoModel.getIdEndereco() == enderecoDao.getById(enderecoModel.getIdEndereco()).getIdEndereco()){
+                            MyDataBase.databaseWriteExecutor.execute(() ->{
+                                enderecoDao.update(enderecoModel);
+                            });
+                        }else {
+                            MyDataBase.databaseWriteExecutor.execute(() ->{
+                                enderecoDao.insert(enderecoModel);
+                            });
+                        }
                     }else{
                         Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                     }
@@ -143,7 +174,18 @@ public class EnderecoBusiness {
                 public void onResponse(Call<List<EnderecoModel>> call, Response<List<EnderecoModel>> response) {
                     if(response.isSuccessful()){
                         list = response.body();
-                        enderecoDao.insertAll(list);
+                        for (int i = 0; i<list.size(); i++){
+                            EnderecoModel endereco = list.get(i);
+                            if(endereco.getIdEndereco() == enderecoDao.getById(endereco.getIdEndereco()).getIdEndereco()){
+                                MyDataBase.databaseWriteExecutor.execute(() ->{
+                                    enderecoDao.update(endereco);
+                                });
+                            }else {
+                                MyDataBase.databaseWriteExecutor.execute(() ->{
+                                    enderecoDao.insert(endereco);
+                                });
+                            }
+                        }
                     }else{
                         Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                     }
@@ -156,8 +198,8 @@ public class EnderecoBusiness {
         }catch (Exception e){
             Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
         }
-
         return list;
     }
+
 
  }

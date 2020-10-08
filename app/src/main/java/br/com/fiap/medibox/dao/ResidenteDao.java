@@ -14,7 +14,7 @@ import br.com.fiap.medibox.model.ResidenteModel;
 public interface ResidenteDao {
 
     @Query("SELECT * FROM tb_residente")
-   List<ResidenteModel> getAll();
+    List<ResidenteModel> getAll();
 
     @Query("SELECT * FROM tb_residente WHERE idResidente LIKE :id LIMIT 1")
     ResidenteModel getById(long id);

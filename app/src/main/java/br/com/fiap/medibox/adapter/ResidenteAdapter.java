@@ -14,18 +14,17 @@ import androidx.recyclerview.widget.RecyclerView;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
-
 import br.com.fiap.medibox.R;
+import br.com.fiap.medibox.model.ResidenteModel;
 import br.com.fiap.medibox.view.fragment.CadastroResidenteFragment;
-import br.com.fiap.medibox.model.Residente;
 
 public class ResidenteAdapter extends RecyclerView.Adapter<ResidenteViewHolder> {
-    private ArrayList<Residente> residentes;
+    private ArrayList<ResidenteModel> residentes;
     private Context context;
     private int selectedPos;
 
 
-    public ResidenteAdapter(ArrayList<Residente> residentes, Context context) {
+    public ResidenteAdapter(ArrayList<ResidenteModel> residentes, Context context) {
         this.residentes = residentes;
         this.context = context;
     }
@@ -58,7 +57,7 @@ public class ResidenteAdapter extends RecyclerView.Adapter<ResidenteViewHolder> 
             });
         } else {
             SimpleDateFormat format = new SimpleDateFormat("dd/MM/yyyy");
-            Residente residentePosicao = residentes.get(position);
+            ResidenteModel residentePosicao = residentes.get(position);
             holder.nome.setText(residentePosicao.getNomeResidente());
             holder.quarto.setText(residentePosicao.getQuarto());
             if (residentePosicao.getDataNascimento() != null) {
@@ -91,7 +90,7 @@ public class ResidenteAdapter extends RecyclerView.Adapter<ResidenteViewHolder> 
     }
 
     public void deleteResidente() {
-        Residente residente = residentes.get(selectedPos);
+        ResidenteModel residente = residentes.get(selectedPos);
         int id = selectedPos;
 
         if (residentes.remove(residente)) {

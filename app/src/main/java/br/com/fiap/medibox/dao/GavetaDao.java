@@ -14,16 +14,13 @@ import br.com.fiap.medibox.model.GavetaModel;
 public interface GavetaDao {
 
     @Query("SELECT * FROM tb_gaveta ")
-   List<GavetaModel> getAll();
+    List<GavetaModel> getAll();
 
     @Query("SELECT * FROM tb_gaveta WHERE idGaveta LIKE :id LIMIT 1")
     GavetaModel getById(long id);
 
     @Query("SELECT * FROM tb_gaveta WHERE idCaixa LIKE :id ")
     List<GavetaModel> getByIdCaixa(long id);
-
-    @Query("SELECT * FROM tb_gaveta WHERE idMedicamento LIKE :id ")
-    List<GavetaModel> getByIdMedicamento(long id);
 
     @Insert
     void insertAll(List<GavetaModel> list);

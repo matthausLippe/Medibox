@@ -6,16 +6,16 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
-import java.util.List;
-
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.List;
+
 import br.com.fiap.medibox.R;
-import br.com.fiap.medibox.view.fragment.TimelineItemFragment;
 import br.com.fiap.medibox.model.ItemTimeline;
+import br.com.fiap.medibox.view.fragment.TimelineItemFragment;
 
 public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineViewHolder> {
 
@@ -52,7 +52,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineViewHolder> {
         if (listItem.getSituacao() == ItemTimeline.MEDICADO){
             holder.image.setImageResource(R.drawable.icon_check);
         } else {
-            holder.image.setImageResource(R.drawable.x_icon);
+            holder.image.setImageResource(R.drawable.icon_x);
         }
 
         holder.setClickListener(new MyClickListener() {

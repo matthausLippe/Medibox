@@ -2,6 +2,7 @@ package br.com.fiap.medibox.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
 @Entity(tableName = "tb_medicamento")
@@ -15,6 +16,10 @@ public class MedicamentoModel {
 
     @ColumnInfo(name = "laboratorio")
     private String laboratorio;
+
+    @ForeignKey(entity = GavetaModel.class, parentColumns = "idGaveta", childColumns = "idGaveta")
+    @ColumnInfo(name = "idGaveta")
+    private long idGaveta;
 
     @ColumnInfo(name = "dosagem")
     private String dosagem;
@@ -37,6 +42,14 @@ public class MedicamentoModel {
 
     public void setNomeMedicamento(String nomeMedicamento) {
         this.nomeMedicamento = nomeMedicamento;
+    }
+
+    public long getIdGaveta() {
+        return idGaveta;
+    }
+
+    public void setIdGaveta(long idGaveta) {
+        this.idGaveta = idGaveta;
     }
 
     public String getLaboratorio() {

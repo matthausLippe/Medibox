@@ -1,4 +1,4 @@
-package br.com.fiap.medibox.business;
+package br.com.fiap.medibox.repository;
 
 import android.app.Application;
 import android.content.Context;
@@ -16,7 +16,7 @@ import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.Response;
 
-public class ClienteBusiness {
+public class ClienteRepository {
 
     private ClienteDao clienteDao;
 
@@ -26,7 +26,7 @@ public class ClienteBusiness {
     private ClienteModel clienteModel;
     private List<ClienteModel> list = new ArrayList<ClienteModel>();
 
-    ClienteBusiness(Application application){
+    ClienteRepository(Application application){
         MyDataBase db = MyDataBase.getDatabase(application);
         clienteDao = db.clienteDao();
         clienteService = APIUtils.getClienteService();
@@ -35,7 +35,9 @@ public class ClienteBusiness {
 
     public void insert(ClienteModel model){
         try{
-            clienteDao.insert(model);
+            MyDataBase.databaseWriteExecutor.execute(() ->{
+                clienteDao.insert(model);
+            });
             Call<ClienteModel> call = clienteService.save(model);
             call.enqueue(new Callback<ClienteModel>() {
                 @Override
@@ -43,13 +45,17 @@ public class ClienteBusiness {
                     if (response.isSuccessful()) {
                         Toast.makeText(context, "Cadastrado realizado com sucesso!", Toast.LENGTH_SHORT).show();
                     }else {
-                        clienteDao.delete(model);
+                        MyDataBase.databaseWriteExecutor.execute(() ->{
+                            clienteDao.delete(model);
+                        });
                         Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override
                 public void onFailure(Call<ClienteModel> call, Throwable t) {
-                    clienteDao.delete(model);
+                    MyDataBase.databaseWriteExecutor.execute(() ->{
+                        clienteDao.delete(model);
+                    });
                     Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                 }
             });
@@ -61,7 +67,9 @@ public class ClienteBusiness {
     public void update (ClienteModel model){
         ClienteModel modelAnterior = clienteDao.getById(model.getIdCliente());
         try{
-            clienteDao.update(model);
+            MyDataBase.databaseWriteExecutor.execute(() ->{
+                clienteDao.update(model);
+            });
             Call<ClienteModel> call = clienteService.update(model.getIdCliente(),model);
             call.enqueue(new Callback<ClienteModel>() {
                 @Override
@@ -69,18 +77,24 @@ public class ClienteBusiness {
                     if (response.isSuccessful()){
                         Toast.makeText(context, "Alteração realizada com sucesso!", Toast.LENGTH_SHORT).show();
                     }else{
-                        clienteDao.update(modelAnterior);
+                        MyDataBase.databaseWriteExecutor.execute(() ->{
+                            clienteDao.update(modelAnterior);
+                        });
                         Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override
                 public void onFailure(Call<ClienteModel> call, Throwable t) {
-                    clienteDao.update(modelAnterior);
+                    MyDataBase.databaseWriteExecutor.execute(() ->{
+                        clienteDao.update(modelAnterior);
+                    });
                     Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                 }
             });
         }catch (Exception e){
-            clienteDao.update(modelAnterior);
+            MyDataBase.databaseWriteExecutor.execute(() ->{
+                clienteDao.update(modelAnterior);
+            });
             Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -88,6 +102,9 @@ public class ClienteBusiness {
     public void delete(ClienteModel model){
         ClienteModel modelAnterior = clienteDao.getById(model.getIdCliente());
         try{
+            MyDataBase.databaseWriteExecutor.execute(() ->{
+                clienteDao.delete(model);
+            });
             Call<ClienteModel> call = clienteService.delete(model.getIdCliente());
             call.enqueue(new Callback<ClienteModel>() {
                 @Override
@@ -95,18 +112,24 @@ public class ClienteBusiness {
                     if (response.isSuccessful()){
                         Toast.makeText(context, "Alteração realizada com sucesso!", Toast.LENGTH_SHORT).show();
                     }else{
-                        clienteDao.insert(modelAnterior);
+                        MyDataBase.databaseWriteExecutor.execute(() ->{
+                            clienteDao.insert(modelAnterior);
+                        });
                         Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                     }
                 }
                 @Override
                 public void onFailure(Call<ClienteModel> call, Throwable t) {
-                    clienteDao.insert(modelAnterior);
+                    MyDataBase.databaseWriteExecutor.execute(() ->{
+                        clienteDao.insert(modelAnterior);
+                    });
                     Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                 }
             });
         }catch (Exception e){
-            clienteDao.insert(modelAnterior);
+            MyDataBase.databaseWriteExecutor.execute(() ->{
+                clienteDao.insert(modelAnterior);
+            });
             Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
         }
     }
@@ -119,7 +142,15 @@ public class ClienteBusiness {
                 public void onResponse(Call<ClienteModel> call, Response<ClienteModel> response) {
                     if(response.isSuccessful()){
                         clienteModel = response.body();
-                        clienteDao.insert(clienteModel);
+                        if(clienteModel.getIdCliente() == clienteDao.getById(clienteModel.getIdCliente()).getIdCliente()){
+                            MyDataBase.databaseWriteExecutor.execute(() ->{
+                                clienteDao.update(clienteModel);
+                            });
+                        }else {
+                            MyDataBase.databaseWriteExecutor.execute(() ->{
+                                clienteDao.insert(clienteModel);
+                            });
+                        }
                     }else{
                         Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                     }
@@ -143,7 +174,18 @@ public class ClienteBusiness {
                 public void onResponse(Call<List<ClienteModel>> call, Response<List<ClienteModel>> response) {
                     if(response.isSuccessful()){
                         list = response.body();
-                        clienteDao.insertAll(list);
+                        for (int i = 0; i<list.size(); i++){
+                            ClienteModel cliente = list.get(i);
+                            if(cliente.getIdCliente() == clienteDao.getById(cliente.getIdCliente()).getIdCliente()){
+                                MyDataBase.databaseWriteExecutor.execute(() ->{
+                                    clienteDao.update(cliente);
+                                });
+                            }else {
+                                MyDataBase.databaseWriteExecutor.execute(() ->{
+                                    clienteDao.insert(cliente);
+                                });
+                            }
+                        }
                     }else{
                         Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                     }
@@ -156,7 +198,6 @@ public class ClienteBusiness {
         }catch (Exception e){
             Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
         }
-
         return list;
     }
 

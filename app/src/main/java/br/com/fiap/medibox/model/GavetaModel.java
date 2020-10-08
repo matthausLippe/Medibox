@@ -11,10 +11,6 @@ public class GavetaModel {
 	@PrimaryKey()
 	private long idGaveta;
 
-	@ForeignKey(entity = MedicamentoModel.class, parentColumns = "idMedicamento", childColumns = "idMedicamento")
-	@ColumnInfo(name = "idMedicamento")
-	private long idMedicamento;
-
 	@ForeignKey(entity = CaixaModel.class, parentColumns = "idCaixa", childColumns = "idCaixa")
 	@ColumnInfo(name = "idCaixa")
 	private long idCaixa;
@@ -41,12 +37,6 @@ public class GavetaModel {
 	}
 	public void setIdGaveta(long idGaveta) {
 		this.idGaveta = idGaveta;
-	}
-	public long getIdMedicamento() {
-		return idMedicamento;
-	}
-	public void setIdMedicamento(long idMedicamento) {
-		this.idMedicamento = idMedicamento;
 	}
 	public long getIdCaixa() {
 		return idCaixa;

@@ -32,18 +32,14 @@ public class ConfiguracoesCaixaFragment extends Fragment {
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                 txtTemp.setText(i+"°");
             }
-
             @Override
             public void onStartTrackingTouch(SeekBar seekBar) {
 
             }
-
             @Override
             public void onStopTrackingTouch(SeekBar seekBar) {
 
             }
-
-
         });
 
         return v;

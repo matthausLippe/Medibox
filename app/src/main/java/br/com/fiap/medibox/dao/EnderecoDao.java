@@ -14,7 +14,7 @@ import br.com.fiap.medibox.model.EnderecoModel;
 public interface EnderecoDao {
 
     @Query("SELECT * FROM tb_endereco ")
-   List<EnderecoModel> getAll();
+    List<EnderecoModel> getAll();
 
     @Query("SELECT * FROM tb_endereco WHERE idEndereco LIKE :id LIMIT 1")
     EnderecoModel getById(long id);
