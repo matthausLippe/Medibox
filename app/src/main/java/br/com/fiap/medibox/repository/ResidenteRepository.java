@@ -2,7 +2,10 @@ package br.com.fiap.medibox.repository;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
+
+import androidx.room.Room;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,20 +27,25 @@ public class ResidenteRepository {
 
     private ResidenteService residenteService;
     private ResidenteModel residenteModel;
-    private List<ResidenteModel> list = new ArrayList<ResidenteModel>();
+    private List<ResidenteModel> list;
+    List<ResidenteModel> listaModel = new ArrayList<ResidenteModel>();
+    private MyDataBase db;
 
     public ResidenteRepository(Application application){
-        MyDataBase db = MyDataBase.getDatabase(application);
-        residenteDao = db.residenteDao();
+        db = Room.databaseBuilder(application.getApplicationContext(),MyDataBase.class,"MyDatabase").build();
         residenteService = APIUtils.getResidenteService();
         context = application.getApplicationContext();
+        residenteDao = db.residenteDao();
     }
 
     public void insert(ResidenteModel model){
+        MyDataBase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                db.residenteDao().insert(model);
+            }
+        });
         try{
-            MyDataBase.databaseWriteExecutor.execute(() ->{
-                residenteDao.insert(model);
-            });
             Call<ResidenteModel> call = residenteService.save(model);
             call.enqueue(new Callback<ResidenteModel>() {
                 @Override
@@ -62,6 +70,89 @@ public class ResidenteRepository {
         }catch (Exception e){
             Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
         }
+    }
+
+    public void insertDb(ResidenteModel model){
+        MyDataBase.databaseWriteExecutor.execute(new Runnable() {
+           @Override
+           public void run() {
+              try{
+                  residenteModel = residenteDao.getById(model.getIdResidente());
+                  if(model == null) {
+                      residenteDao.insert(model);
+                  } else{
+                      residenteDao.delete(model);
+                      residenteDao.insert(model);
+                  }
+              }catch (Exception e){
+                  Log.e("ResidenteRepository","Falha ao realizar o insert "+ e.getMessage());
+              }
+           }
+       });
+    }
+
+    public void insertDbAll(List<ResidenteModel> listaModel){
+        MyDataBase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                residenteDao.insertAll(listaModel);
+            }
+        });
+    }
+
+    public ResidenteModel getByIdDb(ResidenteModel model) {
+        if(model != null)
+            {MyDataBase.databaseWriteExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    residenteModel = residenteDao.getById(model.getIdResidente());
+                }
+            });
+        }else {
+            Log.e("ResidenteRepository","Model Null getByIdDb");
+        }
+        return residenteModel;
+    }
+
+    public void deleteDb(ResidenteModel model){
+        if (model != null){
+            MyDataBase.databaseWriteExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    residenteDao.delete(model);
+                }
+            });
+        }
+    }
+
+
+    public List<ResidenteModel> getListService() {
+        Call<List<ResidenteModel>> call = residenteService.findAll();
+        call.enqueue(new Callback<List<ResidenteModel>>() {
+            @Override
+            public void onResponse(Call<List<ResidenteModel>> call, Response<List<ResidenteModel>> response) {
+                list = response.body();
+                for(int i = 0; i<list.size(); i++) {
+                    ResidenteModel modelDb = getByIdDb(list.get(i));
+                    if(modelDb == null || list.get(i).getIdResidente() != modelDb.getIdResidente()) {
+                        insertDb(list.get(i));
+                        Log.e("ResidenteRepository", "Residente: "
+                                + list.get(i).getNomeResidente()
+                                + " adicionado no DB");
+                    }else {
+                        deleteDb(list.get(i));
+                        Log.e("Activity","Erro ao comparar model");
+                    }
+                }
+                //populate(list);
+            }
+
+            @Override
+            public void onFailure(Call<List<ResidenteModel>> call, Throwable t) {
+                Log.e("ResidenteService   ", "Erro ao buscar o cep:" + t.getMessage());
+            }
+        });
+        return list;
     }
 
     public void update (ResidenteModel model){
@@ -166,31 +257,38 @@ public class ResidenteRepository {
         return residenteModel;
     }
 
-    public List<ResidenteModel> getList(){
-        try{
+   /* public LiveData<List<ResidenteModel>> getList(){
             Call<List<ResidenteModel>> call = residenteService.findAll();
             call.enqueue(new Callback<List<ResidenteModel>>() {
                 @Override
                 public void onResponse(Call<List<ResidenteModel>> call, Response<List<ResidenteModel>> response) {
                     if(response.isSuccessful()){
-                        list = response.body();
-                        for (int i = 0; i<list.size(); i++){
-                            ResidenteModel residente = list.get(i);
-                            if(residente.getIdResidente() == residenteDao.getById(residente.getIdResidente()).getIdResidente()){
-                                new Thread(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        MyDataBase.databaseWriteExecutor.execute(() ->{
-                                            //residenteDao.update(residente);
+                        List<ResidenteModel> lista1 = response.body();
+                        MyDataBase.databaseWriteExecutor.execute(new Runnable() {
+                            @Override
+                            public void run() {
+                                for (int i = 0; i<lista1.size(); i++) {
+                                    ResidenteModel residente = lista1.get(i);
+                                    if (residente.getIdResidente() == residenteDao.getById(residente.getIdResidente()).getIdResidente()) {
+
+                                        MyDataBase.databaseWriteExecutor.execute(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                residenteDao.insert(residente);
+                                            }
+                                        });
+                                    } else {
+                                        MyDataBase.databaseWriteExecutor.execute(new Runnable() {
+                                            @Override
+                                            public void run() {
+                                                residenteDao.insert(residente);
+                                            }
                                         });
                                     }
-                                }).start();
-                            }else {
-                                MyDataBase.databaseWriteExecutor.execute(() ->{
-                                    residenteDao.insert(residente);
-                                });
+                                }
                             }
-                        }
+                        });
+
                     }else{
                         Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                     }
@@ -200,11 +298,13 @@ public class ResidenteRepository {
                     Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                 }
             });
-        }catch (Exception e){
-            Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
-        }
+            MyDataBase.databaseWriteExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    list = residenteDao.getAll();
+                }
+            });
         return list;
-    }
-
+    }*/
 
 }

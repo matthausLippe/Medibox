@@ -3,6 +3,7 @@ package br.com.fiap.medibox.view.activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -22,11 +23,18 @@ import java.util.List;
 
 import br.com.fiap.medibox.R;
 import br.com.fiap.medibox.adapter.ResidenteAdapter;
+import br.com.fiap.medibox.data.MyDataBase;
 import br.com.fiap.medibox.model.Medicamento;
 import br.com.fiap.medibox.model.Residente;
 import br.com.fiap.medibox.model.ResidenteModel;
 import br.com.fiap.medibox.model.Residente_Medicamento;
+import br.com.fiap.medibox.repository.ResidenteRepository;
+import br.com.fiap.medibox.service.APIUtils;
+import br.com.fiap.medibox.service.ResidenteService;
 import br.com.fiap.medibox.viewModel.ResidenteViewModel;
+import retrofit2.Call;
+import retrofit2.Callback;
+import retrofit2.Response;
 
 public class ListaResidenteActivity extends Fragment {
 
@@ -34,11 +42,20 @@ public class ListaResidenteActivity extends Fragment {
     private RecyclerView recycler, recyclerMedicamento;
     private List<ResidenteModel> list;
     ResidenteAdapter adapter;
-    //MedicamentoResidenteAdapter adapterMedicamento;
+
+    private ResidenteViewModel viewModel;
+    private ResidenteRepository residenteRepository;
+    private ResidenteService residenteService;
+    private MyDataBase db;
+    private boolean ready = false;
+
     ResidenteModel residenteModel;
     Date dataNascimento;
+
+
     View v;
     Context context;
+
 
     private EditText nome;
     private EditText Nascimento;
@@ -65,18 +82,59 @@ public class ListaResidenteActivity extends Fragment {
         recycler = v.findViewById(R.id.idRecyclerResidente);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recycler.setLayoutManager(layoutManager);
-        list = new ArrayList<ResidenteModel>();
-        consultarResidentes();
+        residenteService = APIUtils.getResidenteService();
+        residenteRepository = new ResidenteRepository(getActivity().getApplication());
+
+        try {
+           new Thread(new Runnable() {
+               @Override
+               public void run() {
+                   list = residenteRepository.getListService();
+                   populate(list);
+               }
+           }).start();
+        }catch (Exception e){
+            Log.e("Activity","Falha ao aguardar resposta do Repository");
+        }
+       //viewModel = new ViewModelProvider(this).get(ResidenteViewModel.class);
+
+       //viewModel.getListResidente().observe(getViewLifecycleOwner(), new Observer<List<ResidenteModel>>() {
+          // @Override
+           //public void onChanged(List<ResidenteModel> residenteModels) {
+                //populate(residenteModels);
+           //}
+       // });
     }
 
 
+    private void getListService() {
+        Call<List<ResidenteModel>> call = residenteService.findAll();
+        call.enqueue(new Callback<List<ResidenteModel>>() {
+            @Override
+            public void onResponse(Call<List<ResidenteModel>> call, Response<List<ResidenteModel>> response) {
+                list = response.body();
+                for(int i = 0; i<list.size(); i++) {
+                    ResidenteModel modelDb = residenteRepository.getByIdDb(list.get(i));
+                    if(modelDb == null || list.get(i).getIdResidente() != modelDb.getIdResidente()) {
+                        residenteRepository.insertDb(list.get(i));
+                        Log.e("ResidenteRepository", "Residente: "
+                                + list.get(i).getNomeResidente()
+                                + " adicionado no DB");
+                    }else {
+                        residenteRepository.deleteDb(list.get(i));
+                        Log.e("Activity","Erro ao comparar model");
+                    }
+                }
+                //populate(list);
+            }
 
-    private void consultarResidentes(){
-
-                list = new ResidenteViewModel(getActivity().getApplication()).getListResidente();
-                populate(list);
-
+            @Override
+            public void onFailure(Call<List<ResidenteModel>> call, Throwable t) {
+                Log.e("ResidenteService   ", "Erro ao buscar o cep:" + t.getMessage());
+            }
+        });
     }
+
 
     private Residente criarResidente(){
         Residente res;
@@ -169,16 +227,6 @@ public class ListaResidenteActivity extends Fragment {
         });
         dialog.show();
     }
-
-    //private List<Medicamento> converterViewModel(ResidenteModel) {
-      //  List<Medicamento> medicamentos = new ArrayList<Medicamento>();
-
-        //for (int i = 0; i< 10; i++){
-
-        //}
-
-       // return medicamentos;
-   // }
 
 
 }
