@@ -25,21 +25,25 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/residente_"
-                    android:textColor="@color/cardview_dark_background" />
+                    android:textColor="#000000"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/dataNascimento"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/data_nascimento"
-                    android:textColor="@color/cardview_dark_background"/>
+                    android:textColor="@color/cardview_dark_background"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/quarto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:text="@string/quarto_"
-                    android:textColor="@color/cardview_dark_background"/>
+                    android:textColor="@color/cardview_dark_background"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
@@ -54,21 +58,26 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/nome_residente" />
+                    android:text="@string/nome_residente"
+                    android:textColor="@android:color/black"
+                    android:textSize="20sp"
+                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/idDataNascimento"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/data_nascimento_residente" />
+                    android:text="@string/data_nascimento_residente"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/idQuarto"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_weight="1"
-                    android:text="@string/quarto" />
+                    android:text="@string/quarto"
+                    android:textSize="14sp" />
             </LinearLayout>
 
         </LinearLayout>

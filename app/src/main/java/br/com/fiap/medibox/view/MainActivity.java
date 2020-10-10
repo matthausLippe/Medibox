@@ -7,6 +7,8 @@ import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.GravityCompat;
 import androidx.drawerlayout.widget.DrawerLayout;
 
+import android.app.AlarmManager;
+import android.app.PendingIntent;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
@@ -14,6 +16,11 @@ import android.widget.Toast;
 
 import com.google.android.material.navigation.NavigationView;
 
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.List;
+
+import br.com.fiap.medibox.AlarmReceiver;
 import br.com.fiap.medibox.R;
 import br.com.fiap.medibox.view.activity.ListaResidenteActivity;
 import br.com.fiap.medibox.view.activity.LoginActivity;
@@ -40,11 +47,27 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer.addDrawerListener(toggle);
         toggle.syncState();
 
+        //alarm
+
+        AlarmManager alarmManager = (AlarmManager) getSystemService(ALARM_SERVICE);
+        //criaAlarmes(alarmManager);
+
         if(savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                     new TimeLineFragment()).commit();
             navigationView.setCheckedItem(R.id.timeline_item);
         }
+    }
+
+    private void criaAlarmes(AlarmManager alarmManager) {
+        Intent notificationIntent = new Intent(this, AlarmReceiver.class);
+        PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+
+        //chama query que traz o medicamento/paciente
+        //chamaMedicamentoPaciente();
+        //List listaMedicaPaciente =
+
+
     }
 
     @Override

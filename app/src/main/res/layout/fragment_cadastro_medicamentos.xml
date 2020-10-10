@@ -157,6 +157,24 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/idDescricao" />
 
+        <Spinner
+            android:id="@+id/Dispenser"
+            android:layout_width="94dp"
+            android:layout_height="24dp"
+            android:layout_marginStart="88dp"
+            android:layout_marginTop="296dp"
+            app:layout_constraintStart_toEndOf="@+id/idDosagem"
+            app:layout_constraintTop_toTopOf="parent" />
+
+        <TextView
+            android:id="@+id/lblDispenser"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginEnd="72dp"
+            android:text="Dispenser"
+            app:layout_constraintBottom_toTopOf="@+id/Dispenser"
+            app:layout_constraintEnd_toEndOf="parent" />
+
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

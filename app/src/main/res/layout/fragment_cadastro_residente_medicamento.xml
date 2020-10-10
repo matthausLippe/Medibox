@@ -55,20 +55,11 @@
             app:layout_constraintTop_toBottomOf="@+id/idDosagem"></TextView>
 
         <EditText
-            android:id="@+id/iDataInicio"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:ems="10"
-            android:inputType="date"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textDataInicio" />
-
-        <EditText
             android:id="@+id/idHoraInicio"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
+            android:layout_marginTop="16dp"
             android:ems="10"
             android:inputType="time"
             app:layout_constraintStart_toStartOf="parent"
@@ -116,12 +107,12 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
+            android:layout_marginTop="11dp"
             android:text="Hora Inicio:"
             android:textColor="#000000"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/iDataInicio"></TextView>
+            app:layout_constraintTop_toBottomOf="@+id/calendarView"></TextView>
 
         <TextView
             android:id="@+id/textQtdDoses"
@@ -176,7 +167,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
-            android:layout_marginTop="5dp"
+            android:layout_marginTop="12dp"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textGaveta" />
 
@@ -184,9 +175,9 @@
             android:id="@+id/buttonCancelar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="Cancelar"
+            android:layout_marginTop="24dp"
             android:background="@drawable/loginbutton"
+            android:text="Cancelar"
             android:textColor="#ffffff"
             app:layout_constraintEnd_toStartOf="@+id/buttonGravar"
             app:layout_constraintStart_toStartOf="parent"
@@ -196,9 +187,9 @@
             android:id="@+id/buttonGravar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
-            android:text="Gravar"
+            android:layout_marginTop="20dp"
             android:background="@drawable/loginbutton"
+            android:text="Gravar"
             android:textColor="#ffffff"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/buttonCancelar"
@@ -214,6 +205,15 @@
             android:textColor="#000000"
             app:layout_constraintStart_toEndOf="@+id/textDosagem"
             app:layout_constraintTop_toBottomOf="@+id/idSelecioneMedicamento" />
+
+        <CalendarView
+            android:id="@+id/calendarView"
+            android:layout_width="307dp"
+            android:layout_height="299dp"
+            android:layout_marginEnd="84dp"
+            android:layout_marginTop="12dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/textDataInicio" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
