@@ -14,21 +14,21 @@ import android.widget.Toast;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
-import java.util.ArrayList;
+import java.util.List;
 
 import br.com.fiap.medibox.R;
-import br.com.fiap.medibox.model.Residente_Medicamento;
+import br.com.fiap.medibox.model.ResidenteMedicamentoModel;
 
 
 public class MedicamentoResidenteAdapter extends RecyclerView.Adapter<MedicamentoResidenteViewHolder> {
-    private ArrayList<Residente_Medicamento> medicamentos;
+    private List<ResidenteMedicamentoModel> medicamentos;
     private Context context;
     private int selectedPos;
     private Button cancelar;
     private SeekBar seekBar;
     private TextView textDosesSeekBar;
 
-    public MedicamentoResidenteAdapter(ArrayList<Residente_Medicamento> medicamentos, Context context) {
+    public MedicamentoResidenteAdapter(List<ResidenteMedicamentoModel> medicamentos, Context context) {
         this.medicamentos = medicamentos;
         this.context = context;
     }
@@ -92,10 +92,10 @@ public class MedicamentoResidenteAdapter extends RecyclerView.Adapter<Medicament
                 }
             });
         } else {
-            Residente_Medicamento residenteMedicamento = medicamentos.get(position);
-            holder.medicamento.setText(residenteMedicamento.getMedicamento().getNomeMedicamento());
-            holder.dosagem.setText(residenteMedicamento.getDosagem());
-            holder.intervalo.setText(residenteMedicamento.getIntervalo());
+            ResidenteMedicamentoModel residenteMedicamentoModel = medicamentos.get(position);
+            holder.medicamento.setText((int) residenteMedicamentoModel.getIdMedicamento());
+            holder.dosagem.setText(residenteMedicamentoModel.getDosagem());
+            holder.intervalo.setText((int) residenteMedicamentoModel.getIntervalo());
 
 
         }
@@ -127,7 +127,7 @@ public class MedicamentoResidenteAdapter extends RecyclerView.Adapter<Medicament
     }
 
     public void deleteMedicamento() {
-        Residente_Medicamento medicamento = medicamentos.get(selectedPos);
+        ResidenteMedicamentoModel medicamento = medicamentos.get(selectedPos);
         int id = selectedPos;
         if (medicamentos.remove(medicamento)) {
             Toast.makeText(context, "Exclusão realizada com sucesso!", Toast.LENGTH_SHORT).show();

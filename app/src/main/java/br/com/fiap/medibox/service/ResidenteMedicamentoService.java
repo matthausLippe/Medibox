@@ -23,6 +23,12 @@ public interface ResidenteMedicamentoService {
     @GET("residenteMedicamento/residente/{id}")
     Call<List<ResidenteMedicamentoModel>> findByIdResidente(@Path("id") long id);
 
+    @GET("residenteMedicamento/cliente/{id}")
+    Call<List<ResidenteMedicamentoModel>> findByIdCliente(@Path("id") long id);
+
+    @GET("residenteMedicamento/medicamento/{id}")
+    Call<List<ResidenteMedicamentoModel>> findByIdMedicamento(@Path("id") long id);
+
     @POST("residenteMedicamento/")
     Call<ResidenteMedicamentoModel> save(@Body ResidenteMedicamentoModel residenteMedicamentoModel);
 

@@ -2,7 +2,6 @@ package br.com.fiap.medibox.service;
 
 import java.util.List;
 
-
 import br.com.fiap.medibox.model.EnderecoModel;
 import retrofit2.Call;
 import retrofit2.http.Body;
@@ -16,6 +15,9 @@ public interface EnderecoService {
 
     @GET("endereco/")
     Call<List<EnderecoModel>> findAll();
+
+    @GET("caixa/endereco/{id}")
+    Call<List<EnderecoModel>> findByIdCaixa(@Path("id") long id);
 
     @GET("endereco/{id}")
     Call<EnderecoModel> findById(@Path("id") long id);

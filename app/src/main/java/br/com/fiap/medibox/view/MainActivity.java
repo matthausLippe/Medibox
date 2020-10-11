@@ -1,12 +1,5 @@
 package br.com.fiap.medibox.view;
 
-import androidx.annotation.NonNull;
-import androidx.appcompat.app.ActionBarDrawerToggle;
-import androidx.appcompat.app.AppCompatActivity;
-import androidx.appcompat.widget.Toolbar;
-import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
-
 import android.app.AlarmManager;
 import android.app.PendingIntent;
 import android.content.Intent;
@@ -14,23 +7,37 @@ import android.os.Bundle;
 import android.view.MenuItem;
 import android.widget.Toast;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.lifecycle.MutableLiveData;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.google.android.material.navigation.NavigationView;
 
-import java.util.ArrayList;
-import java.util.Calendar;
+import java.sql.Date;
 import java.util.List;
 
 import br.com.fiap.medibox.AlarmReceiver;
 import br.com.fiap.medibox.R;
+import br.com.fiap.medibox.model.TimeLineModel;
 import br.com.fiap.medibox.view.activity.ListaResidenteActivity;
 import br.com.fiap.medibox.view.activity.LoginActivity;
 import br.com.fiap.medibox.view.fragment.ConfiguracoesFragment;
 import br.com.fiap.medibox.view.fragment.MedicamentosFragment;
 import br.com.fiap.medibox.view.fragment.TimeLineFragment;
+import br.com.fiap.medibox.viewModel.TimeLineViewModel;
 
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
+
+    private TimeLineViewModel timeLineViewModel;
+
+    private MutableLiveData<List<TimeLineViewModel>> list;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -41,6 +48,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         drawer = findViewById(R.id.drawer_layout);
         NavigationView navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+        timeLineViewModel = new ViewModelProvider(this).get(TimeLineViewModel.class);
 
         ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar,
                 R.string.navigation_drawer_open, R.string.navigation_drawer_close);
@@ -64,9 +72,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         PendingIntent broadcast = PendingIntent.getBroadcast(this, 100, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
 
         //chama query que traz o medicamento/paciente
-        //chamaMedicamentoPaciente();
-        //List listaMedicaPaciente =
-
+        List<TimeLineModel> lista = timeLineViewModel.getLitNotification(new Date(new java.util.Date().getTime()));
+        String nomeResidente = lista.get(0).getResidenteModel().getNomeResidente();
 
     }
 

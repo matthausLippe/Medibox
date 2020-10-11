@@ -16,6 +16,12 @@ public interface TimeLineService {
     @GET("timeLine/")
     Call<List<TimeLineModel>> findAll();
 
+    @GET("timeline/cliente/{id}")
+    Call<List<TimeLineModel>> findByIdCliente(@Path("id") long id);
+
+    @GET("timeline/residenteMedicamento/{id}")
+    Call<List<TimeLineModel>> findByIdResidenteMedicamento(@Path("id") long id);
+
     @GET("timeLine/{id}")
     Call<TimeLineModel> findById(@Path("id") long id);
 

@@ -5,6 +5,8 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 @Entity(tableName = "tb_endereco")
 public class EnderecoModel {
 
@@ -13,6 +15,7 @@ public class EnderecoModel {
 
     @ForeignKey(entity = ClienteModel.class, parentColumns = "idCliente", childColumns = "idCliente")
     @ColumnInfo(name = "idCliente")
+    @SerializedName("clienteModel")
     private long idCliente;
 
     @ColumnInfo(name = "rua")

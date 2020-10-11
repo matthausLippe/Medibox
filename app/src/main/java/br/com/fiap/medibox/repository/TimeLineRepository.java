@@ -4,7 +4,11 @@ import android.app.Application;
 import android.content.Context;
 import android.widget.Toast;
 
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
+
 import java.text.SimpleDateFormat;
+import java.sql.Date;
 import java.util.List;
 
 import br.com.fiap.medibox.dao.TimeLineDao;
@@ -25,7 +29,8 @@ public class TimeLineRepository {
     private TimeLineDao timeLineDao;
     private TimeLineService timeLineService;
     private TimeLineModel timeLineModel;
-    private List<TimeLineModel> list;
+    private MutableLiveData<List<TimeLineModel>> list = new MutableLiveData<>();
+    private List<TimeLineModel> lista;
 
 
     public TimeLineRepository(Application application) {
@@ -168,16 +173,16 @@ public class TimeLineRepository {
         return timeLineModel;
     }
 
-    public List<TimeLineModel> getList(){
+    public LiveData<List<TimeLineModel>> getList(){
         try{
             Call<List<TimeLineModel>> call = timeLineService.findAll();
             call.enqueue(new Callback<List<TimeLineModel>>() {
                 @Override
                 public void onResponse(Call<List<TimeLineModel>> call, Response<List<TimeLineModel>> response) {
                     if(response.isSuccessful()){
-                        list = response.body();
-                        for (int i = 0; i<list.size(); i++){
-                            TimeLineModel timeLine = list.get(i);
+                        list.postValue(response.body());
+                        for (int i = 0; i<list.getValue().size(); i++){
+                            TimeLineModel timeLine = list.getValue().get(i);
                             if(timeLine.getIdTimeLine() == timeLineDao.getById(timeLine.getIdTimeLine()).getIdTimeLine()){
                                 MyDataBase.databaseWriteExecutor.execute(() ->{
                                     timeLineDao.update(timeLine);
@@ -204,16 +209,19 @@ public class TimeLineRepository {
     }
 
 
-
-
-
-    public List<TimeLineModel> getListHoje(String date){
+    public List<TimeLineModel> getListNotification(Date date){
         try{
-            timeLineDao.getByDate(date);
+            MyDataBase.databaseWriteExecutor.execute(new Runnable() {
+                @Override
+                public void run() {
+                    lista = timeLineDao.getByDate(date);
+                }
+            });
+
         }catch (Exception e){
             Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
         }
-        return list;
+        return lista;
     }
 
 

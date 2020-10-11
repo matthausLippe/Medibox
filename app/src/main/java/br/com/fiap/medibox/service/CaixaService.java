@@ -16,6 +16,9 @@ public interface CaixaService {
     @GET("caixa/")
     Call<List<CaixaModel>> findAll();
 
+    @GET("caixa/cliente/{id}")
+    Call<List<CaixaModel>> findByIdCliente(@Path("id") long id);
+
     @GET("caixa/{id}")
     Call<CaixaModel> findById(@Path("id") long id);
 
@@ -27,6 +30,5 @@ public interface CaixaService {
 
     @DELETE("caixa/{id}")
     Call<CaixaModel> delete(@Path("id") long id);
-
 
 }

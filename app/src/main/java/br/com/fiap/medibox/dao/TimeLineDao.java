@@ -6,6 +6,7 @@ import androidx.room.Insert;
 import androidx.room.Query;
 import androidx.room.Update;
 
+import java.sql.Date;
 import java.util.List;
 
 import br.com.fiap.medibox.model.TimeLineModel;
@@ -25,7 +26,7 @@ public interface TimeLineDao {
     List<TimeLineModel> getByIdResidenteMedicamento(long id);
 
     @Query("SELECT * FROM tb_timeLine WHERE dataHoraMedicacao LIKE :data ")
-    List<TimeLineModel> getByDate(String data); //AAAAMMdd
+    List<TimeLineModel> getByDate(Date data); //AAAAMMdd
 
 
 

@@ -5,6 +5,8 @@ import androidx.room.Entity;
 import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 
+import com.google.gson.annotations.SerializedName;
+
 @Entity(tableName = "tb_gaveta")
 public class GavetaModel {
 
@@ -13,6 +15,7 @@ public class GavetaModel {
 
 	@ForeignKey(entity = CaixaModel.class, parentColumns = "idCaixa", childColumns = "idCaixa")
 	@ColumnInfo(name = "idCaixa")
+	@SerializedName("caixaModel")
 	private long idCaixa;
 
 	@ColumnInfo(name = "temperatura")

@@ -16,6 +16,9 @@ public interface ResidenteService {
     @GET("residente/")
     Call<List<ResidenteModel>> findAll();
 
+    @GET("residente/cliente/{id}")
+    Call<List<ResidenteModel>> findByIdCliente(@Path("id") long id);
+
     @GET("residente/{id}")
     Call<ResidenteModel> findById(@Path("id") long id);
 

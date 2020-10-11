@@ -7,6 +7,7 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.google.gson.annotations.SerializedName;
 
 import java.sql.Date;
 import java.util.ArrayList;
@@ -19,12 +20,13 @@ public class ResidenteModel {
 
     @ForeignKey(entity = ClienteModel.class, parentColumns = "idCliente", childColumns = "idCliente")
     @ColumnInfo(name = "idCliente")
+    @SerializedName("clienteModel")
     private long idCliente;
 
     @ColumnInfo(name = "nomeResidente")
     private String nomeResidente;
 
-    @JsonFormat(pattern = "aaaa-MM-dd")
+    @JsonFormat(pattern = "yyyy-MM-dd@HH:mm")
     @ColumnInfo(name = "dataNascimento")
     private Date dataNascimento;
 
@@ -50,7 +52,6 @@ public class ResidenteModel {
 
     @Ignore
     private ArrayList<ResidenteMedicamentoModel> residenteMedicamento;
-
 
     public ResidenteModel(String nomeResidente, Date dataNascimento, String sexo, String nomeResponsavel, String telResponsavel, String quarto, String observacoes) {
         this.nomeResidente = nomeResidente;

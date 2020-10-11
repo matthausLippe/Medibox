@@ -3,6 +3,7 @@ package br.com.fiap.medibox.service;
 import java.util.List;
 
 import br.com.fiap.medibox.model.MedicamentoModel;
+import br.com.fiap.medibox.model.TimeLineModel;
 import retrofit2.Call;
 import retrofit2.http.Body;
 import retrofit2.http.DELETE;
@@ -15,6 +16,9 @@ public interface MedicamentoService {
 
     @GET("medicamento/")
     Call<List<MedicamentoModel>> findAll();
+
+    @GET("medicamento/gaveta/{id}")
+    Call<List<TimeLineModel>> findByIdGaveta(@Path("id") long id);
 
     @GET("medicamento/{id}")
     Call<MedicamentoModel> findById(@Path("id") long id);

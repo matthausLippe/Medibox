@@ -6,6 +6,9 @@ import androidx.room.ForeignKey;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.google.gson.annotations.SerializedName;
+
 import java.sql.Date;
 
 
@@ -17,19 +20,18 @@ public class ResidenteMedicamentoModel {
 
     @ForeignKey(entity = ResidenteModel.class, parentColumns = "idResidente", childColumns = "idResidente")
     @ColumnInfo(name = "idResidente")
+    @SerializedName("residenteModel")
     private long idResidente;
 
     @ForeignKey(entity = MedicamentoModel.class, parentColumns = "idMedicamento", childColumns = "idMedicamento")
     @ColumnInfo(name = "idMedicamento")
+    @SerializedName("medicamentoModel")
     private long idMedicamento;
 
     @ForeignKey(entity = ClienteModel.class, parentColumns = "idCliente", childColumns = "idCliente")
     @ColumnInfo(name = "idCliente")
+    @SerializedName("clienteModel")
     private long idCliente;
-
-    @ForeignKey(entity = GavetaModel.class, parentColumns = "idGaveta", childColumns = "idGaveta")
-    @ColumnInfo(name = "idGaveta")
-    private long idGaveta;
 
     @ColumnInfo(name = "dosagem")
     private String dosagem;
@@ -39,21 +41,19 @@ public class ResidenteMedicamentoModel {
 
     @TypeConverters(Converter.class)
     @ColumnInfo(name = "dataHoraInicio")
+    @JsonFormat(pattern = "yyyy-MM-dd@HH:mm")
     private Date dataHoraInicio;
-
-
 
     @ColumnInfo(name = "doses")
     private int doses;
 
 
     public ResidenteMedicamentoModel(long idResidente, long idMedicamento, long idCliente,
-                                     long idGaveta, String dosagem, double intervalo, Date dataHoraInicio, int doses) {
+                                     String dosagem, double intervalo, Date dataHoraInicio, int doses) {
 
         this.idResidente = idResidente;
         this.idMedicamento = idMedicamento;
         this.idCliente = idCliente;
-        this.idGaveta = idGaveta;
         this.dosagem = dosagem;
         this.intervalo = intervalo;
         this.dataHoraInicio = dataHoraInicio;
@@ -92,14 +92,6 @@ public class ResidenteMedicamentoModel {
 
     public void setIdCliente(long idCliente) {
         this.idCliente = idCliente;
-    }
-
-    public long getIdGaveta() {
-        return idGaveta;
-    }
-
-    public void setIdGaveta(long idGaveta) {
-        this.idGaveta = idGaveta;
     }
 
     public String getDosagem() {

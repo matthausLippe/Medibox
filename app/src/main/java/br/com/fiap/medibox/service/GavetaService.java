@@ -16,6 +16,9 @@ public interface GavetaService {
     @GET("gaveta/")
     Call<List<GavetaModel>> findAll();
 
+    @GET("gaveta/caixa/{id}")
+    Call<List<GavetaModel>> findByIdCaixa(@Path("id") long id);
+
     @GET("gaveta/{id}")
     Call<GavetaModel> findById(@Path("id") long id);
 

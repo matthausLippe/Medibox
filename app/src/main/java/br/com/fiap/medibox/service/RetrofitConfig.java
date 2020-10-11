@@ -12,7 +12,7 @@ public class RetrofitConfig {
     private static final String BASE_URL = "http://192.168.0.5:8080/";
 
     public static Retrofit getRetrofitInstance() {
-        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd").create();
+        Gson gson = new GsonBuilder().setDateFormat("yyyy-MM-dd@HH:mm").create();
         if (retrofit == null) {
             retrofit = new Retrofit.Builder()
                     .baseUrl(BASE_URL)
