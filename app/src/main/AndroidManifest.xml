@@ -20,6 +20,11 @@
             android:name=".view.MainActivity"
             android:theme="@style/AppTheme.NoActionBar">
         </activity>
+        <receiver android:name=".AlarmReceiver">
+            <intent-filter>
+                <action android:name="action.DISPLAY_NOTIFICATION"/>
+            </intent-filter>
+        </receiver>
     </application>
 
 </manifest>
