@@ -8,6 +8,8 @@ import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.AutoCompleteTextView;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.SeekBar;
@@ -33,6 +35,9 @@ public class CadastroMedicamentoResidenteFragment extends Fragment {
     private List<ResidenteMedicamentoModel> list;
 
 
+    private AutoCompleteTextView medicamentoTxt;
+
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         return inflater.inflate(R.layout.fragment_cadastro_residente_medicamento, container, false);
@@ -46,6 +51,16 @@ public class CadastroMedicamentoResidenteFragment extends Fragment {
         textDosesSeekBar = view.findViewById(R.id.textDosesSeekBar);
         seekBar = view.findViewById(R.id.seekBarDoses);
         cancelar = view.findViewById(R.id.buttonCancelar);
+
+
+        String[] fruits = {"Apple", "Appy", "Banana", "Cherry", "Date", "Grape", "Kiwi", "Mango", "Pear"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (context, android.R.layout.select_dialog_item, fruits);
+        medicamentoTxt = (AutoCompleteTextView) view.findViewById(R.id.idSelecioneMedicamento);
+        medicamentoTxt.setThreshold(1);
+        medicamentoTxt.setAdapter(adapter);
+
+
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
