@@ -156,11 +156,24 @@ public class ResidenteMedicamentoRepository {
                 if (response.isSuccessful()) {
                     list.postValue(response.body());
                 }
+                else{
+                    Log.e("ResidenteService   ", "Erro ao buscar residentes:" );
+                }
             }
             @Override
             public void onFailure(Call<List<ResidenteMedicamentoModel>> call, Throwable t) {
                 Log.e("ResidenteService   ", "Erro ao buscar residentes:" + t.getMessage());
                 Toast.makeText(context,"Falha ao conectar ao servidor!",Toast.LENGTH_SHORT).show();
+            }
+        });
+        return list;
+    }
+
+    public MutableLiveData<List<ResidenteMedicamentoModel>> getByIdResidenteDb(long id){
+        MyDataBase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                list.postValue(residenteMedicamentoDao.getByIdResidente(id));
             }
         });
         return list;

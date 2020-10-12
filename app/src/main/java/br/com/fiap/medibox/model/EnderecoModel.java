@@ -3,17 +3,20 @@ package br.com.fiap.medibox.model;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "tb_endereco")
+@Entity(tableName = "tb_endereco", foreignKeys = {
+        @ForeignKey(entity = ClienteModel.class, parentColumns = "id", childColumns = "idCliente")
+})
 public class EnderecoModel {
 
     @PrimaryKey()
     private long idEndereco;
 
-    @ForeignKey(entity = ClienteModel.class, parentColumns = "idCliente", childColumns = "idCliente")
+
     @ColumnInfo(name = "idCliente")
     @SerializedName("clienteModel")
     private long idCliente;
@@ -39,10 +42,33 @@ public class EnderecoModel {
     @ColumnInfo(name = "cep")
     private String cep;
 
+    @Ignore
+    private ClienteModel cliente;
 
 
     public EnderecoModel() {
 
+    }
+
+    @Ignore
+    public EnderecoModel(long idEndereco, long idCliente, String rua, String numero, String complemento, String bairro, String cidade, String estado, String cep) {
+        this.idEndereco = idEndereco;
+        this.idCliente = idCliente;
+        this.rua = rua;
+        this.numero = numero;
+        this.complemento = complemento;
+        this.bairro = bairro;
+        this.cidade = cidade;
+        this.estado = estado;
+        this.cep = cep;
+    }
+
+    public ClienteModel getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(ClienteModel cliente) {
+        this.cliente = cliente;
     }
 
     public long getIdCliente() {

@@ -3,6 +3,7 @@ package br.com.fiap.medibox.dao;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -22,10 +23,10 @@ public interface GavetaDao {
     @Query("SELECT * FROM tb_gaveta WHERE idCaixa LIKE :id ")
     List<GavetaModel> getByIdCaixa(long id);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<GavetaModel> list);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(GavetaModel gavetaModel);
 
     @Update
@@ -33,4 +34,7 @@ public interface GavetaDao {
 
     @Delete
     void delete(GavetaModel gavetaModel);
+
+    @Query("DELETE FROM tb_gaveta")
+    void deleteAll();
 }

@@ -68,15 +68,11 @@ public class MedicamentoResidenteAdapter extends RecyclerView.Adapter<Medicament
                         public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
                             textDosesSeekBar.setText(Integer.toString(i));
                         }
-
                         @Override
                         public void onStartTrackingTouch(SeekBar seekBar) {
-
                         }
-
                         @Override
                         public void onStopTrackingTouch(SeekBar seekBar) {
-
                         }
                     });
 
@@ -93,11 +89,9 @@ public class MedicamentoResidenteAdapter extends RecyclerView.Adapter<Medicament
             });
         } else {
             ResidenteMedicamentoModel residenteMedicamentoModel = medicamentos.get(position);
-            holder.medicamento.setText((int) residenteMedicamentoModel.getIdMedicamento());
+            holder.medicamento.setText(Double.toString(residenteMedicamentoModel.getIdMedicamento()));
             holder.dosagem.setText(residenteMedicamentoModel.getDosagem());
-            holder.intervalo.setText((int) residenteMedicamentoModel.getIntervalo());
-
-
+            holder.intervalo.setText(Double.toString(residenteMedicamentoModel.getIntervalo()));
         }
         holder.setLongClickListener(new MyLongClickListener() {
             @Override

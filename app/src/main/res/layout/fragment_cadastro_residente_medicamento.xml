@@ -21,7 +21,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textIntervalo" />
 
         <EditText
-            android:id="@+id/idDosagem"
+            android:id="@+id/idDosagemMedicamento"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -52,7 +52,7 @@
             android:textColor="#000000"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/idDosagem"></TextView>
+            app:layout_constraintTop_toBottomOf="@+id/idDosagemMedicamento"></TextView>
 
         <EditText
             android:id="@+id/idHoraInicio"
@@ -126,18 +126,6 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/idHoraInicio"></TextView>
 
-        <TextView
-            android:id="@+id/textGaveta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="10dp"
-            android:text="Gaveta:"
-            android:textColor="#000000"
-            android:textSize="14sp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textDosesSeekBar"></TextView>
-
         <SeekBar
             android:id="@+id/seekBarDoses"
             android:layout_width="0dp"
@@ -162,38 +150,29 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/seekBarDoses" />
 
-        <Spinner
-            android:id="@+id/spinnerGaveta"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="20dp"
-            android:layout_marginTop="12dp"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/textGaveta" />
-
         <Button
             android:id="@+id/buttonCancelar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="24dp"
+            android:layout_marginTop="90dp"
             android:background="@drawable/loginbutton"
             android:text="Cancelar"
             android:textColor="#ffffff"
             app:layout_constraintEnd_toStartOf="@+id/buttonGravar"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerGaveta" />
+            app:layout_constraintTop_toBottomOf="@+id/seekBarDoses" />
 
         <Button
             android:id="@+id/buttonGravar"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
+            android:layout_marginTop="90dp"
             android:background="@drawable/loginbutton"
             android:text="Gravar"
             android:textColor="#ffffff"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toEndOf="@+id/buttonCancelar"
-            app:layout_constraintTop_toBottomOf="@+id/spinnerGaveta" />
+            app:layout_constraintTop_toBottomOf="@+id/seekBarDoses" />
 
         <TextView
             android:id="@+id/textIntervalo"
@@ -210,9 +189,9 @@
             android:id="@+id/calendarView"
             android:layout_width="307dp"
             android:layout_height="299dp"
-            android:layout_marginEnd="84dp"
             android:layout_marginTop="12dp"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textDataInicio" />
 
 

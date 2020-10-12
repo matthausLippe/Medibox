@@ -3,11 +3,14 @@ package br.com.fiap.medibox.model;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.google.gson.annotations.SerializedName;
 
-@Entity(tableName = "tb_medicamento")
+@Entity(tableName = "tb_medicamento", foreignKeys = {
+        @ForeignKey(entity = GavetaModel.class, parentColumns = "idGaveta", childColumns = "idGaveta")
+})
 public class MedicamentoModel {
 
     @PrimaryKey()
@@ -19,7 +22,7 @@ public class MedicamentoModel {
     @ColumnInfo(name = "laboratorio")
     private String laboratorio;
 
-    @ForeignKey(entity = GavetaModel.class, parentColumns = "idGaveta", childColumns = "idGaveta")
+
     @ColumnInfo(name = "idGaveta")
     @SerializedName("gavetaModel")
     private long idGaveta;
@@ -30,6 +33,33 @@ public class MedicamentoModel {
     @ColumnInfo(name = "descricao")
     private String descricao;
 
+    @Ignore
+    private GavetaModel gaveta;
+
+    public MedicamentoModel() {
+
+    }
+
+    @Ignore
+    public MedicamentoModel(long idMedicamento, String descricao, String dosagem, String laboratorio, String nomeMedicamento, long idGaveta) {
+        this.idMedicamento = idMedicamento;
+        this.nomeMedicamento = nomeMedicamento;
+        this.laboratorio = laboratorio;
+        this.idGaveta = idGaveta;
+        this.dosagem = dosagem;
+        this.descricao = descricao;
+    }
+
+
+
+
+    public GavetaModel getGaveta() {
+        return gaveta;
+    }
+
+    public void setGaveta(GavetaModel gaveta) {
+        this.gaveta = gaveta;
+    }
 
     public long getIdMedicamento() {
         return idMedicamento;

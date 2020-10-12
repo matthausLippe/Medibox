@@ -3,6 +3,7 @@ package br.com.fiap.medibox.dao;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -21,10 +22,10 @@ public interface CaixaDao {
     @Query("SELECT * FROM tb_caixa WHERE idCliente LIKE :id ")
     List<CaixaModel> getByIdCliente(long id);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<CaixaModel> listCaixa);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(CaixaModel caixaModel);
 
     @Update
@@ -32,4 +33,7 @@ public interface CaixaDao {
 
     @Delete
     void delete(CaixaModel caixaModel);
+
+    @Query("DELETE FROM tb_caixa")
+    void deleteAll();
 }

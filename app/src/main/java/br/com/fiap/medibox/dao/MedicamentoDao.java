@@ -3,6 +3,7 @@ package br.com.fiap.medibox.dao;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -22,10 +23,10 @@ public interface MedicamentoDao {
     @Query("SELECT * FROM tb_medicamento WHERE idGaveta LIKE :id")
     MedicamentoModel getByIdGaveta(long id);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<MedicamentoModel> list);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(MedicamentoModel medicamentoModel);
 
     @Update
@@ -33,4 +34,7 @@ public interface MedicamentoDao {
 
     @Delete
     void delete(MedicamentoModel medicamentoModel);
+
+    @Query("DELETE FROM tb_medicamento")
+    void deleteAll();
 }

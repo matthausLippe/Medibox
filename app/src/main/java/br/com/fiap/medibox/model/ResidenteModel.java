@@ -7,18 +7,21 @@ import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.google.gson.annotations.SerializedName;
 
 import java.sql.Date;
-import java.util.ArrayList;
+import java.util.List;
 
-@Entity(tableName = "tb_residente")
+@Entity(tableName = "tb_residente", foreignKeys = {
+        @ForeignKey(entity = ClienteModel.class, parentColumns = "id", childColumns = "idCliente")
+})
 public class ResidenteModel {
 
     @PrimaryKey()
+    @ColumnInfo(name = "idResidente")
     private long idResidente;
 
-    @ForeignKey(entity = ClienteModel.class, parentColumns = "idCliente", childColumns = "idCliente")
     @ColumnInfo(name = "idCliente")
     @SerializedName("clienteModel")
     private long idCliente;
@@ -26,7 +29,7 @@ public class ResidenteModel {
     @ColumnInfo(name = "nomeResidente")
     private String nomeResidente;
 
-    @JsonFormat(pattern = "yyyy-MM-dd@HH:mm")
+    @JsonFormat(pattern = "yyyy-MM-dd")
     @ColumnInfo(name = "dataNascimento")
     private Date dataNascimento;
 
@@ -45,15 +48,22 @@ public class ResidenteModel {
     @ColumnInfo(name = "observacoes")
     private String observacoes;
 
-    @ForeignKey(entity = ResidenteMedicamentoModel.class, parentColumns = "idResidenteMedicamento"
-            , childColumns = "idResidenteMedicamento")
-    @ColumnInfo(name = "idResidenteMedicamento")
-    private long idResidenteMedicamento;
+    @Ignore
+    @JsonIgnore
+    private ClienteModel cliente;
 
     @Ignore
-    private ArrayList<ResidenteMedicamentoModel> residenteMedicamento;
+    @JsonIgnore
+    private List<ResidenteMedicamentoModel> residenteMedicamento;
 
-    public ResidenteModel(String nomeResidente, Date dataNascimento, String sexo, String nomeResponsavel, String telResponsavel, String quarto, String observacoes) {
+    public ResidenteModel() {
+
+    }
+
+    @Ignore
+    public ResidenteModel(long idResidente, Date dataNascimento, String nomeResidente, String nomeResponsavel, String observacoes, String quarto, String sexo, String telResponsavel, long idCliente) {
+        this.idResidente = idResidente;
+        this.idCliente = idCliente;
         this.nomeResidente = nomeResidente;
         this.dataNascimento = dataNascimento;
         this.sexo = sexo;
@@ -61,6 +71,22 @@ public class ResidenteModel {
         this.telResponsavel = telResponsavel;
         this.quarto = quarto;
         this.observacoes = observacoes;
+    }
+
+    public long getIdResidente() {
+        return idResidente;
+    }
+
+    public void setIdResidente(long idResidente) {
+        this.idResidente = idResidente;
+    }
+
+    public ClienteModel getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(ClienteModel clienteModel) {
+        this.cliente = clienteModel;
     }
 
     public long getIdCliente() {
@@ -71,12 +97,12 @@ public class ResidenteModel {
         this.idCliente = idCliente;
     }
 
-    public long getIdResidente() {
+    public long getId() {
         return idResidente;
     }
 
-    public void setIdResidente(long idResidente) {
-        this.idResidente = idResidente;
+    public void setId(long id) {
+        this.idResidente = id;
     }
 
     public String getNomeResidente() {
@@ -135,19 +161,11 @@ public class ResidenteModel {
         this.observacoes = observacoes;
     }
 
-    public long getIdResidenteMedicamento() {
-        return idResidenteMedicamento;
-    }
-
-    public void setIdResidenteMedicamento(long idResidenteMedicamento) {
-        this.idResidenteMedicamento = idResidenteMedicamento;
-    }
-
-    public ArrayList<ResidenteMedicamentoModel> getResidenteMedicamento() {
+    public List<ResidenteMedicamentoModel> getResidenteMedicamento() {
         return residenteMedicamento;
     }
 
-    public void setResidenteMedicamento(ArrayList<ResidenteMedicamentoModel> residenteMedicamento) {
+    public void setResidenteMedicamento(List<ResidenteMedicamentoModel> residenteMedicamento) {
         this.residenteMedicamento = residenteMedicamento;
     }
 }

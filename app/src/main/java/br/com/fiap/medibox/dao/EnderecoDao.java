@@ -3,6 +3,7 @@ package br.com.fiap.medibox.dao;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -22,10 +23,10 @@ public interface EnderecoDao {
     @Query("SELECT * FROM tb_endereco WHERE idCliente LIKE :id ")
     List<EnderecoModel> getByIdCliente(long id);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<EnderecoModel> list);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(EnderecoModel enderecoModel);
 
     @Update
@@ -33,6 +34,9 @@ public interface EnderecoDao {
 
     @Delete
     void delete(EnderecoModel enderecoModel);
+
+    @Query("DELETE FROM tb_endereco")
+    void deleteAll();
 
 
 }

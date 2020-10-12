@@ -11,17 +11,20 @@ import com.google.gson.annotations.SerializedName;
 
 import java.sql.Date;
 
-@Entity(tableName = "tb_timeLine")
+@Entity(tableName = "tb_timeLine", foreignKeys = {
+        @ForeignKey(entity = ResidenteMedicamentoModel.class, parentColumns = "idResidenteMedicamento", childColumns = "idResidenteMedicamento"),
+        @ForeignKey(entity = ClienteModel.class, parentColumns = "id", childColumns = "idCliente")
+})
 public class TimeLineModel {
 
     @PrimaryKey()
     private long idTimeLine;
 
-    @ForeignKey(entity = ResidenteMedicamentoModel.class, parentColumns = "idResidenteMedicamento", childColumns = "idResidenteMedicamento")
+
     @ColumnInfo(name = "idResidenteMedicamento")
     private long idResidenteMedicamento;
 
-    @ForeignKey(entity = ClienteModel.class, parentColumns = "idCliente", childColumns = "idCliente")
+
     @ColumnInfo(name = "idCliente")
     @SerializedName("clienteModel")
     private long idCliente;
@@ -33,41 +36,52 @@ public class TimeLineModel {
     @ColumnInfo(name = "status")
     private int status;
 
+    @Ignore
+    private ClienteModel cliente;
+
+    @Ignore
+    private ResidenteModel residente;
+
+    @Ignore
+    private ResidenteMedicamentoModel residenteMedicamento;
+
     public static int MEDICADO = 1;
     public static int NAO_MEDICADO = 0;
-
-    @Ignore
-    private ClienteModel clienteModel;
-
-    @Ignore
-    private ResidenteModel residenteModel;
 
     public TimeLineModel() {
 
     }
 
     @Ignore
-    public TimeLineModel(long idResidenteMedicamento, long idCliente, Date dataHoraMedicacao, int status) {
+    public TimeLineModel(long idResidenteMedicamento,Date dataHoraMedicacao, long idCliente,  int status) {
         this.idResidenteMedicamento = idResidenteMedicamento;
         this.idCliente = idCliente;
         this.dataHoraMedicacao = dataHoraMedicacao;
         this.status = status;
     }
 
-    public ClienteModel getClienteModel() {
-        return clienteModel;
+    public ClienteModel getCliente() {
+        return cliente;
     }
 
-    public void setClienteModel(ClienteModel clienteModel) {
-        this.clienteModel = clienteModel;
+    public void setCliente(ClienteModel cliente) {
+        this.cliente = cliente;
     }
 
-    public ResidenteModel getResidenteModel() {
-        return residenteModel;
+    public ResidenteModel getResidente() {
+        return residente;
     }
 
-    public void setResidenteModel(ResidenteModel residenteModel) {
-        this.residenteModel = residenteModel;
+    public void setResidente(ResidenteModel residente) {
+        this.residente = residente;
+    }
+
+    public ResidenteMedicamentoModel getResidenteMedicamento() {
+        return residenteMedicamento;
+    }
+
+    public void setResidenteMedicamento(ResidenteMedicamentoModel residenteMedicamento) {
+        this.residenteMedicamento = residenteMedicamento;
     }
 
     public long getIdTimeLine() {

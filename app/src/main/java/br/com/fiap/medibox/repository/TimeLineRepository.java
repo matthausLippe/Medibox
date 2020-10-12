@@ -2,13 +2,14 @@ package br.com.fiap.medibox.repository;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
 
 import androidx.lifecycle.LiveData;
 import androidx.lifecycle.MutableLiveData;
 
-import java.text.SimpleDateFormat;
 import java.sql.Date;
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import br.com.fiap.medibox.dao.TimeLineDao;
@@ -208,6 +209,52 @@ public class TimeLineRepository {
         return list;
     }
 
+    public MutableLiveData<List<TimeLineModel>> getListService() {
+        Call<List<TimeLineModel>> call = timeLineService.findAll();
+        call.enqueue(new Callback<List<TimeLineModel>>() {
+            @Override
+            public void onResponse(Call<List<TimeLineModel>> call, Response<List<TimeLineModel>> response) {
+                if (response.isSuccessful()) {
+                    list.postValue(response.body());
+                }
+            }
+            @Override
+            public void onFailure(Call<List<TimeLineModel>> call, Throwable t) {
+                Log.e("ResidenteService   ", "Erro ao buscar residentes:" + t.getMessage());
+                Toast.makeText(context,"Falha ao conectar ao servidor!",Toast.LENGTH_SHORT).show();
+            }
+        });
+        return list;
+    }
+
+    public void saveDb(TimeLineModel model) {
+        MyDataBase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    timeLineModel = timeLineDao.getById(model.getIdTimeLine());
+                    if (timeLineModel == null) {
+                        timeLineDao.insert(model);
+                        Log.e("TimeLineRepository", "TimeLine: "+model.getIdTimeLine()+" inserido no DB");
+                    } else {
+                        timeLineDao.update(model);
+                        Log.e("TimeLineRepository", "TimeLine: "+model.getIdTimeLine()+" alterado no DB");
+                    }
+                } catch (Exception e) {
+                    Log.e("TimeLineRepository", "Falha ao realizar o insert " + e.getMessage());
+                }
+            }
+        });
+    }
+
+    public void saveListDb(List<TimeLineModel> lista) {
+        if (lista != null) {
+            for(int i = 0; i<lista.size(); i++){
+                TimeLineModel model = lista.get(i);
+                saveDb(model);
+            }
+        }
+    }
 
     public List<TimeLineModel> getListNotification(Date date){
         try{

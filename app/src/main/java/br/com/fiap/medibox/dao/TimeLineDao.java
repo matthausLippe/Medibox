@@ -3,6 +3,7 @@ package br.com.fiap.medibox.dao;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
@@ -28,12 +29,10 @@ public interface TimeLineDao {
     @Query("SELECT * FROM tb_timeLine WHERE dataHoraMedicacao LIKE :data ")
     List<TimeLineModel> getByDate(Date data); //AAAAMMdd
 
-
-
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<TimeLineModel> list);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(TimeLineModel timeLineModel);
 
     @Update
@@ -41,4 +40,7 @@ public interface TimeLineDao {
 
     @Delete
     void delete(TimeLineModel timeLineModel);
+
+    @Query("DELETE FROM tb_timeLine")
+    void deleteAll();
 }

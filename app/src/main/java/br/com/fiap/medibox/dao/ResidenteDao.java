@@ -1,21 +1,22 @@
 package br.com.fiap.medibox.dao;
 
-import androidx.lifecycle.LiveData;
 import androidx.room.Dao;
 import androidx.room.Delete;
 import androidx.room.Insert;
+import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
 import androidx.room.Update;
 
 import java.util.List;
 
 import br.com.fiap.medibox.model.ResidenteModel;
+import br.com.fiap.medibox.model.ResidenteWithCliente;
 
 @Dao
 public interface ResidenteDao {
 
     @Query("SELECT * FROM tb_residente")
-    LiveData<List<ResidenteModel>> getAll();
+    List<ResidenteModel> getAll();
 
     @Query("SELECT * FROM tb_residente WHERE idResidente LIKE :id LIMIT 1")
     ResidenteModel getById(long id);
@@ -23,10 +24,13 @@ public interface ResidenteDao {
     @Query("SELECT * FROM tb_residente WHERE idCliente LIKE :id ")
     List<ResidenteModel> getByIdCliente(long id);
 
-    @Insert
+    @Query("SELECT * FROM tb_residente INNER JOIN tb_cliente ON tb_residente.idCliente = tb_cliente.id WHERE tb_residente.idResidente LIKE :id")
+    ResidenteWithCliente getResidenteCliente(long id);
+
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insertAll(List<ResidenteModel> list);
 
-    @Insert
+    @Insert(onConflict = OnConflictStrategy.REPLACE)
     void insert(ResidenteModel residenteModel);
 
     @Update
@@ -34,4 +38,7 @@ public interface ResidenteDao {
 
     @Delete
     void delete(ResidenteModel residenteModel);
+
+    @Query("DELETE FROM tb_residente")
+    void deleteAll();
 }

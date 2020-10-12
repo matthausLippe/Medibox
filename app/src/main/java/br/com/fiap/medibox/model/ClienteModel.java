@@ -2,38 +2,53 @@ package br.com.fiap.medibox.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
+
+import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "tb_cliente")
 public class ClienteModel {
 
     @PrimaryKey()
-    private long idCliente = 0;
+    @ColumnInfo(name = "id")
+    @SerializedName("idCliente")
+    private long id;
 
     @ColumnInfo(name = "nomeCliente")
-    private String nomeCliente = "";
+    private String nomeCliente;
 
     @ColumnInfo(name = "cpfCnpj")
-    private String cpfCnpj = "";
+    private String cpfCnpj;
 
     @ColumnInfo(name = "email")
-    private String email = "";
+    private String email;
 
     @ColumnInfo(name = "senha")
-    private String senha = "";
+    private String senha;
 
     @ColumnInfo(name = "telefone")
-    private String telefone = "";
+    private String telefone;
 
     public ClienteModel() {
     }
 
-    public long getIdCliente() {
-        return idCliente;
+    @Ignore
+    public ClienteModel(long id, String nomeCliente, String cpfCnpj, String email, String senha, String telefone) {
+        this.id = id;
+        this.nomeCliente = nomeCliente;
+        this.cpfCnpj = cpfCnpj;
+        this.email = email;
+        this.senha = senha;
+        this.telefone = telefone;
     }
 
-    public void setIdCliente(long idCliente) {
-        this.idCliente = idCliente;
+    public long getId() {
+        return id;
+    }
+
+    public void setId(long id) {
+        this.id = id;
     }
 
     public String getNomeCliente() {
