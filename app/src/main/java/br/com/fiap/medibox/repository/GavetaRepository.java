@@ -2,7 +2,10 @@ package br.com.fiap.medibox.repository;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
+
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,12 +27,60 @@ public class GavetaRepository {
     private GavetaService gavetaService;
     private GavetaModel gavetaModel;
     private List<GavetaModel> list = new ArrayList<GavetaModel>();
+    private MutableLiveData<List<GavetaModel>> listaModel = new MutableLiveData<>();
 
-    GavetaRepository(Application application){
+    public GavetaRepository(Application application){
         MyDataBase db = MyDataBase.getDatabase(application);
         gavetaDao = db.gavetaDao();
         gavetaService = APIUtils.getGavetaService();
         context = application.getApplicationContext();
+    }
+
+    public MutableLiveData<List<GavetaModel>> getListService() {
+        Call<List<GavetaModel>> call = gavetaService.findAll();
+        call.enqueue(new Callback<List<GavetaModel>>() {
+            @Override
+            public void onResponse(Call<List<GavetaModel>> call, Response<List<GavetaModel>> response) {
+                if (response.isSuccessful()) {
+                    listaModel.postValue(response.body());
+                }
+            }
+            @Override
+            public void onFailure(Call<List<GavetaModel>> call, Throwable t) {
+                Log.e("ResidenteService   ", "Erro ao buscar residentes:" + t.getMessage());
+                Toast.makeText(context,"Falha ao conectar ao servidor!",Toast.LENGTH_SHORT).show();
+            }
+        });
+        return listaModel;
+    }
+
+    public void saveDb(GavetaModel model) {
+        MyDataBase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    gavetaModel = gavetaDao.getById(model.getIdGaveta());
+                    if (gavetaModel == null) {
+                        gavetaDao.insert(model);
+                        Log.e("GavetaRepository", "Gaveta: "+model.getIdGaveta()+" inserido no DB");
+                    } else {
+                        gavetaDao.update(model);
+                        Log.e("GavetaRepository", "Gaveta: "+model.getIdGaveta()+" alterado no DB");
+                    }
+                } catch (Exception e) {
+                    Log.e("GavetaRepository", "Falha ao realizar o insert " + e.getMessage());
+                }
+            }
+        });
+    }
+
+    public void saveListDb(List<GavetaModel> lista) {
+        if (lista != null) {
+            for(int i = 0; i<lista.size(); i++){
+                GavetaModel model = lista.get(i);
+                saveDb(model);
+            }
+        }
     }
 
     public void insert(GavetaModel model){

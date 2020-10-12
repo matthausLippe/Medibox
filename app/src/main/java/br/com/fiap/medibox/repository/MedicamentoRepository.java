@@ -39,31 +39,6 @@ public class MedicamentoRepository {
         context = application.getApplicationContext();
     }
 
-    public void saveListDb(List<MedicamentoModel> lista) {
-        if (lista != null) {
-            for(int i = 0; i<lista.size(); i++){
-                MedicamentoModel model = lista.get(i);
-                MyDataBase.databaseWriteExecutor.execute(new Runnable() {
-                    @Override
-                    public void run() {
-                        try {
-                            medicamentoModel = medicamentoDao.getById(model.getIdMedicamento());
-                            if (medicamentoModel == null) {
-                                medicamentoDao.insert(model);
-                                Log.e("MedicamentoRepository", "Residente: "+model.getNomeMedicamento()+" inserido no DB");
-                            } else {
-                                medicamentoDao.update(model);
-                                Log.e("MedicamentoRepository", "Residente: "+model.getNomeMedicamento()+" alterado no DB");
-                            }
-                        } catch (Exception e) {
-                            Log.e("MedicamentoRepository", "Falha ao realizar o insert " + e.getMessage());
-                        }
-                    }
-                });
-            }
-        }
-    }
-
     public MutableLiveData<List<MedicamentoModel>> getListService() {
         Call<List<MedicamentoModel>> call = medicamentoService.findAll();
         call.enqueue(new Callback<List<MedicamentoModel>>() {
@@ -90,16 +65,25 @@ public class MedicamentoRepository {
                     medicamentoModel = medicamentoDao.getById(model.getIdMedicamento());
                     if (medicamentoModel == null) {
                         medicamentoDao.insert(model);
-                        Log.e("ResidenteRepository", "Residente: "+model.getNomeMedicamento()+" inserido no DB");
+                        Log.e("MedicamentoRepository", "Medicamento: "+model.getNomeMedicamento()+" inserido no DB");
                     } else {
                         medicamentoDao.update(model);
-                        Log.e("ResidenteRepository", "Residente: "+model.getNomeMedicamento()+" alterado no DB");
+                        Log.e("MedicamentoRepository", "Medicamento: "+model.getNomeMedicamento()+" alterado no DB");
                     }
                 } catch (Exception e) {
-                    Log.e("ResidenteRepository", "Falha ao realizar o insert " + e.getMessage());
+                    Log.e("MedicamentoRepository", "Falha ao realizar o insert " + e.getMessage());
                 }
             }
         });
+    }
+
+    public void saveListDb(List<MedicamentoModel> lista) {
+        if (lista != null) {
+            for(int i = 0; i<lista.size(); i++){
+                MedicamentoModel model = lista.get(i);
+                saveDb(model);
+            }
+        }
     }
 
     public void insert(MedicamentoModel model){
@@ -235,18 +219,6 @@ public class MedicamentoRepository {
                 public void onResponse(Call<List<MedicamentoModel>> call, Response<List<MedicamentoModel>> response) {
                     if(response.isSuccessful()){
                         list.postValue(response.body());
-                        for (int i = 0; i<list.getValue().size(); i++){
-                            MedicamentoModel medicamento = list.getValue().get(i);
-                            if(medicamento.getIdMedicamento() == medicamentoDao.getById(medicamento.getIdMedicamento()).getIdMedicamento()){
-                                MyDataBase.databaseWriteExecutor.execute(() ->{
-                                    medicamentoDao.update(medicamento);
-                                });
-                            }else {
-                                MyDataBase.databaseWriteExecutor.execute(() ->{
-                                    medicamentoDao.insert(medicamento);
-                                });
-                            }
-                        }
                     }else{
                         Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                     }

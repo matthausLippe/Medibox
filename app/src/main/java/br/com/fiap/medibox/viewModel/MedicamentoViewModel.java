@@ -9,18 +9,22 @@ import androidx.lifecycle.MutableLiveData;
 
 import java.util.List;
 
+import br.com.fiap.medibox.model.GavetaModel;
 import br.com.fiap.medibox.model.MedicamentoModel;
+import br.com.fiap.medibox.repository.GavetaRepository;
 import br.com.fiap.medibox.repository.MedicamentoRepository;
 
 public class MedicamentoViewModel extends AndroidViewModel {
 
     private MedicamentoRepository medicamentoRepository;
+    private GavetaRepository gavetaRepository;
     private MutableLiveData<List<MedicamentoModel>> list;
     private MedicamentoModel medicamentoModel;
 
     public MedicamentoViewModel(@NonNull Application application) {
         super(application);
         medicamentoRepository = new MedicamentoRepository(application);
+        gavetaRepository = new GavetaRepository(application);
     }
 
     public LiveData<List<MedicamentoModel>> getListMedicamento(){
@@ -35,4 +39,9 @@ public class MedicamentoViewModel extends AndroidViewModel {
     public boolean update(MedicamentoModel model){
         return medicamentoRepository.update(model);
     }
+
+    public MutableLiveData<List<GavetaModel>> getListGaveta(){
+        return gavetaRepository.getListService();
+    }
+
 }

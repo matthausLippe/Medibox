@@ -45,7 +45,7 @@
 
 
         <EditText
-            android:id="@+id/idNome"
+            android:id="@+id/idNomeMedicamento"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginStart="20dp"
@@ -168,7 +168,7 @@
             android:textColor="@color/cardview_dark_background"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/idNome" />
+            app:layout_constraintTop_toBottomOf="@+id/idNomeMedicamento" />
 
         <EditText
             android:id="@+id/idQuarto"
@@ -235,7 +235,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textMedicamentos" />
 
         <Button
-            android:id="@+id/idCancelar"
+            android:id="@+id/idCancelarMedicamento"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -244,12 +244,12 @@
             android:textColor="#ffffff"
             android:text="Cancelar"
             app:layout_constraintBottom_toBottomOf="parent"
-            app:layout_constraintEnd_toStartOf="@+id/idSalvar"
+            app:layout_constraintEnd_toStartOf="@+id/idSalvarMedicamento"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/recyclerListaMedicamentosResidente" />
 
         <Button
-            android:id="@+id/idSalvar"
+            android:id="@+id/idSalvarMedicamento"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="8dp"
@@ -259,7 +259,7 @@
             android:textColor="#ffffff"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/idCancelar"
+            app:layout_constraintStart_toEndOf="@+id/idCancelarMedicamento"
             app:layout_constraintTop_toBottomOf="@+id/recyclerListaMedicamentosResidente" />
 
     </androidx.constraintlayout.widget.ConstraintLayout>

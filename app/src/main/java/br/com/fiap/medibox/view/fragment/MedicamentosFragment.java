@@ -8,66 +8,88 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
 
-import java.util.ArrayList;
-
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.fragment.app.Fragment;
+import androidx.lifecycle.Observer;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import br.com.fiap.medibox.R;
-import br.com.fiap.medibox.model.ItemRemedio;
 import br.com.fiap.medibox.adapter.MedicamentoItemAdapter;
+import br.com.fiap.medibox.model.MedicamentoModel;
+import br.com.fiap.medibox.viewModel.MedicamentoViewModel;
 
 public class MedicamentosFragment extends Fragment {
 
-    ArrayList<ItemRemedio> mListaExemplo;
+    private List<MedicamentoModel> list = new ArrayList<MedicamentoModel>();
     private MedicamentoItemAdapter mAdapter;
+    private MedicamentoViewModel medicamentoViewModel;
+
+    private View view;
+    private RecyclerView recyclerView;
 
     @Nullable
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.activity_lista_medicamento, container, false);
-        RecyclerView mRecyclerView = view.findViewById(R.id.listaRemedio);
-        mRecyclerView.setHasFixedSize(true);
+        view = inflater.inflate(R.layout.activity_lista_medicamento, container, false);
+        inicialization();
+        configureBusca();
+        return view;
+    }
+
+    private void inicialization(){
+        recyclerView = view.findViewById(R.id.listaRemedio);
+        recyclerView.setHasFixedSize(true);
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
+        recyclerView.setLayoutManager(mLayoutManager);
+        medicamentoViewModel = new ViewModelProvider(this).get(MedicamentoViewModel.class);
+        populate();
+    }
 
-
-        mListaExemplo = new ArrayList<>();
-        mListaExemplo.add(new ItemRemedio("Paracetamol","A1"));
-        mListaExemplo.add(new ItemRemedio("Amoxilina","B3"));
-        mListaExemplo.add(new ItemRemedio("Codeína","B3"));
-        mListaExemplo.add(new ItemRemedio("Diazepam","B3"));
-        mListaExemplo.add(new ItemRemedio("Cetamina","B3"));
-
-        mAdapter = new MedicamentoItemAdapter(mListaExemplo);
-        mRecyclerView.setLayoutManager(mLayoutManager);
-        mRecyclerView.setAdapter(mAdapter);
-
+    private void configureBusca(){
         EditText txtBusca = view.findViewById(R.id.searchRemedio);
-
         txtBusca.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
             }
+
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
             }
+
             @Override
             public void afterTextChanged(Editable s) {
                 filter(s.toString());
             }
         });
+    }
 
-
-        return view;
+    private void populate(){
+        medicamentoViewModel.getListMedicamento().observe(getViewLifecycleOwner(), new Observer<List<MedicamentoModel>>() {
+            @Override
+            public void onChanged(List<MedicamentoModel> medicamentoModels) {
+                list = medicamentoModels;
+                getActivity().runOnUiThread(new Runnable() {
+                    @Override
+                    public void run() {
+                        mAdapter = new MedicamentoItemAdapter(list, getContext());
+                        recyclerView.setAdapter(mAdapter);
+                    }
+                });
+                medicamentoViewModel.saveList(list);
+            }
+        });
     }
 
     private void filter(String text) {
-        ArrayList<ItemRemedio> filteredList = new ArrayList<>();
-        for (ItemRemedio item : mListaExemplo) {
-            if (item.getNomeRemedio().toLowerCase().contains(text.toLowerCase())) {
+        ArrayList<MedicamentoModel> filteredList = new ArrayList<>();
+        for (MedicamentoModel item : list) {
+            if (item.getNomeMedicamento().toLowerCase().contains(text.toLowerCase())) {
                 filteredList.add(item);
             }
         }

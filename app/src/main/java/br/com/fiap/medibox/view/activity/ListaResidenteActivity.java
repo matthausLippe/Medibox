@@ -24,8 +24,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import br.com.fiap.medibox.R;
+import br.com.fiap.medibox.adapter.MedicamentoResidenteAdapter;
 import br.com.fiap.medibox.adapter.ResidenteAdapter;
+import br.com.fiap.medibox.model.ClienteModel;
+import br.com.fiap.medibox.model.ResidenteMedicamentoModel;
 import br.com.fiap.medibox.model.ResidenteModel;
+import br.com.fiap.medibox.model.ResidenteWithCliente;
 import br.com.fiap.medibox.viewModel.ResidenteViewModel;
 
 public class ListaResidenteActivity extends Fragment {
@@ -53,6 +57,7 @@ public class ListaResidenteActivity extends Fragment {
     private EditText observacoes;
     private Button salvar;
     private Button cancelar;
+    private MedicamentoResidenteAdapter adapterMedicamento;
 
 
     @Override
@@ -89,18 +94,41 @@ public class ListaResidenteActivity extends Fragment {
     }
 
     private void populate() {
+        viewModel.getResidenteWithCliente(1).observe(getViewLifecycleOwner(), new Observer<ResidenteWithCliente>() {
+            @Override
+            public void onChanged(ResidenteWithCliente residenteWithCliente) {
+                ResidenteWithCliente rwc = residenteWithCliente;
+            }
+        });
+        viewModel.getListResidenteDb().observe(getViewLifecycleOwner(), new Observer<List<ResidenteModel>>() {
+            @Override
+            public void onChanged(List<ResidenteModel> residenteModels) {
+                list = residenteModels;
+                adapter = new ResidenteAdapter((ArrayList<ResidenteModel>) list, context);
+                recycler.setAdapter(adapter);
+                viewModel.saveList(residenteModels);
+            }
+        });
+
         viewModel.getListResidente().observe(getViewLifecycleOwner(), new Observer<List<ResidenteModel>>() {
             @Override
             public void onChanged(List<ResidenteModel> residenteModels) {
                 list = residenteModels;
-                getActivity().runOnUiThread(new Runnable() {
+                viewModel.getCliente().observe(getViewLifecycleOwner(), new Observer<List<ClienteModel>>() {
                     @Override
-                    public void run() {
-                        adapter = new ResidenteAdapter((ArrayList<ResidenteModel>) residenteModels, context);
-                        recycler.setAdapter(adapter);
+                    public void onChanged(List<ClienteModel> clienteModels) {
+                        for(int i = 0; i<clienteModels.size(); i++){
+                            ClienteModel clienteModel = clienteModels.get(i);
+                            for(int f = 0; f<list.size(); f++){
+                                residenteModel = list.get(f);
+                                if(clienteModel.getId() == residenteModel.getIdCliente()){
+                                    list.get(f).setCliente(clienteModel);
+
+                                }
+                            }
+                        }
                     }
                 });
-                viewModel.saveList(residenteModels);
             }
         });
     }
@@ -110,15 +138,15 @@ public class ListaResidenteActivity extends Fragment {
         dialog.setTitle("Cadastrar");
         dialog.setContentView(R.layout.fragment_cadastro_residente);
         dialog.setCancelable(true);
-        nome = (EditText) dialog.findViewById(R.id.idNome);
+        nome = (EditText) dialog.findViewById(R.id.idNomeMedicamento);
         nascimento = (EditText) dialog.findViewById(R.id.idNascimento);
         sexo = (EditText) dialog.findViewById(R.id.idSexo);
         nomeResponsavel = (EditText) dialog.findViewById(R.id.idResponsavel);
         telResponsavel = (EditText) dialog.findViewById(R.id.idTelResponsavel);
         quarto = (EditText) dialog.findViewById(R.id.idQuarto);
         observacoes = (EditText) dialog.findViewById(R.id.idObs);
-        salvar = (Button) dialog.findViewById(R.id.idSalvar);
-        cancelar = (Button) dialog.findViewById(R.id.idCancelar);
+        salvar = (Button) dialog.findViewById(R.id.idSalvarMedicamento);
+        cancelar = (Button) dialog.findViewById(R.id.idCancelarMedicamento);
         recyclerMedicamento = (RecyclerView) dialog.findViewById(R.id.recyclerListaMedicamentosResidente);
 
         nome.setText(residenteModel.getNomeResidente());
@@ -127,10 +155,18 @@ public class ListaResidenteActivity extends Fragment {
         nomeResponsavel.setText(residenteModel.getNomeResponsavel());
         telResponsavel.setText(residenteModel.getTelResponsavel());
         quarto.setText(residenteModel.getQuarto());
-        observacoes.setText(residenteModel.getObservacoes());
+        observacoes.setText(residenteModel.getObservacoes()+residenteModel.getCliente().getNomeCliente());
 
         RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recyclerMedicamento.setLayoutManager(layoutManager1);
+        viewModel.getListResidenteMedicamento(residenteModel.getId()).observe(getViewLifecycleOwner(), new Observer<List<ResidenteMedicamentoModel>>() {
+            @Override
+            public void onChanged(List<ResidenteMedicamentoModel> residenteMedicamentoModels) {
+                adapterMedicamento = new MedicamentoResidenteAdapter(residenteMedicamentoModels, context);
+                recyclerMedicamento.setAdapter(adapterMedicamento);
+            }
+        });
+
 
         cancelar.setOnClickListener(new View.OnClickListener() {
             @Override

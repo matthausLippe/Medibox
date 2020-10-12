@@ -2,7 +2,10 @@ package br.com.fiap.medibox.repository;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
+
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -24,14 +27,104 @@ public class ClienteRepository {
 
     private ClienteService clienteService;
     private ClienteModel clienteModel;
-    private List<ClienteModel> list = new ArrayList<ClienteModel>();
+    private ClienteModel currentItem;
+    private MutableLiveData<ClienteModel> modelLiveData;
+    private List<ClienteModel> lista = new ArrayList<ClienteModel>();
+    private MutableLiveData<List<ClienteModel>> list = new MutableLiveData<>();
 
-    ClienteRepository(Application application){
+    public ClienteRepository(Application application){
         MyDataBase db = MyDataBase.getDatabase(application);
         clienteDao = db.clienteDao();
         clienteService = APIUtils.getClienteService();
         context = application.getApplicationContext();
     }
+
+    public ClienteModel getByIdService(long id) {
+        Call<ClienteModel> call = clienteService.findById(id);
+        call.enqueue(new Callback<ClienteModel>() {
+            @Override
+            public void onResponse(Call<ClienteModel> call, Response<ClienteModel> response) {
+                if (response.isSuccessful()) {
+                    clienteModel = response.body();
+                }
+            }
+            @Override
+            public void onFailure(Call<ClienteModel> call, Throwable t) {
+                Log.e("ClienteService ", "Erro ao buscar clientes:" + t.getMessage());
+                Toast.makeText(context,"Falha ao conectar ao servidor!",Toast.LENGTH_SHORT).show();
+            }
+        });
+        return clienteModel;
+    }
+
+    public MutableLiveData<List<ClienteModel>> getListService() {
+        Call<List<ClienteModel>> call = clienteService.findAll();
+        call.enqueue(new Callback<List<ClienteModel>>() {
+            @Override
+            public void onResponse(Call<List<ClienteModel>> call, Response<List<ClienteModel>> response) {
+                if (response.isSuccessful()) {
+                    list.postValue(response.body());
+                }
+            }
+            @Override
+            public void onFailure(Call<List<ClienteModel>> call, Throwable t) {
+                Log.e("ClienteService ", "Erro ao buscar residentes:" + t.getMessage());
+                Toast.makeText(context,"Falha ao conectar ao servidor!",Toast.LENGTH_SHORT).show();
+            }
+        });
+        return list;
+    }
+
+    public void saveDb(ClienteModel model) {
+        MyDataBase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    clienteModel = clienteDao.getById(model.getId());
+                    if (clienteModel == null) {
+                        clienteDao.insert(model);
+                        Log.e("ClienteRepository", "Cliente: "+model.getId()+" inserido no DB");
+                    } else {
+                        clienteDao.update(model);
+                        Log.e("ClienteRepository", "Cliente: "+model.getId()+" alterado no DB");
+                    }
+                } catch (Exception e) {
+                    Log.e("ClienteRepository", "Falha ao realizar o insert " + e.getMessage());
+                }
+            }
+        });
+    }
+
+    public void saveListDb(List<ClienteModel> lista) {
+        if (lista != null) {
+            for(int i = 0; i<lista.size(); i++){
+                ClienteModel model = lista.get(i);
+                saveDb(model);
+            }
+        }
+    }
+
+    public MutableLiveData<List<ClienteModel>> getListDb(){
+        MyDataBase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                list.postValue(clienteDao.getAll());
+            }
+        });
+        return list;
+    }
+
+    public ClienteModel getByIdDb(long id){
+        MyDataBase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                clienteModel = clienteDao.getById(id);
+            }
+        });
+        return clienteModel;
+    }
+
+
 
     public void insert(ClienteModel model){
         try{
@@ -65,12 +158,12 @@ public class ClienteRepository {
     }
 
     public void update (ClienteModel model){
-        ClienteModel modelAnterior = clienteDao.getById(model.getIdCliente());
+        ClienteModel modelAnterior = clienteDao.getById(model.getId());
         try{
             MyDataBase.databaseWriteExecutor.execute(() ->{
                 clienteDao.update(model);
             });
-            Call<ClienteModel> call = clienteService.update(model.getIdCliente(),model);
+            Call<ClienteModel> call = clienteService.update(model.getId(),model);
             call.enqueue(new Callback<ClienteModel>() {
                 @Override
                 public void onResponse(Call<ClienteModel> call, Response<ClienteModel> response) {
@@ -100,12 +193,12 @@ public class ClienteRepository {
     }
 
     public void delete(ClienteModel model){
-        ClienteModel modelAnterior = clienteDao.getById(model.getIdCliente());
+        ClienteModel modelAnterior = clienteDao.getById(model.getId());
         try{
             MyDataBase.databaseWriteExecutor.execute(() ->{
                 clienteDao.delete(model);
             });
-            Call<ClienteModel> call = clienteService.delete(model.getIdCliente());
+            Call<ClienteModel> call = clienteService.delete(model.getId());
             call.enqueue(new Callback<ClienteModel>() {
                 @Override
                 public void onResponse(Call<ClienteModel> call, Response<ClienteModel> response) {
@@ -134,58 +227,22 @@ public class ClienteRepository {
         }
     }
 
-    public ClienteModel getById(long id){
-        try{
-            Call<ClienteModel> call = clienteService.findById(id);
-            call.enqueue(new Callback<ClienteModel>() {
-                @Override
-                public void onResponse(Call<ClienteModel> call, Response<ClienteModel> response) {
-                    if(response.isSuccessful()){
-                        clienteModel = response.body();
-                        if(clienteModel.getIdCliente() == clienteDao.getById(clienteModel.getIdCliente()).getIdCliente()){
-                            MyDataBase.databaseWriteExecutor.execute(() ->{
-                                clienteDao.update(clienteModel);
-                            });
-                        }else {
-                            MyDataBase.databaseWriteExecutor.execute(() ->{
-                                clienteDao.insert(clienteModel);
-                            });
-                        }
-                    }else{
-                        Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                @Override
-                public void onFailure(Call<ClienteModel> call, Throwable t) {
-                    Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
-                }
-            });
-        }catch (Exception e){
-            Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
+    public ClienteModel getById(long id) {
+        clienteModel = getByIdService(id);
+        if(clienteModel == null){
+            clienteModel = getByIdService(id);
         }
         return clienteModel;
     }
 
-    public List<ClienteModel> getList(){
+    public MutableLiveData<List<ClienteModel>> getList(){
         try{
             Call<List<ClienteModel>> call = clienteService.findAll();
             call.enqueue(new Callback<List<ClienteModel>>() {
                 @Override
                 public void onResponse(Call<List<ClienteModel>> call, Response<List<ClienteModel>> response) {
                     if(response.isSuccessful()){
-                        list = response.body();
-                        for (int i = 0; i<list.size(); i++){
-                            ClienteModel cliente = list.get(i);
-                            if(cliente.getIdCliente() == clienteDao.getById(cliente.getIdCliente()).getIdCliente()){
-                                MyDataBase.databaseWriteExecutor.execute(() ->{
-                                    clienteDao.update(cliente);
-                                });
-                            }else {
-                                MyDataBase.databaseWriteExecutor.execute(() ->{
-                                    clienteDao.insert(cliente);
-                                });
-                            }
-                        }
+                        list.postValue(response.body());
                     }else{
                         Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                     }
@@ -200,6 +257,8 @@ public class ClienteRepository {
         }
         return list;
     }
+
+
 
 
 }

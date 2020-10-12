@@ -51,7 +51,6 @@ public class CadastroResidenteFragment extends Fragment {
         super.onCreate(savedInstanceState);
         initialization();
 
-
         list = new ArrayList<ResidenteMedicamentoModel>();
         populate(list);
 
@@ -67,7 +66,7 @@ public class CadastroResidenteFragment extends Fragment {
     private void initialization(){
         view = getView();
         context = getContext();
-        nome = view.findViewById(R.id.idNome);
+        nome = view.findViewById(R.id.idNomeMedicamento);
         dataNascimento = view.findViewById(R.id.idNascimento);
         sexo = view.findViewById(R.id.idSexo);
         nomeResponsavel = view.findViewById(R.id.idResponsavel);
@@ -75,8 +74,8 @@ public class CadastroResidenteFragment extends Fragment {
         quarto = view.findViewById(R.id.idQuarto);
         observacoes = view.findViewById(R.id.idObs);
         recycler = view.findViewById(R.id.recyclerListaMedicamentosResidente);
-        salvar = view.findViewById(R.id.idSalvar);
-        cancelar = view.findViewById(R.id.idCancelar);
+        salvar = view.findViewById(R.id.idSalvarMedicamento);
+        cancelar = view.findViewById(R.id.idCancelarMedicamento);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recycler.setLayoutManager(layoutManager);
     }

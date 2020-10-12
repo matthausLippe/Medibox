@@ -3,6 +3,7 @@ package br.com.fiap.medibox.model;
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
 import androidx.room.ForeignKey;
+import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
 
@@ -12,23 +13,27 @@ import com.google.gson.annotations.SerializedName;
 import java.sql.Date;
 
 
-@Entity(tableName = "tb_residenteMedicamento")
+@Entity(tableName = "tb_residenteMedicamento", foreignKeys = {
+        @ForeignKey(entity = ResidenteModel.class, parentColumns = "idResidente", childColumns = "idResidente"),
+        @ForeignKey(entity = MedicamentoModel.class, parentColumns = "idMedicamento", childColumns = "idMedicamento"),
+        @ForeignKey(entity = ClienteModel.class, parentColumns = "id", childColumns = "idCliente")
+})
 public class ResidenteMedicamentoModel {
 
     @PrimaryKey
     private long idResidenteMedicamento;
 
-    @ForeignKey(entity = ResidenteModel.class, parentColumns = "idResidente", childColumns = "idResidente")
+
     @ColumnInfo(name = "idResidente")
     @SerializedName("residenteModel")
     private long idResidente;
 
-    @ForeignKey(entity = MedicamentoModel.class, parentColumns = "idMedicamento", childColumns = "idMedicamento")
+
     @ColumnInfo(name = "idMedicamento")
     @SerializedName("medicamentoModel")
     private long idMedicamento;
 
-    @ForeignKey(entity = ClienteModel.class, parentColumns = "idCliente", childColumns = "idCliente")
+
     @ColumnInfo(name = "idCliente")
     @SerializedName("clienteModel")
     private long idCliente;
@@ -47,10 +52,21 @@ public class ResidenteMedicamentoModel {
     @ColumnInfo(name = "doses")
     private int doses;
 
+    @Ignore
+    private ClienteModel cliente;
 
-    public ResidenteMedicamentoModel(long idResidente, long idMedicamento, long idCliente,
-                                     String dosagem, double intervalo, Date dataHoraInicio, int doses) {
+    @Ignore
+    private ResidenteModel residente;
 
+    @Ignore
+    private MedicamentoModel medicamento;
+
+    public ResidenteMedicamentoModel() {
+
+    }
+
+    public ResidenteMedicamentoModel(long idResidenteMedicamento,  Date dataHoraInicio, String dosagem,  int doses,  double intervalo, long idCliente, long idResidente, long idMedicamento) {
+        this.idResidenteMedicamento = idResidenteMedicamento;
         this.idResidente = idResidente;
         this.idMedicamento = idMedicamento;
         this.idCliente = idCliente;
@@ -58,9 +74,34 @@ public class ResidenteMedicamentoModel {
         this.intervalo = intervalo;
         this.dataHoraInicio = dataHoraInicio;
         this.doses = doses;
-
     }
 
+    @Ignore
+
+
+    public ClienteModel getCliente() {
+        return cliente;
+    }
+
+    public void setCliente(ClienteModel cliente) {
+        this.cliente = cliente;
+    }
+
+    public ResidenteModel getResidente() {
+        return residente;
+    }
+
+    public void setResidente(ResidenteModel residente) {
+        this.residente = residente;
+    }
+
+    public MedicamentoModel getMedicamento() {
+        return medicamento;
+    }
+
+    public void setMedicamento(MedicamentoModel medicamento) {
+        this.medicamento = medicamento;
+    }
 
     public long getIdResidenteMedicamento() {
         return idResidenteMedicamento;

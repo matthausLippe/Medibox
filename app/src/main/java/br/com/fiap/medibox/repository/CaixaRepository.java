@@ -2,7 +2,10 @@ package br.com.fiap.medibox.repository;
 
 import android.app.Application;
 import android.content.Context;
+import android.util.Log;
 import android.widget.Toast;
+
+import androidx.lifecycle.MutableLiveData;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -10,7 +13,6 @@ import java.util.List;
 import br.com.fiap.medibox.dao.CaixaDao;
 import br.com.fiap.medibox.data.MyDataBase;
 import br.com.fiap.medibox.model.CaixaModel;
-
 import br.com.fiap.medibox.service.APIUtils;
 import br.com.fiap.medibox.service.CaixaService;
 import retrofit2.Call;
@@ -27,12 +29,60 @@ public class CaixaRepository {
 
     private List<CaixaModel> list = new ArrayList<CaixaModel>();
     private CaixaModel caixaModel;
+    private MutableLiveData<List<CaixaModel>> listaModel = new MutableLiveData<>();
 
-    CaixaRepository(Application application){
+    public CaixaRepository(Application application){
         MyDataBase db = MyDataBase.getDatabase(application);
         caixaDao = db.caixaDao();
         context = application.getApplicationContext();
         caixaService = APIUtils.getCaixaService();
+    }
+
+    public MutableLiveData<List<CaixaModel>> getListService() {
+        Call<List<CaixaModel>> call = caixaService.findAll();
+        call.enqueue(new Callback<List<CaixaModel>>() {
+            @Override
+            public void onResponse(Call<List<CaixaModel>> call, Response<List<CaixaModel>> response) {
+                if (response.isSuccessful()) {
+                    listaModel.postValue(response.body());
+                }
+            }
+            @Override
+            public void onFailure(Call<List<CaixaModel>> call, Throwable t) {
+                Log.e("CaixaRepository ", "Erro ao buscar residentes:" + t.getMessage());
+                Toast.makeText(context,"Falha ao conectar ao servidor!",Toast.LENGTH_SHORT).show();
+            }
+        });
+        return listaModel;
+    }
+
+    public void saveDb(CaixaModel model) {
+        MyDataBase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                try {
+                    caixaModel = caixaDao.getById(model.getIdCaixa());
+                    if (caixaModel == null) {
+                        caixaDao.insert(model);
+                        Log.e("CaixaRepository", "Caixa: "+model.getIdCaixa()+" inserido no DB");
+                    } else {
+                        caixaDao.update(model);
+                        Log.e("CaixaRepository", "Caixa: "+model.getIdCaixa()+" alterado no DB");
+                    }
+                } catch (Exception e) {
+                    Log.e("CaixaRepository", "Falha ao realizar o insert " + e.getMessage());
+                }
+            }
+        });
+    }
+
+    public void saveListDb(List<CaixaModel> lista) {
+        if (lista != null) {
+            for(int i = 0; i<lista.size(); i++){
+                CaixaModel model = lista.get(i);
+                saveDb(model);
+            }
+        }
     }
 
     public void insert(CaixaModel model){

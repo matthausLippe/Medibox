@@ -30,8 +30,6 @@ public class MedicamentoResidenteViewHolder extends RecyclerView.ViewHolder impl
         itemView.setOnCreateContextMenuListener(this);
 
         adicionar = (CardView) itemView.findViewById(R.id.itemAdd);
-
-
     }
 
     @Override

@@ -40,7 +40,7 @@
 
 
         <EditText
-            android:id="@+id/idNome"
+            android:id="@+id/idNomeMedicamento"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginStart="20dp"
@@ -63,10 +63,10 @@
             android:textColor="@color/cardview_dark_background"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/idNome" />
+            app:layout_constraintTop_toBottomOf="@+id/idNomeMedicamento" />
 
         <EditText
-            android:id="@+id/idLaboratorio"
+            android:id="@+id/idLaboratorioMedicamento"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginStart="20dp"
@@ -89,10 +89,10 @@
             android:textColor="@color/cardview_dark_background"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/idLaboratorio" />
+            app:layout_constraintTop_toBottomOf="@+id/idLaboratorioMedicamento" />
 
         <EditText
-            android:id="@+id/idDosagem"
+            android:id="@+id/idDosagemMedicamento"
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginStart="20dp"
@@ -115,10 +115,10 @@
             android:textColor="@color/cardview_dark_background"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/idDosagem" />
+            app:layout_constraintTop_toBottomOf="@+id/idDosagemMedicamento" />
 
         <EditText
-            android:id="@+id/idDescricao"
+            android:id="@+id/idDescricaoMedicamento"
             android:layout_width="0dp"
             android:layout_height="100dp"
             android:layout_marginStart="20dp"
@@ -134,7 +134,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textDescricao" />
 
         <Button
-            android:id="@+id/idSalvar"
+            android:id="@+id/idSalvarMedicamento"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="64dp"
@@ -142,37 +142,36 @@
             android:textColor="#fff"
             android:background="@drawable/loginbutton"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/idCancelar"
-            app:layout_constraintTop_toBottomOf="@+id/idDescricao" />
+            app:layout_constraintStart_toEndOf="@+id/idCancelarMedicamento"
+            app:layout_constraintTop_toBottomOf="@+id/idDescricaoMedicamento" />
 
         <Button
-            android:id="@+id/idCancelar"
+            android:id="@+id/idCancelarMedicamento"
             android:layout_width="96dp"
             android:layout_height="wrap_content"
             android:layout_marginTop="64dp"
             android:text="Cancelar"
             android:textColor="#fff"
             android:background="@drawable/loginbutton"
-            app:layout_constraintEnd_toStartOf="@+id/idSalvar"
+            app:layout_constraintEnd_toStartOf="@+id/idSalvarMedicamento"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/idDescricao" />
+            app:layout_constraintTop_toBottomOf="@+id/idDescricaoMedicamento" />
 
         <Spinner
-            android:id="@+id/Dispenser"
+            android:id="@+id/idDispenser"
             android:layout_width="94dp"
             android:layout_height="24dp"
             android:layout_marginStart="88dp"
-            android:layout_marginTop="296dp"
-            app:layout_constraintStart_toEndOf="@+id/idDosagem"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintStart_toEndOf="@+id/idDosagemMedicamento"
+            app:layout_constraintTop_toTopOf="@+id/idDosagemMedicamento" />
 
         <TextView
-            android:id="@+id/lblDispenser"
+            android:id="@+id/textDispenser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginEnd="72dp"
             android:text="Dispenser"
-            app:layout_constraintBottom_toTopOf="@+id/Dispenser"
+            app:layout_constraintBottom_toTopOf="@+id/idDispenser"
             app:layout_constraintEnd_toEndOf="parent" />
 
 
