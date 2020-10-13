@@ -4,9 +4,11 @@ import android.app.AlarmManager;
 import android.app.NotificationChannel;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
@@ -22,11 +24,9 @@ import androidx.lifecycle.ViewModelProvider;
 import com.google.android.material.navigation.NavigationView;
 
 import java.sql.Date;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import br.com.fiap.medibox.AlarmReceiver;
 import br.com.fiap.medibox.R;
 import br.com.fiap.medibox.model.CaixaModel;
 import br.com.fiap.medibox.model.ClienteModel;
@@ -47,6 +47,10 @@ import br.com.fiap.medibox.viewModel.TimeLineViewModel;
 public class MainActivity extends AppCompatActivity implements NavigationView.OnNavigationItemSelectedListener {
 
     private DrawerLayout drawer;
+    private Context context;
+    private View view;
+
+    public static String idResidenteMedicamento;
 
     private TimeLineViewModel timeLineViewModel;
 
@@ -67,6 +71,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+        context = getApplicationContext();
         mainViewModel = new ViewModelProvider(this).get(MainViewModel.class);
         setContentView(R.layout.activity_main);
         Toolbar toolbar = findViewById(R.id.toolbar);
@@ -159,23 +164,28 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
         //chama query que traz o medicamento/paciente
-        //List<TimeLineModel> lista = timeLineViewModel.getLitNotification(new Date(new java.util.Date().getTime()));
-        List<TimeLineModel> lista =new ArrayList<TimeLineModel>();
-        TimeLineModel l = new TimeLineModel();
+        Date data = new Date(new java.util.Date().getTime());
+        List<TimeLineModel> lista;
 
-        Calendar date = Calendar.getInstance();
-        Date d = new Date(date.getTimeInMillis() + 30000);
-        l.setDataHoraMedicacao(d);
-        l.setIdCliente(1);
-        l.setIdTimeLine(1);
-        l.setIdResidenteMedicamento(1);
-        lista.add(l);
+        timeLineViewModel.getLitNotification(data).observe(this, new Observer<List<TimeLineModel>>() {
+            @Override
+            public void onChanged(List<TimeLineModel> timeLineModels) {
+                TimeLineModel l = new TimeLineModel();
+                Calendar date = Calendar.getInstance();
+                Date d = new Date(date.getTimeInMillis() + 30000);
+                l.setDataHoraMedicacao(d);
+                l.setIdCliente(1);
+                l.setIdTimeLine(1);
+                l.setIdResidenteMedicamento(1);
+                timeLineModels.add(l);
+                for(int i = 0; i<timeLineModels.size(); i++){
+                    PendingIntent broadcast = PendingIntent.getBroadcast(context, i, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+                    alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeLineModels.get(i).getDataHoraMedicacao().getTime(), broadcast);
 
-        for(int i = 0; i<lista.size(); i++){
-            PendingIntent broadcast = PendingIntent.getBroadcast(this, i, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-            alarmManager.setExact(AlarmManager.RTC_WAKEUP, lista.get(i).getDataHoraMedicacao().getTime(), broadcast);
-
-        }
+                }
+            }
+        });
+        //List<TimeLineModel> lista =new ArrayList<TimeLineModel>();
 
     }
 

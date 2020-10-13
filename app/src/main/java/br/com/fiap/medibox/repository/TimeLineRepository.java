@@ -256,19 +256,19 @@ public class TimeLineRepository {
         }
     }
 
-    public List<TimeLineModel> getListNotification(Date date){
+    public MutableLiveData<List<TimeLineModel>> getListNotification(Date date){
         try{
             MyDataBase.databaseWriteExecutor.execute(new Runnable() {
                 @Override
                 public void run() {
-                    lista = timeLineDao.getByDate(date);
+                    list.postValue(timeLineDao.getByDate(date));
                 }
             });
 
         }catch (Exception e){
             Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
         }
-        return lista;
+        return list;
     }
 
 

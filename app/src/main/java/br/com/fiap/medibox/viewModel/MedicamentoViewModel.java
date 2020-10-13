@@ -44,4 +44,12 @@ public class MedicamentoViewModel extends AndroidViewModel {
         return gavetaRepository.getListService();
     }
 
+    public MutableLiveData<MedicamentoModel> getById(long id){
+        return medicamentoRepository.getById(id);
+    }
+
+    public MutableLiveData<GavetaModel> getGavetaById(long id){
+        return gavetaRepository.getById(id);
+    }
+
 }

@@ -6,6 +6,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.cardview.widget.CardView;
@@ -23,8 +24,6 @@ public class MedicamentoItemAdapter extends RecyclerView.Adapter<MedicamentoItem
     private List<MedicamentoModel> mListaMedicamento;
     private Context context;
     private int selectedPos;
-
-
 
 
     public static class MedicamentoViewHolder extends RecyclerView.ViewHolder implements View.OnLongClickListener, View.OnClickListener, View.OnCreateContextMenuListener {
@@ -137,5 +136,23 @@ public class MedicamentoItemAdapter extends RecyclerView.Adapter<MedicamentoItem
     public int getItemViewType(int selectedPos) {
         return (selectedPos == mListaMedicamento.size()) ? R.layout.linha_adicionar : R.layout.linha_medicamento;
     }
+
+    public void deleteMedicamento() {
+        MedicamentoModel medicamento = mListaMedicamento.get(selectedPos);
+        int id = selectedPos;
+
+        if (mListaMedicamento.remove(medicamento)) {
+            Toast.makeText(context, "Exclusão realizada com sucesso!", Toast.LENGTH_SHORT).show();
+        } else {
+            Toast.makeText(context, "Exclusão não permitida!", Toast.LENGTH_SHORT).show();
+        }
+
+        this.notifyItemRemoved(selectedPos);
+    }
+
+    public int getSelectedPos() {
+        return selectedPos;
+    }
+
 
 }

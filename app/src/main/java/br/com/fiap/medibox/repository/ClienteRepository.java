@@ -28,7 +28,7 @@ public class ClienteRepository {
     private ClienteService clienteService;
     private ClienteModel clienteModel;
     private ClienteModel currentItem;
-    private MutableLiveData<ClienteModel> modelLiveData;
+    private MutableLiveData<ClienteModel> modelLiveData = new MutableLiveData<>();
     private List<ClienteModel> lista = new ArrayList<ClienteModel>();
     private MutableLiveData<List<ClienteModel>> list = new MutableLiveData<>();
 
@@ -227,12 +227,22 @@ public class ClienteRepository {
         }
     }
 
-    public ClienteModel getById(long id) {
-        clienteModel = getByIdService(id);
-        if(clienteModel == null){
-            clienteModel = getByIdService(id);
-        }
-        return clienteModel;
+    public MutableLiveData<ClienteModel> getById(long id) {
+        Call<ClienteModel> call = clienteService.findById(id);
+        call.enqueue(new Callback<ClienteModel>() {
+            @Override
+            public void onResponse(Call<ClienteModel> call, Response<ClienteModel> response) {
+                if (response.isSuccessful()) {
+                    modelLiveData.postValue(response.body());
+                }
+            }
+            @Override
+            public void onFailure(Call<ClienteModel> call, Throwable t) {
+                Log.e("ClienteService   ", "Erro ao buscar cliente:" + t.getMessage());
+                Toast.makeText(context,"Falha ao conectar ao servidor!",Toast.LENGTH_SHORT).show();
+            }
+        });
+        return modelLiveData;
     }
 
     public MutableLiveData<List<ClienteModel>> getList(){

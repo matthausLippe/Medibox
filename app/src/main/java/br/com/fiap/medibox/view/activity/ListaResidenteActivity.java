@@ -1,6 +1,5 @@
 package br.com.fiap.medibox.view.activity;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
 import android.view.LayoutInflater;
@@ -27,9 +26,9 @@ import br.com.fiap.medibox.R;
 import br.com.fiap.medibox.adapter.MedicamentoResidenteAdapter;
 import br.com.fiap.medibox.adapter.ResidenteAdapter;
 import br.com.fiap.medibox.model.ClienteModel;
-import br.com.fiap.medibox.model.ResidenteMedicamentoModel;
 import br.com.fiap.medibox.model.ResidenteModel;
 import br.com.fiap.medibox.model.ResidenteWithCliente;
+import br.com.fiap.medibox.view.fragment.CadastroResidenteFragment;
 import br.com.fiap.medibox.viewModel.ResidenteViewModel;
 
 public class ListaResidenteActivity extends Fragment {
@@ -134,6 +133,12 @@ public class ListaResidenteActivity extends Fragment {
     }
 
     private void editarResidente() {
+        Fragment fragment = new CadastroResidenteFragment();
+        Bundle args = new Bundle();
+        args.putLong("idResidente", residenteModel.getIdResidente());
+        fragment.setArguments(args);
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment ).addToBackStack(null).commit();
+        /*
         final Dialog dialog = new Dialog(context);
         dialog.setTitle("Cadastrar");
         dialog.setContentView(R.layout.fragment_cadastro_residente);
@@ -157,8 +162,7 @@ public class ListaResidenteActivity extends Fragment {
         quarto.setText(residenteModel.getQuarto());
         observacoes.setText(residenteModel.getObservacoes()+residenteModel.getCliente().getNomeCliente());
 
-        RecyclerView.LayoutManager layoutManager1 = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
-        recyclerMedicamento.setLayoutManager(layoutManager1);
+
         viewModel.getListResidenteMedicamento(residenteModel.getId()).observe(getViewLifecycleOwner(), new Observer<List<ResidenteMedicamentoModel>>() {
             @Override
             public void onChanged(List<ResidenteMedicamentoModel> residenteMedicamentoModels) {
@@ -191,7 +195,7 @@ public class ListaResidenteActivity extends Fragment {
                     dialog.dismiss();
                 }
             }
-        });
+        });*/
     }
 
     private Date getdataNascimento(){

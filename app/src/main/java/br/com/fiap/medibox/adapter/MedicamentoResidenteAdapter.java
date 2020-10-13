@@ -89,7 +89,7 @@ public class MedicamentoResidenteAdapter extends RecyclerView.Adapter<Medicament
             });
         } else {
             ResidenteMedicamentoModel residenteMedicamentoModel = medicamentos.get(position);
-            holder.medicamento.setText(Double.toString(residenteMedicamentoModel.getIdMedicamento()));
+            holder.medicamento.setText(residenteMedicamentoModel.getMedicamento().getNomeMedicamento());
             holder.dosagem.setText(residenteMedicamentoModel.getDosagem());
             holder.intervalo.setText(Double.toString(residenteMedicamentoModel.getIntervalo()));
         }
@@ -106,8 +106,6 @@ public class MedicamentoResidenteAdapter extends RecyclerView.Adapter<Medicament
 
             }
         });
-
-
     }
 
     @Override

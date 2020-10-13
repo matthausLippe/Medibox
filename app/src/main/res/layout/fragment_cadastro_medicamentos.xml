@@ -128,6 +128,8 @@
             android:gravity="start|top"
             android:importantForAutofill="no"
             android:inputType="textMultiLine"
+            android:padding="5sp"
+            android:textSize="14sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.4"
             app:layout_constraintStart_toStartOf="parent"

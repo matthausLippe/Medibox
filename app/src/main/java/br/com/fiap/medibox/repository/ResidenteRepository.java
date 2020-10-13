@@ -42,7 +42,7 @@ public class ResidenteRepository {
     private List<ResidenteModel> lista = new ArrayList<>();
     private List<ClienteModel> listClientes = new ArrayList<ClienteModel>();
     private MyDataBase db;
-    private MutableLiveData<ResidenteModel> modelLiveData;
+    private MutableLiveData<ResidenteModel> modelLiveData = new MutableLiveData<>();
     private MutableLiveData<ResidenteWithCliente> residenteWithCliente = new MutableLiveData<>();
 
     boolean ready = false;
@@ -163,6 +163,24 @@ public class ResidenteRepository {
             }
         });
         return listaModel;
+    }
+
+    public MutableLiveData<ResidenteModel> getById(long id) {
+        Call<ResidenteModel> call = residenteService.findById(id);
+        call.enqueue(new Callback<ResidenteModel>() {
+            @Override
+            public void onResponse(Call<ResidenteModel> call, Response<ResidenteModel> response) {
+                if (response.isSuccessful()) {
+                    modelLiveData.postValue(response.body());
+                }
+            }
+            @Override
+            public void onFailure(Call<ResidenteModel> call, Throwable t) {
+                Log.e("ResidenteService   ", "Erro ao buscar residente:" + t.getMessage());
+                Toast.makeText(context,"Falha ao conectar ao servidor!",Toast.LENGTH_SHORT).show();
+            }
+        });
+        return modelLiveData;
     }
 
     public ResidenteModel getByIdDb(long id){

@@ -5,6 +5,7 @@ import android.app.Application;
 import androidx.annotation.NonNull;
 import androidx.lifecycle.AndroidViewModel;
 import androidx.lifecycle.LiveData;
+import androidx.lifecycle.MutableLiveData;
 
 import java.sql.Date;
 import java.util.List;
@@ -15,7 +16,7 @@ import br.com.fiap.medibox.repository.TimeLineRepository;
 public class TimeLineViewModel extends AndroidViewModel {
 
     private TimeLineRepository timeLineRepository;
-    private LiveData<List<TimeLineModel>> list;
+    private MutableLiveData<List<TimeLineModel>> list;
     private List<TimeLineModel> lista;
 
     public TimeLineViewModel(@NonNull Application application) {
@@ -23,9 +24,9 @@ public class TimeLineViewModel extends AndroidViewModel {
         timeLineRepository = new TimeLineRepository(application);
     }
 
-    public List<TimeLineModel> getLitNotification(Date date){
-        lista = timeLineRepository.getListNotification(date);
-        return lista;
+    public MutableLiveData<List<TimeLineModel>> getLitNotification(Date date){
+        list = timeLineRepository.getListNotification(date);
+        return list;
     }
 
 

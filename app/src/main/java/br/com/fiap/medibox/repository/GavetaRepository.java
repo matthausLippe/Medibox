@@ -28,6 +28,7 @@ public class GavetaRepository {
     private GavetaModel gavetaModel;
     private List<GavetaModel> list = new ArrayList<GavetaModel>();
     private MutableLiveData<List<GavetaModel>> listaModel = new MutableLiveData<>();
+    private MutableLiveData<GavetaModel> modelMutable = new MutableLiveData<>();
 
     public GavetaRepository(Application application){
         MyDataBase db = MyDataBase.getDatabase(application);
@@ -184,7 +185,7 @@ public class GavetaRepository {
         }
     }
 
-    public GavetaModel getById(long id){
+    public MutableLiveData<GavetaModel> getById(long id){
         try{
             Call<GavetaModel> call = gavetaService.findById(id);
             call.enqueue(new Callback<GavetaModel>() {
@@ -192,15 +193,10 @@ public class GavetaRepository {
                 public void onResponse(Call<GavetaModel> call, Response<GavetaModel> response) {
                     if(response.isSuccessful()){
                         gavetaModel = response.body();
-                        if(gavetaModel.getIdGaveta() == gavetaDao.getById(gavetaModel.getIdGaveta()).getIdGaveta()){
-                            MyDataBase.databaseWriteExecutor.execute(() ->{
-                                gavetaDao.update(gavetaModel);
-                            });
-                        }else {
                             MyDataBase.databaseWriteExecutor.execute(() ->{
                                 gavetaDao.insert(gavetaModel);
                             });
-                        }
+                        modelMutable.postValue(gavetaModel);
                     }else{
                         Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                     }
@@ -213,7 +209,7 @@ public class GavetaRepository {
         }catch (Exception e){
             Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
         }
-        return gavetaModel;
+        return modelMutable;
     }
 
     public List<GavetaModel> getList(){

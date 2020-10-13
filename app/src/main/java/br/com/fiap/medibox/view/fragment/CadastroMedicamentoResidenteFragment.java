@@ -3,22 +3,18 @@ package br.com.fiap.medibox.view.fragment;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
 import android.widget.Button;
-import android.widget.EditText;
 import android.widget.SeekBar;
 import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.Fragment;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import br.com.fiap.medibox.R;
@@ -31,11 +27,9 @@ public class CadastroMedicamentoResidenteFragment extends Fragment {
     private SeekBar seekBar;
     private View view;
     private Context context;
+    private AutoCompleteTextView medicamentoTxt;
     private ResidenteMedicamentoModel residenteMedicamentoModel;
     private List<ResidenteMedicamentoModel> list;
-
-
-    private AutoCompleteTextView medicamentoTxt;
 
 
     @Override
@@ -46,21 +40,18 @@ public class CadastroMedicamentoResidenteFragment extends Fragment {
     @Override
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
+        Bundle args = getArguments();
+        initialization();
+        populate();
+    }
+
+    private void initialization(){
         view = getView();
         context = getContext();
+        Bundle args = getArguments();
         textDosesSeekBar = view.findViewById(R.id.textDosesSeekBar);
         seekBar = view.findViewById(R.id.seekBarDoses);
         cancelar = view.findViewById(R.id.buttonCancelar);
-
-
-        String[] fruits = {"Apple", "Appy", "Banana", "Cherry", "Date", "Grape", "Kiwi", "Mango", "Pear"};
-        ArrayAdapter<String> adapter = new ArrayAdapter<String>
-                (context, android.R.layout.select_dialog_item, fruits);
-        medicamentoTxt = (AutoCompleteTextView) view.findViewById(R.id.idSelecioneMedicamento);
-        medicamentoTxt.setThreshold(1);
-        medicamentoTxt.setAdapter(adapter);
-
-
         seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener(){
             @Override
             public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -77,7 +68,6 @@ public class CadastroMedicamentoResidenteFragment extends Fragment {
 
             }
         });
-
         cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -88,33 +78,15 @@ public class CadastroMedicamentoResidenteFragment extends Fragment {
         });
     }
 
-    private void configureBusca(){
-        EditText txtBusca = view.findViewById(R.id.idNomeResidenteTimeLine);
-        txtBusca.addTextChangedListener(new TextWatcher() {
-            @Override
-            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
-            }
-
-            @Override
-            public void onTextChanged(CharSequence s, int start, int before, int count) {
-            }
-
-            @Override
-            public void afterTextChanged(Editable s) {
-                filter(s.toString());
-            }
-        });
+    private void populate(){
+        String[] fruits = {"Apple", "Appy", "Banana", "Cherry", "Date", "Grape", "Kiwi", "Mango", "Pear"};
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>
+                (context, android.R.layout.select_dialog_item, fruits);
+        medicamentoTxt = (AutoCompleteTextView) view.findViewById(R.id.idSelecioneMedicamento);
+        medicamentoTxt.setThreshold(1);
+        medicamentoTxt.setAdapter(adapter);
     }
 
-    private void filter(String text) {
-        ArrayList<ResidenteMedicamentoModel> filteredList = new ArrayList<>();
-        for (ResidenteMedicamentoModel item : list) {
-            if (item.getMedicamento().getNomeMedicamento().toLowerCase().contains(text.toLowerCase())) {
-                filteredList.add(item);
-            }
-        }
-        //adapter.filterList(filteredList);
-    }
 
 
 }

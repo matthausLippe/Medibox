@@ -40,6 +40,8 @@ public class CadastroMedicamentosFragment extends Fragment implements AdapterVie
     private List<GavetaModel> listGaveta;
     private MedicamentoViewModel viewModel;
     private List<String> dispensers = new ArrayList<String>();
+    private long idMedicamento;
+    private String selected;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -50,13 +52,14 @@ public class CadastroMedicamentosFragment extends Fragment implements AdapterVie
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         super.onCreate(savedInstanceState);
-        view = getView();
-        context = getContext();
         initialization();
+
     }
 
-
     private void initialization() {
+        Bundle args = getArguments();
+        view = getView();
+        context = getContext();
         nome = (TextView) view.findViewById(R.id.idNomeMedicamento);
         laboratorio = (TextView) view.findViewById(R.id.idLaboratorioMedicamento);
         dosagem = (TextView) view.findViewById(R.id.idDosagemMedicamento);
@@ -68,13 +71,14 @@ public class CadastroMedicamentosFragment extends Fragment implements AdapterVie
         viewModel.getListGaveta().observe(getViewLifecycleOwner(), new Observer<List<GavetaModel>>() {
             @Override
             public void onChanged(List<GavetaModel> gavetaModels) {
+                listGaveta = gavetaModels;
                 for(int i = 0; i<gavetaModels.size(); i++){
                     dispensers.add(gavetaModels.get(i).getNomeGaveta());
-                    ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(),
-                            android.R.layout.simple_spinner_dropdown_item, dispensers);
-                    dispenser.setAdapter(adapter);
-                    dispenser.setOnItemSelectedListener(CadastroMedicamentosFragment.this);
                 }
+                ArrayAdapter<String> adapter = new ArrayAdapter<String>(view.getContext(),
+                        android.R.layout.simple_spinner_dropdown_item, dispensers);
+                dispenser.setAdapter(adapter);
+                dispenser.setOnItemSelectedListener(CadastroMedicamentosFragment.this);
             }
         });
         cancelar.setOnClickListener(new View.OnClickListener() {
@@ -91,14 +95,55 @@ public class CadastroMedicamentosFragment extends Fragment implements AdapterVie
                 medicamentoModel.setLaboratorio(laboratorio.getText().toString());
                 medicamentoModel.setDosagem(dosagem.getText().toString());
                 medicamentoModel.setDescricao(descricao.getText().toString());
+                for(int i = 0; i<listGaveta.size(); i++){
+                    if(listGaveta.get(i).getNomeGaveta().equals(selected)){
+                        medicamentoModel.setIdGaveta(listGaveta.get(i).getIdGaveta());
+                    }
+                }
+            }
+        });
+
+        if (args != null) {
+            idMedicamento = args.getLong("idMedicamento");
+            obterDados(idMedicamento);
+        }
+    }
+
+    private void obterDados(long id){
+        viewModel.getById(id).observe(getViewLifecycleOwner(), new Observer<MedicamentoModel>() {
+            @Override
+            public void onChanged(MedicamentoModel model) {
+                medicamentoModel = model;
+                viewModel.getGavetaById(medicamentoModel.getIdGaveta()).observe(getViewLifecycleOwner(), new Observer<GavetaModel>() {
+                    @Override
+                    public void onChanged(GavetaModel gaveta) {
+                        gavetaModel = gaveta;
+                        medicamentoModel.setGaveta(gavetaModel);
+                        populateEdit();
+                    }
+                });
             }
         });
     }
 
+    private void populateEdit() {
+        if(gavetaModel != null){
+            for (int f = 0; f < dispensers.size(); f++){
+                if(gavetaModel.getNomeGaveta().equals(dispensers.get(f)))
+                    dispenser.setSelection(f);
+            }
+        }
+        nome.setText(medicamentoModel.getNomeMedicamento());
+        laboratorio.setText(medicamentoModel.getLaboratorio());
+        dosagem.setText(medicamentoModel.getDosagem());
+        descricao.setText(medicamentoModel.getDescricao());
+    }
 
     @Override
     public void onItemSelected(AdapterView<?> parent, View view, int position, long id) {
         Toast.makeText(context, "Dispenser Selecionado: "+dispensers.get(position) ,Toast.LENGTH_SHORT).show();
+        selected = dispensers.get(position);
+
     }
 
     @Override

@@ -4,6 +4,7 @@ import android.os.Bundle;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.EditText;
@@ -32,6 +33,7 @@ public class MedicamentosFragment extends Fragment {
 
     private View view;
     private RecyclerView recyclerView;
+    private MedicamentoModel medicamentoModel;
 
     @Nullable
     @Override
@@ -39,6 +41,7 @@ public class MedicamentosFragment extends Fragment {
         view = inflater.inflate(R.layout.activity_lista_medicamento, container, false);
         inicialization();
         configureBusca();
+        populate();
         return view;
     }
 
@@ -48,7 +51,25 @@ public class MedicamentosFragment extends Fragment {
         LinearLayoutManager mLayoutManager = new LinearLayoutManager(getContext());
         recyclerView.setLayoutManager(mLayoutManager);
         medicamentoViewModel = new ViewModelProvider(this).get(MedicamentoViewModel.class);
-        populate();
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        medicamentoModel = list.get(mAdapter.getSelectedPos());
+        if (item.getTitle() == "Editar") {
+            editarMedicamento();
+        } else if (item.getTitle() == "Deletar") {
+            mAdapter.deleteMedicamento();
+        }
+        return super.onContextItemSelected(item);
+    }
+
+    private void editarMedicamento() {
+        Fragment fragment = new CadastroMedicamentosFragment();
+        Bundle args = new Bundle();
+        args.putLong("idMedicamento", medicamentoModel.getIdMedicamento());
+        fragment.setArguments(args);
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
     }
 
     private void configureBusca(){
