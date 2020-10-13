@@ -14,11 +14,11 @@ import java.sql.Date;
 import java.util.List;
 
 @Entity(tableName = "tb_residente", foreignKeys = {
-        @ForeignKey(entity = ClienteModel.class, parentColumns = "id", childColumns = "idCliente")
+        @ForeignKey(entity = ClienteModel.class, parentColumns = "id", childColumns = "idCliente", onDelete = ForeignKey.CASCADE)
 })
 public class ResidenteModel {
 
-    @PrimaryKey()
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "idResidente")
     private long idResidente;
 

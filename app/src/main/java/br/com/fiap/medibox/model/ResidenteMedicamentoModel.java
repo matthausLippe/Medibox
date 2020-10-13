@@ -14,13 +14,13 @@ import java.sql.Date;
 
 
 @Entity(tableName = "tb_residenteMedicamento", foreignKeys = {
-        @ForeignKey(entity = ResidenteModel.class, parentColumns = "idResidente", childColumns = "idResidente"),
-        @ForeignKey(entity = MedicamentoModel.class, parentColumns = "idMedicamento", childColumns = "idMedicamento"),
-        @ForeignKey(entity = ClienteModel.class, parentColumns = "id", childColumns = "idCliente")
+        @ForeignKey(entity = ResidenteModel.class, parentColumns = "idResidente", childColumns = "idResidente", onDelete = ForeignKey.CASCADE),
+        @ForeignKey(entity = MedicamentoModel.class, parentColumns = "idMedicamento", childColumns = "idMedicamento", onDelete = ForeignKey.CASCADE),
+        @ForeignKey(entity = ClienteModel.class, parentColumns = "id", childColumns = "idCliente", onDelete = ForeignKey.CASCADE)
 })
 public class ResidenteMedicamentoModel {
 
-    @PrimaryKey
+    @PrimaryKey(autoGenerate = true)
     private long idResidenteMedicamento;
 
 

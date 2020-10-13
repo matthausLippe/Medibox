@@ -9,11 +9,11 @@ import androidx.room.PrimaryKey;
 import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "tb_caixa", foreignKeys = {
-        @ForeignKey(entity = ClienteModel.class, parentColumns = "id", childColumns = "idCliente")
+        @ForeignKey(entity = ClienteModel.class, parentColumns = "id", childColumns = "idCliente", onDelete = ForeignKey.CASCADE)
 })
 public class CaixaModel {
 
-    @PrimaryKey()
+    @PrimaryKey(autoGenerate = true)
     private long idCaixa;
 
     @ColumnInfo(name = "idCliente")

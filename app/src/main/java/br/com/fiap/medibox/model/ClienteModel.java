@@ -10,7 +10,7 @@ import com.google.gson.annotations.SerializedName;
 @Entity(tableName = "tb_cliente")
 public class ClienteModel {
 
-    @PrimaryKey()
+    @PrimaryKey(autoGenerate = true)
     @ColumnInfo(name = "id")
     @SerializedName("idCliente")
     private long id;

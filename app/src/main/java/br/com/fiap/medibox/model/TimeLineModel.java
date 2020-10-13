@@ -12,12 +12,12 @@ import com.google.gson.annotations.SerializedName;
 import java.sql.Date;
 
 @Entity(tableName = "tb_timeLine", foreignKeys = {
-        @ForeignKey(entity = ResidenteMedicamentoModel.class, parentColumns = "idResidenteMedicamento", childColumns = "idResidenteMedicamento"),
-        @ForeignKey(entity = ClienteModel.class, parentColumns = "id", childColumns = "idCliente")
+        @ForeignKey(entity = ResidenteMedicamentoModel.class, parentColumns = "idResidenteMedicamento", childColumns = "idResidenteMedicamento", onDelete = ForeignKey.CASCADE),
+        @ForeignKey(entity = ClienteModel.class, parentColumns = "id", childColumns = "idCliente", onDelete = ForeignKey.CASCADE)
 })
 public class TimeLineModel {
 
-    @PrimaryKey()
+    @PrimaryKey(autoGenerate = true)
     private long idTimeLine;
 
 

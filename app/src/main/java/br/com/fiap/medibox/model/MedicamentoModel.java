@@ -9,11 +9,11 @@ import androidx.room.PrimaryKey;
 import com.google.gson.annotations.SerializedName;
 
 @Entity(tableName = "tb_medicamento", foreignKeys = {
-        @ForeignKey(entity = GavetaModel.class, parentColumns = "idGaveta", childColumns = "idGaveta")
+        @ForeignKey(entity = GavetaModel.class, parentColumns = "idGaveta", childColumns = "idGaveta", onDelete = ForeignKey.CASCADE)
 })
 public class MedicamentoModel {
 
-    @PrimaryKey()
+    @PrimaryKey(autoGenerate = true)
     private long idMedicamento;
 
     @ColumnInfo(name = "nomeMedicamento")
