@@ -121,11 +121,11 @@
 
             <ImageView
                 android:id="@+id/imageViewTimeLine"
-                android:layout_width="40dp"
-                android:layout_height="40dp"
-                android:layout_marginLeft="40dp"
-                android:layout_marginTop="70dp"
-                tools:srcCompat="@drawable/icon_x" />
+                android:layout_width="100dp"
+                android:layout_height="50dp"
+                android:layout_marginLeft="5dp"
+                android:layout_marginTop="40dp"
+                tools:srcCompat="@drawable/pendente" />
 
         </LinearLayout>
     </androidx.cardview.widget.CardView>
