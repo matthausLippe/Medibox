@@ -58,9 +58,12 @@ public class CadastroResidenteFragment extends Fragment {
     private ResidenteModel residenteModel;
     private List<MedicamentoModel> listaMedicamentos;
 
+    private boolean editar = false;
+
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        viewModel = new ViewModelProvider(this).get(ResidenteViewModel.class);
         return inflater.inflate(R.layout.fragment_cadastro_residente, container, false);
     }
 
@@ -83,7 +86,6 @@ public class CadastroResidenteFragment extends Fragment {
         quarto = view.findViewById(R.id.idQuarto);
         observacoes = view.findViewById(R.id.idObs);
         recycler = view.findViewById(R.id.recyclerListaMedicamentosResidente);
-        viewModel = new ViewModelProvider(this).get(ResidenteViewModel.class);
         salvar = view.findViewById(R.id.idSalvarMedicamento);
         cancelar = view.findViewById(R.id.idCancelarMedicamento);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
@@ -92,16 +94,20 @@ public class CadastroResidenteFragment extends Fragment {
             @Override
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                activity.getSupportFragmentManager().popBackStack();
+                activity.getSupportFragmentManager().isDestroyed();
             }
         });
-        if (args != null) {
+        if (args != null && !editar) {
             idResidente = args.getLong("idResidente");
             obterDados(idResidente);
-        } else {
+            //editar = true;
+        //} else if(editar){
+           // populateEditar();
+        }else{
             list = new ArrayList<ResidenteMedicamentoModel>();
             populate(list);
         }
+
         salvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -116,7 +122,7 @@ public class CadastroResidenteFragment extends Fragment {
                 if(viewModel.update(residenteModel)){
                     Toast.makeText(context, "Residente Salvo com sucesso!",Toast.LENGTH_LONG).show();
                     AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                    activity.getSupportFragmentManager().popBackStack();
+                    activity.getSupportFragmentManager().isDestroyed();
                 }
             }
         });
@@ -148,8 +154,9 @@ public class CadastroResidenteFragment extends Fragment {
         Fragment fragment = new CadastroMedicamentoResidenteFragment();
         Bundle args = new Bundle();
         args.putLong("idResidenteMedicamento", residenteMedicamentoModel.getIdResidenteMedicamento());
+        args.putLong("idResidente", residenteMedicamentoModel.getIdResidente());
         fragment.setArguments(args);
-        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
+        getActivity().getSupportFragmentManager().beginTransaction().hide(this).add(R.id.fragment_container, fragment).addToBackStack(null).commit();
     }
 
     private void obterDados(long id) {

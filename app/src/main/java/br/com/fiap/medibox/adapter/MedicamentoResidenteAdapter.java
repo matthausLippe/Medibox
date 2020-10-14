@@ -1,23 +1,24 @@
 package br.com.fiap.medibox.adapter;
 
-import android.app.Dialog;
 import android.content.Context;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.WindowManager;
 import android.widget.Button;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.RecyclerView;
 
 import java.util.List;
 
 import br.com.fiap.medibox.R;
 import br.com.fiap.medibox.model.ResidenteMedicamentoModel;
+import br.com.fiap.medibox.view.fragment.CadastroMedicamentoResidenteFragment;
 
 
 public class MedicamentoResidenteAdapter extends RecyclerView.Adapter<MedicamentoResidenteViewHolder> {
@@ -52,7 +53,11 @@ public class MedicamentoResidenteAdapter extends RecyclerView.Adapter<Medicament
             holder.adicionar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
-                    //Toast.makeText(context,"Botão clicado", Toast.LENGTH_LONG).show()
+                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                    Fragment fragment = new CadastroMedicamentoResidenteFragment();
+                    activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
+                            fragment).addToBackStack(null).commit();
+                    /*Toast.makeText(context,"Botão clicado", Toast.LENGTH_LONG).show()
                     final Dialog dialog = new Dialog(context);
                     dialog.setTitle("Cadastrar");
                     dialog.setContentView(R.layout.fragment_cadastro_residente_medicamento);
@@ -84,7 +89,7 @@ public class MedicamentoResidenteAdapter extends RecyclerView.Adapter<Medicament
                         }
                     });
                     dialog.show();
-                    dialog.getWindow().setAttributes(lp);
+                    dialog.getWindow().setAttributes(lp);*/
                 }
             });
         } else {

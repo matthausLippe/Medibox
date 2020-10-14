@@ -29,12 +29,15 @@ public class ResidenteMedicamentoRepository {
     private ResidenteMedicamentoService residenteMedicamentoService;
 
     private Context context;
+    private MyDataBase db;
     
     private ResidenteMedicamentoModel residenteMedicamentoModel;
     MutableLiveData<List<ResidenteMedicamentoModel>> list = new MutableLiveData<>();
-    private MyDataBase db;
+    private MutableLiveData<ResidenteMedicamentoModel> modelLive = new MutableLiveData<>();
+
 
     boolean ready = false;
+
 
 
     public ResidenteMedicamentoRepository(Application application){
@@ -84,11 +87,12 @@ public class ResidenteMedicamentoRepository {
                     residenteMedicamentoModel = residenteMedicamentoDao.getById(model.getIdResidente());
                     if (residenteMedicamentoModel == null) {
                         residenteMedicamentoDao.insert(model);
+                        ready = true;
                         Log.e("ResidenteMedicamentoRepository", "Residente Medicamento: "+model.getIdResidenteMedicamento()+" inserido no DB");
                     } else {
                         residenteMedicamentoDao.update(model);
-                        Log.e("ResidenteMedicamentoRepository", "Residente: "+model.getIdResidenteMedicamento()+" alterado no DB");
-                    }
+                        ready = true;
+                        Log.e("ResidenteMedicamentoRepository", "Residente: "+model.getIdResidenteMedicamento()+" alterado no DB");                    }
                 } catch (Exception e) {
                     Log.e("ResidenteMedicamentoRepository", "Falha ao realizar o insert " + e.getMessage());
                 }
@@ -103,12 +107,12 @@ public class ResidenteMedicamentoRepository {
             public void onResponse(Call<ResidenteMedicamentoModel> call, Response<ResidenteMedicamentoModel> response) {
                 if (response.isSuccessful()) {
                     saveDb(model);
-                    ready = true;
-                    Toast.makeText(context, "Residente atualizado com sucesso!", Toast.LENGTH_SHORT).show();
-                    Log.e("ResidenteMedicamentoRepository", "Inserido com sucesso ");
+
+                    //Toast.makeText(context, "Residente atualizado com sucesso!", Toast.LENGTH_SHORT).show();
+                   // Log.e("ResidenteMedicamentoRepository", " Inserido com sucesso ");
                 }else{
-                    Toast.makeText(context, "Falha ao atualizar os dados.", Toast.LENGTH_SHORT).show();
-                    Log.e("ResidenteMedicamentoRepository", "Falha ao atualizar os dados " );
+                    //Toast.makeText(context, "Falha ao atualizar os dados.", Toast.LENGTH_SHORT).show();
+                    //Log.e("ResidenteMedicamentoRepository", "Falha ao atualizar os dados " );
                     ready = false;
                 }
             }
@@ -217,6 +221,37 @@ public class ResidenteMedicamentoRepository {
         }
 
         return ready;
+    }
+
+    public MutableLiveData<ResidenteMedicamentoModel> getById(long id) {
+        try {
+            Call<ResidenteMedicamentoModel> call = residenteMedicamentoService.findById(id);
+            call.enqueue(new Callback<ResidenteMedicamentoModel>() {
+                @Override
+                public void onResponse(Call<ResidenteMedicamentoModel> call, Response<ResidenteMedicamentoModel> response) {
+                    if (response.isSuccessful()) {
+                        residenteMedicamentoModel = response.body();
+
+                        MyDataBase.databaseWriteExecutor.execute(() -> {
+                            residenteMedicamentoDao.insert(residenteMedicamentoModel);
+                            Log.e("ResidenteMedicamentoRepository","ResidenteMedicamento id: "+residenteMedicamentoModel.getIdResidenteMedicamento()+"atualizado no DB");
+                        });
+                        modelLive.postValue(residenteMedicamentoModel);
+
+                    } else {
+                        Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+
+                @Override
+                public void onFailure(Call<ResidenteMedicamentoModel> call, Throwable t) {
+                    Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
+                }
+            });
+        } catch (Exception e) {
+            Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
+        }
+        return modelLive;
     }
 
 

@@ -11,7 +11,7 @@
         android:layout_height="match_parent">
 
         <EditText
-            android:id="@+id/idIntervalo"
+            android:id="@+id/idIntervaloRMedicamento"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="60dp"
@@ -21,7 +21,7 @@
             app:layout_constraintTop_toBottomOf="@+id/textIntervalo" />
 
         <EditText
-            android:id="@+id/idDosagemMedicamento"
+            android:id="@+id/idDosagemRMedicamento"
             android:layout_width="80dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -52,10 +52,10 @@
             android:textColor="#000000"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/idDosagemMedicamento"></TextView>
+            app:layout_constraintTop_toBottomOf="@+id/idDosagemRMedicamento"></TextView>
 
         <EditText
-            android:id="@+id/idHoraInicio"
+            android:id="@+id/idHoraInicioRMedicamento"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_marginStart="20dp"
@@ -112,7 +112,7 @@
             android:textColor="#000000"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/calendarView"></TextView>
+            app:layout_constraintTop_toBottomOf="@+id/calendarViewRMedicamento"></TextView>
 
         <TextView
             android:id="@+id/textQtdDoses"
@@ -124,7 +124,7 @@
             android:textColor="#000000"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/idHoraInicio"></TextView>
+            app:layout_constraintTop_toBottomOf="@+id/idHoraInicioRMedicamento"></TextView>
 
         <SeekBar
             android:id="@+id/seekBarDoses"
@@ -151,19 +151,19 @@
             app:layout_constraintTop_toBottomOf="@+id/seekBarDoses" />
 
         <Button
-            android:id="@+id/buttonCancelar"
+            android:id="@+id/idCancelarRMedicamento"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="90dp"
             android:background="@drawable/loginbutton"
             android:text="Cancelar"
             android:textColor="#ffffff"
-            app:layout_constraintEnd_toStartOf="@+id/buttonGravar"
+            app:layout_constraintEnd_toStartOf="@+id/idGravarRMedicamento"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/seekBarDoses" />
 
         <Button
-            android:id="@+id/buttonGravar"
+            android:id="@+id/idGravarRMedicamento"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginTop="90dp"
@@ -171,7 +171,7 @@
             android:text="Gravar"
             android:textColor="#ffffff"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toEndOf="@+id/buttonCancelar"
+            app:layout_constraintStart_toEndOf="@+id/idCancelarRMedicamento"
             app:layout_constraintTop_toBottomOf="@+id/seekBarDoses" />
 
         <TextView
@@ -186,7 +186,7 @@
             app:layout_constraintTop_toBottomOf="@+id/idSelecioneMedicamento" />
 
         <CalendarView
-            android:id="@+id/calendarView"
+            android:id="@+id/calendarViewRMedicamento"
             android:layout_width="307dp"
             android:layout_height="299dp"
             android:layout_marginTop="12dp"

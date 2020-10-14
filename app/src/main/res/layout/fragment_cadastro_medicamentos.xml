@@ -41,7 +41,7 @@
 
         <EditText
             android:id="@+id/idNomeMedicamento"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="40dp"
             android:layout_marginStart="20dp"
             android:backgroundTint="#279600"
@@ -67,7 +67,7 @@
 
         <EditText
             android:id="@+id/idLaboratorioMedicamento"
-            android:layout_width="wrap_content"
+            android:layout_width="250dp"
             android:layout_height="40dp"
             android:layout_marginStart="20dp"
             android:backgroundTint="#279600"
@@ -92,8 +92,8 @@
             app:layout_constraintTop_toBottomOf="@+id/idLaboratorioMedicamento" />
 
         <EditText
-            android:id="@+id/idDosagemMedicamento"
-            android:layout_width="wrap_content"
+            android:id="@+id/idDosagemRMedicamento"
+            android:layout_width="250dp"
             android:layout_height="40dp"
             android:layout_marginStart="20dp"
             android:backgroundTint="#279600"
@@ -115,7 +115,7 @@
             android:textColor="@color/cardview_dark_background"
             android:textSize="14sp"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/idDosagemMedicamento" />
+            app:layout_constraintTop_toBottomOf="@+id/idDosagemRMedicamento" />
 
         <EditText
             android:id="@+id/idDescricaoMedicamento"
@@ -163,18 +163,21 @@
             android:id="@+id/idDispenser"
             android:layout_width="94dp"
             android:layout_height="24dp"
-            android:layout_marginStart="88dp"
-            app:layout_constraintStart_toEndOf="@+id/idDosagemMedicamento"
-            app:layout_constraintTop_toTopOf="@+id/idDosagemMedicamento" />
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintStart_toEndOf="@+id/idNomeMedicamento"
+            app:layout_constraintTop_toTopOf="@+id/idNomeMedicamento" />
 
         <TextView
             android:id="@+id/textDispenser"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginEnd="72dp"
+            android:layout_marginEnd="44dp"
+            android:padding="1sp"
             android:text="Dispenser"
-            app:layout_constraintBottom_toTopOf="@+id/idDispenser"
-            app:layout_constraintEnd_toEndOf="parent" />
+            android:textColor="@color/cardview_dark_background"
+            android:textSize="14dp"
+            app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintTop_toTopOf="@+id/textNome" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

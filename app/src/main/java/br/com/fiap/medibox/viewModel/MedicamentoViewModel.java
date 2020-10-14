@@ -52,4 +52,8 @@ public class MedicamentoViewModel extends AndroidViewModel {
         return gavetaRepository.getById(id);
     }
 
+    public boolean save(MedicamentoModel model){
+        return medicamentoRepository.update(model);
+    }
+
 }

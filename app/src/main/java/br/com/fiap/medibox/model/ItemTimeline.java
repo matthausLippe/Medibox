@@ -1,9 +1,12 @@
 package br.com.fiap.medibox.model;
 
+import java.sql.Date;
+
 public class ItemTimeline {
+    private long idTimeline;
     private String nome;
     private String medicamento;
-    private String horario;
+    private Date dataHora;
     private String dose;
     private String telResponsavel;
     private String observacao;
@@ -15,16 +18,28 @@ public class ItemTimeline {
     private String intervalo;
 
 
-    public ItemTimeline(String nome, String dose, String intervalo, String horario, String gaveta, String medicamento,String telResponsavel,String observacao, int situacao) {
+    public ItemTimeline(String nome, String dose, String intervalo, Date dataHora, String gaveta, String medicamento,String telResponsavel,String observacao, int situacao) {
         this.nome = nome;//Residente
         this.dose = dose;//ResidenteMedicamento
         this.intervalo = intervalo;//ResidenteMedicamento
-        this.horario = horario;//TimeLine
+        this.dataHora = dataHora;//TimeLine
         this.gaveta = gaveta;//ResidenteMedicamento
         this.medicamento = medicamento; //Medicamento
         this.situacao = situacao;//TimeLine
         this.telResponsavel = telResponsavel;
         this.observacao = observacao;
+    }
+
+    public ItemTimeline() {
+
+    }
+
+    public long getIdTimeline() {
+        return idTimeline;
+    }
+
+    public void setIdTimeline(long idTimeline) {
+        this.idTimeline = idTimeline;
     }
 
     public String getTelResponsavel() {
@@ -67,12 +82,12 @@ public class ItemTimeline {
         this.dose = dose;
     }
 
-    public String getHorario() {
-        return horario;
+    public Date getDataHora() {
+        return dataHora;
     }
 
-    public void setHorario(String horario) {
-        this.horario = horario;
+    public void setDataHora(Date dataHora) {
+        this.dataHora = dataHora;
     }
 
     public String getGaveta() {

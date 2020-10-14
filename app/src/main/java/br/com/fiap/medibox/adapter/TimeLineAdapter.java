@@ -11,6 +11,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentTransaction;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.text.SimpleDateFormat;
 import java.util.List;
 
 import br.com.fiap.medibox.R;
@@ -22,6 +23,8 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineViewHolder> {
     private List<ItemTimeline> listItems;
     private Context context;
     private View view;
+    private SimpleDateFormat horaFormat= new SimpleDateFormat("HH:mm");
+
     public TimeLineAdapter(List<ItemTimeline> listItems, Context context) {
         this.listItems = listItems;
         this.context = context;
@@ -47,7 +50,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineViewHolder> {
         holder.nomeResidente.setText(listItem.getNome());
         holder.nomeMedicamento.setText(listItem.getMedicamento());
         holder.dosegem.setText(listItem.getDose());
-        holder.horario.setText(listItem.getHorario());
+        holder.horario.setText(horaFormat.format(listItem.getDataHora()));
         holder.gaveta.setText(listItem.getGaveta());
         if (listItem.getSituacao() == ItemTimeline.MEDICADO){
             holder.image.setImageResource(R.drawable.icon_check);
@@ -56,13 +59,13 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineViewHolder> {
         }
 
         holder.setClickListener(new MyClickListener() {
-
             @Override
             public void onClick(int pos) {
                 Bundle args = new Bundle();
+                args.putLong("idTimeLine",listItems.get(pos).getIdTimeline());
                 args.putString("nomeResidente",listItems.get(pos).getNome());
                 args.putString("medicamento",listItems.get(pos).getMedicamento());
-                args.putString("horario",listItems.get(pos).getHorario());
+                args.putString("dataHora",horaFormat.format(listItems.get(pos).getDataHora()));
                 args.putString("dose",listItems.get(pos).getDose());
                 args.putString("intervalo",listItems.get(pos).getIntervalo());
                 args.putString("responsavel",listItems.get(pos).getTelResponsavel());

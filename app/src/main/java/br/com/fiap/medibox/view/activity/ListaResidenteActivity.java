@@ -27,7 +27,6 @@ import br.com.fiap.medibox.adapter.MedicamentoResidenteAdapter;
 import br.com.fiap.medibox.adapter.ResidenteAdapter;
 import br.com.fiap.medibox.model.ClienteModel;
 import br.com.fiap.medibox.model.ResidenteModel;
-import br.com.fiap.medibox.model.ResidenteWithCliente;
 import br.com.fiap.medibox.view.fragment.CadastroResidenteFragment;
 import br.com.fiap.medibox.viewModel.ResidenteViewModel;
 
@@ -93,12 +92,6 @@ public class ListaResidenteActivity extends Fragment {
     }
 
     private void populate() {
-        viewModel.getResidenteWithCliente(1).observe(getViewLifecycleOwner(), new Observer<ResidenteWithCliente>() {
-            @Override
-            public void onChanged(ResidenteWithCliente residenteWithCliente) {
-                ResidenteWithCliente rwc = residenteWithCliente;
-            }
-        });
         viewModel.getListResidenteDb().observe(getViewLifecycleOwner(), new Observer<List<ResidenteModel>>() {
             @Override
             public void onChanged(List<ResidenteModel> residenteModels) {
@@ -131,6 +124,8 @@ public class ListaResidenteActivity extends Fragment {
             }
         });
     }
+
+
 
     private void editarResidente() {
         Fragment fragment = new CadastroResidenteFragment();

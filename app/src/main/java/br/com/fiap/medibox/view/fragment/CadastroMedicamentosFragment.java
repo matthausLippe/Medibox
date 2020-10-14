@@ -42,6 +42,7 @@ public class CadastroMedicamentosFragment extends Fragment implements AdapterVie
     private List<String> dispensers = new ArrayList<String>();
     private long idMedicamento;
     private String selected;
+    private boolean editar = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
@@ -53,7 +54,6 @@ public class CadastroMedicamentosFragment extends Fragment implements AdapterVie
         super.onActivityCreated(savedInstanceState);
         super.onCreate(savedInstanceState);
         initialization();
-
     }
 
     private void initialization() {
@@ -62,7 +62,7 @@ public class CadastroMedicamentosFragment extends Fragment implements AdapterVie
         context = getContext();
         nome = (TextView) view.findViewById(R.id.idNomeMedicamento);
         laboratorio = (TextView) view.findViewById(R.id.idLaboratorioMedicamento);
-        dosagem = (TextView) view.findViewById(R.id.idDosagemMedicamento);
+        dosagem = (TextView) view.findViewById(R.id.idDosagemRMedicamento);
         descricao = (TextView) view.findViewById(R.id.idDescricaoMedicamento);
         dispenser = (Spinner) view.findViewById(R.id.idDispenser);
         cancelar = (Button) view.findViewById(R.id.idCancelarMedicamento);
@@ -90,23 +90,40 @@ public class CadastroMedicamentosFragment extends Fragment implements AdapterVie
         salvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                MedicamentoModel medicamentoModel = new MedicamentoModel();
-                medicamentoModel.setNomeMedicamento(nome.getText().toString());
-                medicamentoModel.setLaboratorio(laboratorio.getText().toString());
-                medicamentoModel.setDosagem(dosagem.getText().toString());
-                medicamentoModel.setDescricao(descricao.getText().toString());
-                for(int i = 0; i<listGaveta.size(); i++){
-                    if(listGaveta.get(i).getNomeGaveta().equals(selected)){
-                        medicamentoModel.setIdGaveta(listGaveta.get(i).getIdGaveta());
-                    }
-                }
+                clickedSalvar();
             }
         });
 
         if (args != null) {
             idMedicamento = args.getLong("idMedicamento");
+            editar = true;
             obterDados(idMedicamento);
+
         }
+    }
+
+    private void clickedSalvar(){
+        MedicamentoModel model = obterDadosTela();
+        if(viewModel.save(model)){
+            getActivity().getSupportFragmentManager().popBackStack();
+        }
+    }
+
+    private MedicamentoModel obterDadosTela(){
+        MedicamentoModel medicamentoModel = new MedicamentoModel();
+        if(editar){
+            medicamentoModel.setIdMedicamento(idMedicamento);
+        }
+        medicamentoModel.setNomeMedicamento(nome.getText().toString());
+        medicamentoModel.setLaboratorio(laboratorio.getText().toString());
+        medicamentoModel.setDosagem(dosagem.getText().toString());
+        medicamentoModel.setDescricao(descricao.getText().toString());
+        for(int i = 0; i<listGaveta.size(); i++){
+            if(listGaveta.get(i).getNomeGaveta().equals(selected)){
+                medicamentoModel.setIdGaveta(listGaveta.get(i).getIdGaveta());
+            }
+        }
+        return medicamentoModel;
     }
 
     private void obterDados(long id){
@@ -148,6 +165,5 @@ public class CadastroMedicamentosFragment extends Fragment implements AdapterVie
 
     @Override
     public void onNothingSelected(AdapterView<?> parent) {
-
     }
 }

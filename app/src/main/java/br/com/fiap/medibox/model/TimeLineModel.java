@@ -22,6 +22,7 @@ public class TimeLineModel {
 
 
     @ColumnInfo(name = "idResidenteMedicamento")
+    @SerializedName("residenteMedicamentoModel")
     private long idResidenteMedicamento;
 
 
@@ -45,6 +46,9 @@ public class TimeLineModel {
     @Ignore
     private ResidenteMedicamentoModel residenteMedicamento;
 
+    @Ignore
+    private MedicamentoModel medicamentoModel;
+
     public static int MEDICADO = 1;
     public static int NAO_MEDICADO = 0;
 
@@ -58,6 +62,14 @@ public class TimeLineModel {
         this.idCliente = idCliente;
         this.dataHoraMedicacao = dataHoraMedicacao;
         this.status = status;
+    }
+
+    public MedicamentoModel getMedicamentoModel() {
+        return medicamentoModel;
+    }
+
+    public void setMedicamentoModel(MedicamentoModel medicamentoModel) {
+        this.medicamentoModel = medicamentoModel;
     }
 
     public ClienteModel getCliente() {
