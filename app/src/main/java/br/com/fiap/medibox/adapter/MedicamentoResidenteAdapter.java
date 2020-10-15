@@ -1,6 +1,7 @@
 package br.com.fiap.medibox.adapter;
 
 import android.content.Context;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -28,10 +29,12 @@ public class MedicamentoResidenteAdapter extends RecyclerView.Adapter<Medicament
     private Button cancelar;
     private SeekBar seekBar;
     private TextView textDosesSeekBar;
+    private long idResidente;
 
-    public MedicamentoResidenteAdapter(List<ResidenteMedicamentoModel> medicamentos, Context context) {
+    public MedicamentoResidenteAdapter(List<ResidenteMedicamentoModel> medicamentos, Context context, long idResidente) {
         this.medicamentos = medicamentos;
         this.context = context;
+        this.idResidente = idResidente;
     }
 
     @NonNull
@@ -55,41 +58,11 @@ public class MedicamentoResidenteAdapter extends RecyclerView.Adapter<Medicament
                 public void onClick(View view) {
                     AppCompatActivity activity = (AppCompatActivity) view.getContext();
                     Fragment fragment = new CadastroMedicamentoResidenteFragment();
+                    Bundle args = new Bundle();
+                    args.putLong("idResidente", idResidente);
+                    fragment.setArguments(args);
                     activity.getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container,
                             fragment).addToBackStack(null).commit();
-                    /*Toast.makeText(context,"Botão clicado", Toast.LENGTH_LONG).show()
-                    final Dialog dialog = new Dialog(context);
-                    dialog.setTitle("Cadastrar");
-                    dialog.setContentView(R.layout.fragment_cadastro_residente_medicamento);
-                    dialog.setCancelable(true);
-                    WindowManager.LayoutParams lp = new WindowManager.LayoutParams();
-                    lp.copyFrom(dialog.getWindow().getAttributes());
-                    lp.width = WindowManager.LayoutParams.MATCH_PARENT;
-                    lp.height = WindowManager.LayoutParams.MATCH_PARENT;
-                    seekBar = (SeekBar) dialog.findViewById(R.id.seekBarDoses);
-                    textDosesSeekBar = (TextView) dialog.findViewById(R.id.textDosesSeekBar);
-                    seekBar.setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
-                        @Override
-                        public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
-                            textDosesSeekBar.setText(Integer.toString(i));
-                        }
-                        @Override
-                        public void onStartTrackingTouch(SeekBar seekBar) {
-                        }
-                        @Override
-                        public void onStopTrackingTouch(SeekBar seekBar) {
-                        }
-                    });
-
-                    cancelar = (Button) dialog.findViewById(R.id.buttonCancelar);
-                    cancelar.setOnClickListener(new View.OnClickListener() {
-                        @Override
-                        public void onClick(View v) {
-                            dialog.dismiss();
-                        }
-                    });
-                    dialog.show();
-                    dialog.getWindow().setAttributes(lp);*/
                 }
             });
         } else {
@@ -108,7 +81,6 @@ public class MedicamentoResidenteAdapter extends RecyclerView.Adapter<Medicament
             @Override
             public void onClick(int pos) {
                 selectedPos = pos;
-
             }
         });
     }

@@ -29,6 +29,7 @@ public class TimelineItemFragment extends Fragment {
     private View view;
     private Context context;
     private Bundle args;
+    private long id;
 
     @Nullable
     @Override
@@ -70,12 +71,12 @@ public class TimelineItemFragment extends Fragment {
     private void populate(){
         String nome = args.getString("nomeResidente");
         String medicamento = args.getString("medicamento");
-        String horario = args.getString("horario");
+        String horario = args.getString("dataHora");
         String dose = args.getString("dose");
         String intervalo = args.getString("intervalo");
         String responsavel = args.getString("responsavel");
         String observacao = args.getString("observacao");
-        long id = args.getLong("idTimeLine");
+        id = args.getLong("idTimeLine");
 
         idNome.setText(nome);
         idMedicamento.setText(medicamento);
@@ -87,6 +88,7 @@ public class TimelineItemFragment extends Fragment {
     }
 
     private void clickedMedicar(){
-
+        viewModel.medicar(id);
+        getActivity().getSupportFragmentManager().popBackStack();
     }
 }

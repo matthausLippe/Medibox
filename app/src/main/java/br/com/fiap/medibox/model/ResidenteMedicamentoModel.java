@@ -2,7 +2,6 @@ package br.com.fiap.medibox.model;
 
 import androidx.room.ColumnInfo;
 import androidx.room.Entity;
-import androidx.room.ForeignKey;
 import androidx.room.Ignore;
 import androidx.room.PrimaryKey;
 import androidx.room.TypeConverters;
@@ -13,11 +12,7 @@ import com.google.gson.annotations.SerializedName;
 import java.sql.Date;
 
 
-@Entity(tableName = "tb_residenteMedicamento", foreignKeys = {
-        @ForeignKey(entity = ResidenteModel.class, parentColumns = "idResidente", childColumns = "idResidente", onDelete = ForeignKey.CASCADE),
-        @ForeignKey(entity = MedicamentoModel.class, parentColumns = "idMedicamento", childColumns = "idMedicamento", onDelete = ForeignKey.CASCADE),
-        @ForeignKey(entity = ClienteModel.class, parentColumns = "id", childColumns = "idCliente", onDelete = ForeignKey.CASCADE)
-})
+@Entity(tableName = "tb_residenteMedicamento")
 public class ResidenteMedicamentoModel {
 
     @PrimaryKey(autoGenerate = true)

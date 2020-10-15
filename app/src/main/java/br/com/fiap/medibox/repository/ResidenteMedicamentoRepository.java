@@ -34,10 +34,11 @@ public class ResidenteMedicamentoRepository {
     private ResidenteMedicamentoModel residenteMedicamentoModel;
     MutableLiveData<List<ResidenteMedicamentoModel>> list = new MutableLiveData<>();
     private MutableLiveData<ResidenteMedicamentoModel> modelLive = new MutableLiveData<>();
+    MutableLiveData<Long> lastIdMutable = new MutableLiveData<>();
 
 
     boolean ready = false;
-
+    private long lastId;
 
 
     public ResidenteMedicamentoRepository(Application application){
@@ -63,6 +64,7 @@ public class ResidenteMedicamentoRepository {
                             residenteMedicamentoDao.delete(model);
                         });
                         Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
+                        Log.e("InserResidenteMedicamento","Falha no Respons msg: "+response.message());
                     }
                 }
 
@@ -79,52 +81,54 @@ public class ResidenteMedicamentoRepository {
         }
     }
 
-    public void saveDb(ResidenteMedicamentoModel model) {
+    public  MutableLiveData<Long> saveDb(ResidenteMedicamentoModel model) {
         MyDataBase.databaseWriteExecutor.execute(new Runnable() {
             @Override
             public void run() {
                 try {
                     residenteMedicamentoModel = residenteMedicamentoDao.getById(model.getIdResidente());
                     if (residenteMedicamentoModel == null) {
-                        residenteMedicamentoDao.insert(model);
-                        ready = true;
+                        lastIdMutable.postValue(residenteMedicamentoDao.insert(model));
                         Log.e("ResidenteMedicamentoRepository", "Residente Medicamento: "+model.getIdResidenteMedicamento()+" inserido no DB");
                     } else {
                         residenteMedicamentoDao.update(model);
-                        ready = true;
+                        lastIdMutable.postValue(model.getIdResidenteMedicamento());
                         Log.e("ResidenteMedicamentoRepository", "Residente: "+model.getIdResidenteMedicamento()+" alterado no DB");                    }
                 } catch (Exception e) {
                     Log.e("ResidenteMedicamentoRepository", "Falha ao realizar o insert " + e.getMessage());
                 }
             }
         });
+        return lastIdMutable;
     }
 
-    public boolean update(ResidenteMedicamentoModel model) {
-        Call<ResidenteMedicamentoModel> call = residenteMedicamentoService.update(model.getIdResidente(), model);
-        call.enqueue(new Callback<ResidenteMedicamentoModel>() {
-            @Override
-            public void onResponse(Call<ResidenteMedicamentoModel> call, Response<ResidenteMedicamentoModel> response) {
-                if (response.isSuccessful()) {
-                    saveDb(model);
+    public MutableLiveData<Long> update(ResidenteMedicamentoModel model) {
+        if (model.getIdResidenteMedicamento() != 0) {
+            Call<ResidenteMedicamentoModel> call = residenteMedicamentoService.update(model.getIdResidenteMedicamento(), model);
+            call.enqueue(new Callback<ResidenteMedicamentoModel>() {
+                @Override
+                public void onResponse(Call<ResidenteMedicamentoModel> call, Response<ResidenteMedicamentoModel> response) {
+                    if (response.isSuccessful()) {
+                        lastIdMutable = saveDb(model);
+                        //Toast.makeText(context, "Residente atualizado com sucesso!", Toast.LENGTH_SHORT).show();
+                         Log.e("ResidenteMedicamentoRepository", " Inserido com sucesso ");
+                    } else {
+                        //Toast.makeText(context, "Falha ao atualizar os dados.", Toast.LENGTH_SHORT).show();
+                        Log.e("ResidenteMedicamentoRepository", "Falha ao atualizar os dados " );
+                    }
+                }
 
-                    //Toast.makeText(context, "Residente atualizado com sucesso!", Toast.LENGTH_SHORT).show();
-                   // Log.e("ResidenteMedicamentoRepository", " Inserido com sucesso ");
-                }else{
-                    //Toast.makeText(context, "Falha ao atualizar os dados.", Toast.LENGTH_SHORT).show();
-                    //Log.e("ResidenteMedicamentoRepository", "Falha ao atualizar os dados " );
+                @Override
+                public void onFailure(Call<ResidenteMedicamentoModel> call, Throwable t) {
+                    Toast.makeText(context, "Falha a atualizar o dados.", Toast.LENGTH_SHORT).show();
+                    Log.e("ResidenteMedicamentoRepository", "Falha na requisição" + t.getMessage());
                     ready = false;
                 }
-            }
-
-            @Override
-            public void onFailure(Call<ResidenteMedicamentoModel> call, Throwable t) {
-                Toast.makeText(context, "Falha a atualizar o dados.", Toast.LENGTH_SHORT).show();
-                Log.e("ResidenteMedicamentoRepository", "Falha na requisição" + t.getMessage());
-                ready = false;
-            }
-        });
-        return ready;
+            });
+        }else{
+            insert(model);
+        }
+        return  lastIdMutable;
     }
 
     public void saveListDb(List<ResidenteMedicamentoModel> lista) {
@@ -212,7 +216,6 @@ public class ResidenteMedicamentoRepository {
                         });
                     }
                 }
-
                 @Override
                 public void onFailure(Call<ResidenteMedicamentoModel> call, Throwable t) {
 

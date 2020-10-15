@@ -104,9 +104,16 @@ public class CadastroMedicamentosFragment extends Fragment implements AdapterVie
 
     private void clickedSalvar(){
         MedicamentoModel model = obterDadosTela();
-        if(viewModel.save(model)){
-            getActivity().getSupportFragmentManager().popBackStack();
-        }
+        viewModel.save(model).observe(getViewLifecycleOwner(), new Observer<Long>() {
+            @Override
+            public void onChanged(Long aLong) {
+                getActivity().getSupportFragmentManager().popBackStack();
+                idMedicamento = aLong;
+                editar = true;
+            }
+        });
+
+
     }
 
     private MedicamentoModel obterDadosTela(){

@@ -77,6 +77,7 @@ public class ListaResidenteActivity extends Fragment {
         if (item.getTitle() == "Editar") {
             editarResidente();
         } else if (item.getTitle() == "Deletar") {
+            viewModel.delete(residenteModel.getIdResidente());
             adapter.deleteResidente();
         }
         return super.onContextItemSelected(item);
@@ -121,6 +122,7 @@ public class ListaResidenteActivity extends Fragment {
                         }
                     }
                 });
+                viewModel.saveList(residenteModels);
             }
         });
     }
@@ -133,64 +135,6 @@ public class ListaResidenteActivity extends Fragment {
         args.putLong("idResidente", residenteModel.getIdResidente());
         fragment.setArguments(args);
         getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment ).addToBackStack(null).commit();
-        /*
-        final Dialog dialog = new Dialog(context);
-        dialog.setTitle("Cadastrar");
-        dialog.setContentView(R.layout.fragment_cadastro_residente);
-        dialog.setCancelable(true);
-        nome = (EditText) dialog.findViewById(R.id.idNomeMedicamento);
-        nascimento = (EditText) dialog.findViewById(R.id.idNascimento);
-        sexo = (EditText) dialog.findViewById(R.id.idSexo);
-        nomeResponsavel = (EditText) dialog.findViewById(R.id.idResponsavel);
-        telResponsavel = (EditText) dialog.findViewById(R.id.idTelResponsavel);
-        quarto = (EditText) dialog.findViewById(R.id.idQuarto);
-        observacoes = (EditText) dialog.findViewById(R.id.idObs);
-        salvar = (Button) dialog.findViewById(R.id.idSalvarMedicamento);
-        cancelar = (Button) dialog.findViewById(R.id.idCancelarMedicamento);
-        recyclerMedicamento = (RecyclerView) dialog.findViewById(R.id.recyclerListaMedicamentosResidente);
-
-        nome.setText(residenteModel.getNomeResidente());
-        nascimento.setText(dataNascimentoFormat.format(residenteModel.getDataNascimento()));
-        sexo.setText(residenteModel.getSexo());
-        nomeResponsavel.setText(residenteModel.getNomeResponsavel());
-        telResponsavel.setText(residenteModel.getTelResponsavel());
-        quarto.setText(residenteModel.getQuarto());
-        observacoes.setText(residenteModel.getObservacoes()+residenteModel.getCliente().getNomeCliente());
-
-
-        viewModel.getListResidenteMedicamento(residenteModel.getId()).observe(getViewLifecycleOwner(), new Observer<List<ResidenteMedicamentoModel>>() {
-            @Override
-            public void onChanged(List<ResidenteMedicamentoModel> residenteMedicamentoModels) {
-                adapterMedicamento = new MedicamentoResidenteAdapter(residenteMedicamentoModels, context);
-                recyclerMedicamento.setAdapter(adapterMedicamento);
-            }
-        });
-
-
-        cancelar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                dialog.dismiss();
-            }
-        });
-        dialog.show();
-
-        salvar.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                residenteModel.setNomeResidente(nome.getText().toString());
-                residenteModel.setSexo(sexo.getText().toString());
-                residenteModel.setDataNascimento(getdataNascimento());
-                residenteModel.setNomeResponsavel(nomeResponsavel.getText().toString());
-                residenteModel.setTelResponsavel(telResponsavel.getText().toString());
-                residenteModel.setQuarto(quarto.getText().toString());
-                residenteModel.setObservacoes(observacoes.getText().toString());
-
-                if(viewModel.update(residenteModel)){
-                    dialog.dismiss();
-                }
-            }
-        });*/
     }
 
     private Date getdataNascimento(){

@@ -44,7 +44,7 @@ public class ResidenteMedicamentoViewModel extends AndroidViewModel {
         residenteMedicamentoRepository.saveListDb(lista);
     }
 
-    public boolean update(ResidenteMedicamentoModel model) {
+    public MutableLiveData<Long> update(ResidenteMedicamentoModel model) {
         return residenteMedicamentoRepository.update(model);
     }
 
@@ -68,7 +68,7 @@ public class ResidenteMedicamentoViewModel extends AndroidViewModel {
         return medicamentoRepository.getById(id);
     }
 
-    public boolean save(ResidenteMedicamentoModel model) {
+    public MutableLiveData<Long> save(ResidenteMedicamentoModel model) {
         return residenteMedicamentoRepository.update(model);
     }
 

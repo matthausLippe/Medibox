@@ -22,6 +22,7 @@ import java.util.List;
 
 import br.com.fiap.medibox.R;
 import br.com.fiap.medibox.adapter.MedicamentoItemAdapter;
+import br.com.fiap.medibox.model.GavetaModel;
 import br.com.fiap.medibox.model.MedicamentoModel;
 import br.com.fiap.medibox.viewModel.MedicamentoViewModel;
 
@@ -41,7 +42,7 @@ public class MedicamentosFragment extends Fragment {
         view = inflater.inflate(R.layout.activity_lista_medicamento, container, false);
         inicialization();
         configureBusca();
-        populate();
+        obterDados();
         return view;
     }
 
@@ -59,6 +60,7 @@ public class MedicamentosFragment extends Fragment {
         if (item.getTitle() == "Editar") {
             editarMedicamento();
         } else if (item.getTitle() == "Deletar") {
+            medicamentoViewModel.delete(medicamentoModel);
             mAdapter.deleteMedicamento();
         }
         return super.onContextItemSelected(item);
@@ -90,19 +92,31 @@ public class MedicamentosFragment extends Fragment {
         });
     }
 
-    private void populate(){
+    private void obterDados(){
         medicamentoViewModel.getListMedicamento().observe(getViewLifecycleOwner(), new Observer<List<MedicamentoModel>>() {
             @Override
             public void onChanged(List<MedicamentoModel> medicamentoModels) {
                 list = medicamentoModels;
-                getActivity().runOnUiThread(new Runnable() {
-                    @Override
-                    public void run() {
-                        mAdapter = new MedicamentoItemAdapter(list, getContext());
-                        recyclerView.setAdapter(mAdapter);
-                    }
-                });
+                for(MedicamentoModel medicamento : list){
+                    medicamentoViewModel.getGavetaById(medicamento.getIdGaveta()).observe(getViewLifecycleOwner(), new Observer<GavetaModel>() {
+                        @Override
+                        public void onChanged(GavetaModel gavetaModel) {
+                            medicamento.setGaveta(gavetaModel);
+                            populate();
+                        }
+                    });
+                }
                 medicamentoViewModel.saveList(list);
+            }
+        });
+    }
+
+    private void populate(){
+        getActivity().runOnUiThread(new Runnable() {
+            @Override
+            public void run(){
+                mAdapter = new MedicamentoItemAdapter(list, getContext());
+                recyclerView.setAdapter(mAdapter);
             }
         });
     }

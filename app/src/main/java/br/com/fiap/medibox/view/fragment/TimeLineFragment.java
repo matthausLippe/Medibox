@@ -41,6 +41,7 @@ public class TimeLineFragment extends Fragment {
     private List<ItemTimeline> listItems = new ArrayList<ItemTimeline>();
     private ItemTimeline itemTimeline;
     private List<GavetaModel> listGaveta = new ArrayList<GavetaModel>();
+    private boolean retorno = false;
 
 
     @Nullable
@@ -53,83 +54,92 @@ public class TimeLineFragment extends Fragment {
     public void onActivityCreated(Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         super.onCreate(savedInstanceState);
-        view = getView();
-        context = getContext();
-        backButton();
         initialization();
-        obterDados();
+        backButton();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+
     }
 
     public void initialization(){
-
+        view = getView();
+        context = getContext();
         viewModel = new ViewModelProvider(this).get(TimeLineViewModel.class);
         recyclerView = (RecyclerView) view.findViewById(R.id.lista_timeline);
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(getActivity(), LinearLayoutManager.VERTICAL, false);
         recyclerView.setLayoutManager(layoutManager);
+        if(!retorno){
+            obterDados();
+        }else{
+            createBase();
+        }
     }
 
     public void obterDados(){
-        viewModel.getList().observe(getViewLifecycleOwner(), new Observer<List<TimeLineModel>>() {
+        viewModel.getListResidenteMedicamento().observe(getViewLifecycleOwner(), new Observer<List<ResidenteMedicamentoModel>>() {
             @Override
-            public void onChanged(List<TimeLineModel> timeLineModels) {
-                listTimeLine = timeLineModels;
-                viewModel.getListResidenteMedicamento().observe(getViewLifecycleOwner(), new Observer<List<ResidenteMedicamentoModel>>() {
+            public void onChanged(List<ResidenteMedicamentoModel> residenteMedicamentoModels) {
+                listResidenteMedicamento = residenteMedicamentoModels;
+                viewModel.getListResidente().observe(getViewLifecycleOwner(), new Observer<List<ResidenteModel>>() {
                     @Override
-                    public void onChanged(List<ResidenteMedicamentoModel> residenteMedicamentoModels) {
-                        listResidenteMedicamento = residenteMedicamentoModels;
-                        viewModel.getListResidente().observe(getViewLifecycleOwner(), new Observer<List<ResidenteModel>>() {
+                    public void onChanged(List<ResidenteModel> residenteModels) {
+                        listResidente = residenteModels;
+                        viewModel.getListMedicamento().observe(getViewLifecycleOwner(), new Observer<List<MedicamentoModel>>() {
                             @Override
-                            public void onChanged(List<ResidenteModel> residenteModels) {
-                                listResidente = residenteModels;
-                                viewModel.getListMedicamento().observe(getViewLifecycleOwner(), new Observer<List<MedicamentoModel>>() {
+                            public void onChanged(List<MedicamentoModel> medicamentoModels) {
+                                listMedicamento = medicamentoModels;
+                                viewModel.getListGaveta().observe(getViewLifecycleOwner(), new Observer<List<GavetaModel>>() {
                                     @Override
-                                    public void onChanged(List<MedicamentoModel> medicamentoModels) {
-                                        listMedicamento = medicamentoModels;
-                                        viewModel.getListGaveta().observe(getViewLifecycleOwner(), new Observer<List<GavetaModel>>() {
-                                            @Override
-                                            public void onChanged(List<GavetaModel> gavetaModels) {
-                                                listGaveta = gavetaModels;
-                                                createBase();
-                                            }
-                                        });
-
+                                    public void onChanged(List<GavetaModel> gavetaModels) {
+                                        listGaveta = gavetaModels;
+                                        createBase();
                                     }
                                 });
+
                             }
                         });
                     }
                 });
             }
         });
-
     }
 
     public void createBase(){
-        listItems = new ArrayList<ItemTimeline>();
-        for(TimeLineModel timeLineModel : listTimeLine){
-            for(ResidenteMedicamentoModel residenteMedicamentoModel : listResidenteMedicamento){
-                if(timeLineModel.getIdResidenteMedicamento() == residenteMedicamentoModel.getIdResidenteMedicamento()){
-                    for (ResidenteModel residenteModel : listResidente){
-                        if(residenteMedicamentoModel.getIdResidente() == residenteModel.getIdResidente()){
-                            for(MedicamentoModel medicamentoModel : listMedicamento){
-                                if(medicamentoModel.getIdMedicamento() == residenteMedicamentoModel.getIdMedicamento()){
-                                    for(GavetaModel gavetaModel: listGaveta){
-                                        if(gavetaModel.getIdGaveta() == medicamentoModel.getIdGaveta()) {
-                                            medicamentoModel.setGaveta(gavetaModel);
-                                            timeLineModel.setResidenteMedicamento(residenteMedicamentoModel);
-                                            timeLineModel.setResidente(residenteModel);
-                                            timeLineModel.setMedicamentoModel(medicamentoModel);
+        viewModel.getList().observe(getViewLifecycleOwner(), new Observer<List<TimeLineModel>>() {
+            @Override
+            public void onChanged(List<TimeLineModel> timeLineModels) {
+                listTimeLine = timeLineModels;
+                listItems = new ArrayList<ItemTimeline>();
+                for(TimeLineModel timeLineModel : listTimeLine){
+                    for(ResidenteMedicamentoModel residenteMedicamentoModel : listResidenteMedicamento){
+                        if(timeLineModel.getIdResidenteMedicamento() == residenteMedicamentoModel.getIdResidenteMedicamento()){
+                            for (ResidenteModel residenteModel : listResidente){
+                                if(residenteMedicamentoModel.getIdResidente() == residenteModel.getIdResidente()){
+                                    for(MedicamentoModel medicamentoModel : listMedicamento){
+                                        if(medicamentoModel.getIdMedicamento() == residenteMedicamentoModel.getIdMedicamento()){
+                                            for(GavetaModel gavetaModel: listGaveta){
+                                                if(gavetaModel.getIdGaveta() == medicamentoModel.getIdGaveta()) {
+                                                    medicamentoModel.setGaveta(gavetaModel);
+                                                    timeLineModel.setResidenteMedicamento(residenteMedicamentoModel);
+                                                    timeLineModel.setResidente(residenteModel);
+                                                    timeLineModel.setMedicamentoModel(medicamentoModel);
+                                                }
+                                            }
                                         }
                                     }
                                 }
                             }
                         }
                     }
+                    listItems.add(converterModel(timeLineModel));
                 }
+                populate();
             }
-            listItems.add(converterModel(timeLineModel));
-        }
-        populate();
+        });
+
     }
 
     private ItemTimeline converterModel(TimeLineModel model){

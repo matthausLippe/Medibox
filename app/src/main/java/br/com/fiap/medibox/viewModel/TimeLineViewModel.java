@@ -76,5 +76,9 @@ public class TimeLineViewModel extends AndroidViewModel {
 
     }
 
+    public void medicar(long id){
+        timeLineRepository.medicar(id);
+    }
+
 
 }

@@ -147,9 +147,9 @@ public abstract class MyDataBase extends RoomDatabase {
                 List<MedicamentoModel> listMedicamento = new ArrayList<MedicamentoModel>();
                 listMedicamento.add(new MedicamentoModel(1, "Tratamento a hipertensão", "25mg", "Laboratórios Pfizer Ltda", "Aldazida", 1));
                 listMedicamento.add(new MedicamentoModel(2, "Tratamento a Diabetes", "1mg", "Grupo EMS", "Repaglinida", 2));
-                listMedicamento.add(new MedicamentoModel(3, "Tratamento a hipertensão", "5mg", "Laboratórios Servier do Brasil Ltda", "Acertalix", 3));
-                listMedicamento.add(new MedicamentoModel(4, "Tratamento a Ansiedade", "25mg", "Laboratórios Servier do Brasil Ltda", "Agomelatina", 4));
-                listMedicamento.add(new MedicamentoModel(5, "Tratamento ao Alzheimer", "10mg", "EUROFARMA LABORATORIOS S.A.", "cloridrato de donepezila", 5));
+                //listMedicamento.add(new MedicamentoModel(3, "Tratamento a hipertensão", "5mg", "Laboratórios Servier do Brasil Ltda", "Acertalix", 3));
+                //listMedicamento.add(new MedicamentoModel(4, "Tratamento a Ansiedade", "25mg", "Laboratórios Servier do Brasil Ltda", "Agomelatina", 4));
+                //listMedicamento.add(new MedicamentoModel(5, "Tratamento ao Alzheimer", "10mg", "EUROFARMA LABORATORIOS S.A.", "cloridrato de donepezila", 5));
                 medicamentoDao.insertAll(listMedicamento);
                 DateFormat dataNascimentoFormat = new SimpleDateFormat("yyyy-MM-dd");
                 DateFormat dataFormat = new SimpleDateFormat("yyyy-MM-dd@HH:mm");
@@ -163,16 +163,16 @@ public abstract class MyDataBase extends RoomDatabase {
                     data6 = new Date(dataFormat.parse("2020-10-14@12:30").getTime());
                     listaResidente.add(new ResidenteModel(1, data1, "MARIA PEREIRA RIBEIRO",  "BARBARA PEREIRA LOPES", "Tratamento a hipertensão", "1" , "F" ,"011956871359",1));
                     listaResidente.add(new ResidenteModel(2, data2, "JOSE DA SILVA CAMARGO","CAMILA RAMOS CAMARGO", "Tratamento a Diabetes", "2", "M", "011963284967", 1));
-                    listaResidente.add(new ResidenteModel(3, data3, "JOAQUIM ANTUNES DE SOUSA", "JOAO ALMEIDA SOUSA", "Tratamento a hipertensão", "3", "M", "011952165988", 1));
-                    listaResidente.add(new ResidenteModel(4, data4, "FRANCISCO ARAUJO GARCIA", "MIGUEL GOMES GARCIA", "Tratamento a Ansiedade", "4", "M", "011923477864", 1));
-                    listaResidente.add(new ResidenteModel(5, data5, "JULIA CAMPOS CARDOSO", "ANA CAMPOS FERNANDES", "Tratamento ao Alzheimer", "5", "F", "011914788596", 1));
+                    //listaResidente.add(new ResidenteModel(3, data3, "JOAQUIM ANTUNES DE SOUSA", "JOAO ALMEIDA SOUSA", "Tratamento a hipertensão", "3", "M", "011952165988", 1));
+                    //listaResidente.add(new ResidenteModel(4, data4, "FRANCISCO ARAUJO GARCIA", "MIGUEL GOMES GARCIA", "Tratamento a Ansiedade", "4", "M", "011923477864", 1));
+                    //listaResidente.add(new ResidenteModel(5, data5, "JULIA CAMPOS CARDOSO", "ANA CAMPOS FERNANDES", "Tratamento ao Alzheimer", "5", "F", "011914788596", 1));
                     residenteDao.insertAll(listaResidente);
                 } catch (ParseException e) {
                     e.printStackTrace();
                 }
-                ResidenteMedicamentoModel residenteMedicamentoModel = new ResidenteMedicamentoModel(
-                        1, data6, "200mg",20 ,8 , 1, 1, 1);
-                residenteMedicamentoDao.insert(residenteMedicamentoModel);
+                //ResidenteMedicamentoModel residenteMedicamentoModel = new ResidenteMedicamentoModel(
+                       // 1, data6, "200mg",20 ,8 , 1, 1, 1);
+                //residenteMedicamentoDao.insert(residenteMedicamentoModel);
             });
         }
     };

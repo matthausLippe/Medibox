@@ -27,7 +27,7 @@ public interface MedicamentoDao {
     void insertAll(List<MedicamentoModel> list);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(MedicamentoModel medicamentoModel);
+    long insert(MedicamentoModel medicamentoModel);
 
     @Update
     void update(MedicamentoModel medicamentoModel);

@@ -39,7 +39,7 @@ public interface ResidenteMedicamentoDao {
     void insertAll(List<ResidenteMedicamentoModel> list);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(ResidenteMedicamentoModel residenteMedicamentoModel);
+    long insert(ResidenteMedicamentoModel residenteMedicamentoModel);
 
     @Update
     void update(ResidenteMedicamentoModel residenteMedicamentoModel);

@@ -26,7 +26,7 @@ public interface TimeLineDao {
     @Query("SELECT * FROM tb_timeLine WHERE idResidenteMedicamento LIKE :id ")
     List<TimeLineModel> getByIdResidenteMedicamento(long id);
 
-    @Query("SELECT * FROM tb_timeLine WHERE dataHoraMedicacao LIKE :data ")
+    @Query("SELECT * FROM tb_timeLine WHERE dataHoraMedicacao LIKE :data ORDER BY dataHoraMedicacao ")
     List<TimeLineModel> getByDate(Date data); //AAAAMMdd
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
@@ -43,4 +43,7 @@ public interface TimeLineDao {
 
     @Query("DELETE FROM tb_timeLine")
     void deleteAll();
+
+    @Query("UPDATE tb_timeLine SET status = 1 WHERE idTimeLine LIKE :id")
+    void medicar(long id);
 }

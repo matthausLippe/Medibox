@@ -28,6 +28,7 @@ public class ClienteRepository {
     private ClienteService clienteService;
     private ClienteModel clienteModel;
     private ClienteModel currentItem;
+    private ClienteModel modelAnterior;
     private MutableLiveData<ClienteModel> modelLiveData = new MutableLiveData<>();
     private List<ClienteModel> lista = new ArrayList<ClienteModel>();
     private MutableLiveData<List<ClienteModel>> list = new MutableLiveData<>();
@@ -193,34 +194,38 @@ public class ClienteRepository {
     }
 
     public void delete(ClienteModel model){
-        ClienteModel modelAnterior = clienteDao.getById(model.getId());
-        try{
-            MyDataBase.databaseWriteExecutor.execute(() ->{
-                clienteDao.delete(model);
-            });
-            Call<ClienteModel> call = clienteService.delete(model.getId());
-            call.enqueue(new Callback<ClienteModel>() {
+        try {
+            MyDataBase.databaseWriteExecutor.execute(new Runnable() {
                 @Override
-                public void onResponse(Call<ClienteModel> call, Response<ClienteModel> response) {
-                    if (response.isSuccessful()){
-                        Toast.makeText(context, "Alteração realizada com sucesso!", Toast.LENGTH_SHORT).show();
-                    }else{
-                        MyDataBase.databaseWriteExecutor.execute(() ->{
-                            clienteDao.insert(modelAnterior);
-                        });
-                        Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                @Override
-                public void onFailure(Call<ClienteModel> call, Throwable t) {
-                    MyDataBase.databaseWriteExecutor.execute(() ->{
-                        clienteDao.insert(modelAnterior);
+                public void run() {
+                    modelAnterior = clienteDao.getById(model.getId());
+                    clienteDao.delete(model);
+                    Call<ClienteModel> call = clienteService.delete(model.getId());
+                    call.enqueue(new Callback<ClienteModel>() {
+                        @Override
+                        public void onResponse(Call<ClienteModel> call, Response<ClienteModel> response) {
+                            if (response.isSuccessful()) {
+                                Toast.makeText(context, "Alteração realizada com sucesso!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                MyDataBase.databaseWriteExecutor.execute(() -> {
+                                    clienteDao.insert(modelAnterior);
+                                });
+                                Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<ClienteModel> call, Throwable t) {
+                            MyDataBase.databaseWriteExecutor.execute(() -> {
+                                clienteDao.insert(modelAnterior);
+                            });
+                            Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
+                        }
                     });
-                    Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                 }
             });
-        }catch (Exception e){
-            MyDataBase.databaseWriteExecutor.execute(() ->{
+        } catch (Exception e) {
+            MyDataBase.databaseWriteExecutor.execute(() -> {
                 clienteDao.insert(modelAnterior);
             });
             Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();

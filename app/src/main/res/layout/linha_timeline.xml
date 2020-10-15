@@ -8,12 +8,14 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="match_parent" >
+        android:layout_height="match_parent"
+        >
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="match_parent"
-            android:orientation="horizontal">
+            android:orientation="horizontal"
+            >
 
             <LinearLayout
                 android:layout_width="wrap_content"
@@ -30,6 +32,7 @@
                     android:paddingLeft="5dp"
                     android:text="Nome do Paciente:"
                     android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -38,7 +41,8 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="5dp"
                     android:text="Medicamento: "
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/textDoseTimeLine"
@@ -46,7 +50,17 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="5dp"
                     android:text="Dose:"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/textDataTimeLineItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:paddingLeft="5dp"
+                    android:text="Data:"
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/textHorarioTimeLine"
@@ -54,7 +68,8 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="5dp"
                     android:text="Horário:"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/textGavetaTimeLine"
@@ -62,12 +77,13 @@
                     android:layout_height="wrap_content"
                     android:paddingLeft="5dp"
                     android:text="Gaveta:"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="14sp" />
 
             </LinearLayout>
 
             <LinearLayout
-                android:layout_width="wrap_content"
+                android:layout_width="202dp"
                 android:layout_height="wrap_content"
                 android:orientation="vertical">
 
@@ -80,6 +96,7 @@
                     android:paddingLeft="5dp"
                     android:text="João da Silva"
                     android:textAppearance="@style/TextAppearance.AppCompat.SearchResult.Title"
+                    android:textSize="16sp"
                     android:textStyle="bold" />
 
                 <TextView
@@ -89,7 +106,8 @@
                     android:layout_weight="1"
                     android:paddingLeft="5dp"
                     android:text="Paracetamol"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/idDoseTimeLine"
@@ -98,7 +116,17 @@
                     android:layout_weight="1"
                     android:paddingLeft="5dp"
                     android:text="2 Comprimidos"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="14sp" />
+
+                <TextView
+                    android:id="@+id/idDataTimeLineItem"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_weight="1"
+                    android:paddingLeft="5dp"
+                    android:text="14/10/2020"
+                    android:textSize="14sp"/>
 
                 <TextView
                     android:id="@+id/idHorarioTimeLine"
@@ -107,7 +135,8 @@
                     android:layout_weight="1"
                     android:paddingLeft="5dp"
                     android:text="17h00"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="14sp" />
 
                 <TextView
                     android:id="@+id/idGavetaTimeLine"
@@ -116,15 +145,16 @@
                     android:layout_weight="1"
                     android:paddingLeft="5dp"
                     android:text="1A"
-                    android:textAppearance="@style/TextAppearance.AppCompat.Small" />
+                    android:textAppearance="@style/TextAppearance.AppCompat.Small"
+                    android:textSize="14sp" />
+
             </LinearLayout>
 
             <ImageView
                 android:id="@+id/imageViewTimeLine"
-                android:layout_width="100dp"
-                android:layout_height="50dp"
-                android:layout_marginLeft="5dp"
-                android:layout_marginTop="40dp"
+                android:layout_width="60sp"
+                android:layout_height="40dp"
+                android:layout_gravity="center"
                 tools:srcCompat="@drawable/pendente" />
 
         </LinearLayout>

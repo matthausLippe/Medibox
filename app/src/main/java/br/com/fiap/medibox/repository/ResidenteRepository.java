@@ -39,6 +39,7 @@ public class ResidenteRepository {
     private ResidenteModel residenteModel;
     private MutableLiveData<List<ResidenteModel>> listaModel = new MutableLiveData<>();
     private MutableLiveData<List<ResidenteWithCliente>> rwc = new MutableLiveData<>();
+    private MutableLiveData<Long> mutableId = new MutableLiveData<>();
     private List<ResidenteModel> lista = new ArrayList<>();
     private List<ClienteModel> listClientes = new ArrayList<ClienteModel>();
     private MyDataBase db;
@@ -95,12 +96,13 @@ public class ResidenteRepository {
             public void run() {
                 try {
                     residenteModel = residenteDao.getById(model.getId());
-                    ClienteModel cliente = clienteDao.getById(model.getIdCliente());
-                    if (residenteModel == null && cliente != null) {
-                        residenteDao.insert(model);
+                    Thread.sleep(200);
+                    if (residenteModel == null) {
+                        mutableId.postValue(residenteDao.insert(model));
                         Log.e("ResidenteRepository", "Residente: "+model.getNomeResidente()+" inserido no DB");
                     } else {
                         residenteDao.update(model);
+                        mutableId.postValue(model.getIdResidente());
                         Log.e("ResidenteRepository", "Residente: "+model.getNomeResidente()+" alterado no DB");
                     }
                 } catch (Exception e) {
@@ -110,31 +112,47 @@ public class ResidenteRepository {
         });
     }
 
-    public boolean update(ResidenteModel model) {
-        Call<ResidenteModel> call = residenteService.update(model.getId(), model);
-        call.enqueue(new Callback<ResidenteModel>() {
-            @Override
-            public void onResponse(Call<ResidenteModel> call, Response<ResidenteModel> response) {
-                if (response.isSuccessful()) {
-                    saveDb(model);
-                    ready = true;
-                    Toast.makeText(context, "Residente atualizado com sucesso!", Toast.LENGTH_SHORT).show();
-                    Log.e("ResidenteRepository", "Inserido com sucesso ");
-                }else{
-                    Toast.makeText(context, "Falha ao atualizar os dados.", Toast.LENGTH_SHORT).show();
-                    Log.e("ResidenteRepository", "Falha ao atualizar os dados " );
+    public MutableLiveData<Long> update(ResidenteModel model) {
+        if(model.getIdResidente() != 0) {
+            Call<ResidenteModel> call = residenteService.update(model.getId(), model);
+            call.enqueue(new Callback<ResidenteModel>() {
+                @Override
+                public void onResponse(Call<ResidenteModel> call, Response<ResidenteModel> response) {
+                    if (response.isSuccessful()) {
+                        saveDb(model);
+                        Toast.makeText(context, "Residente atualizado com sucesso!", Toast.LENGTH_SHORT).show();
+                        Log.e("ResidenteRepository", "Inserido com sucesso ");
+                    } else {
+                        Toast.makeText(context, "Falha ao atualizar os dados.", Toast.LENGTH_SHORT).show();
+                        Log.e("ResidenteRepository", "Falha ao atualizar os dados ");
+                    }
+                }
+                @Override
+                public void onFailure(Call<ResidenteModel> call, Throwable t) {
+                    Toast.makeText(context, "Falha a atualizar o dados.", Toast.LENGTH_SHORT).show();
+                    Log.e("ResidenteRepository", "Falha na requisição" + t.getMessage());
                     ready = false;
                 }
-            }
+            });
+        }else{
+            Call<ResidenteModel> call = residenteService.save(model);
+            call.enqueue(new Callback<ResidenteModel>() {
+                @Override
+                public void onResponse(Call<ResidenteModel> call, Response<ResidenteModel> response) {
+                    if(response.isSuccessful()){
+                        saveDb(model);
+                        Toast.makeText(context, "Residente inserido com sucesso!", Toast.LENGTH_SHORT).show();
+                        Log.e("ResidenteRepository", "inserido com sucesso ");
+                    }
+                }
 
-            @Override
-            public void onFailure(Call<ResidenteModel> call, Throwable t) {
-                Toast.makeText(context, "Falha a atualizar o dados.", Toast.LENGTH_SHORT).show();
-                Log.e("ResidenteRepository", "Falha na requisição" + t.getMessage());
-                ready = false;
-            }
-        });
-        return ready;
+                @Override
+                public void onFailure(Call<ResidenteModel> call, Throwable t) {
+                    Log.e("ResidenteRepository", "Falha na inserção na API");
+                }
+            });
+        }
+        return mutableId;
     }
 
     public void saveListDb(List<ResidenteModel> lista) {
@@ -233,42 +251,34 @@ public class ResidenteRepository {
     }
 
     public boolean delete(long id){
-        MyDataBase.databaseWriteExecutor.execute(new Runnable() {
+        Call<ResidenteModel> call = residenteService.delete(id);
+        call.enqueue(new Callback<ResidenteModel>() {
             @Override
-            public void run() {
-                residenteModel = residenteDao.getById(id);
+            public void onResponse(Call<ResidenteModel> call, Response<ResidenteModel> response) {
+                if (response.isSuccessful()) {
+                    MyDataBase.databaseWriteExecutor.execute(new Runnable() {
+                        @Override
+                        public void run() {
+                            residenteModel = residenteDao.getById(id);
+                            try {
+                                Thread.sleep(1000);
+                            } catch (InterruptedException e) {
+                                e.printStackTrace();
+                            }
+                            residenteDao.delete(residenteModel);
+                            ready = true;
+                            Toast.makeText(context, "Excluido com sucesso!", Toast.LENGTH_SHORT).show();
+                            Log.e("ResidenteRepository", "Excluido com sucesso!");
+                        }
+                    });
+                }
+            }
+
+            @Override
+            public void onFailure(Call<ResidenteModel> call, Throwable t) {
+
             }
         });
-        if(residenteModel != null) {
-            Call<ResidenteModel> call = residenteService.delete(id);
-            call.enqueue(new Callback<ResidenteModel>() {
-                @Override
-                public void onResponse(Call<ResidenteModel> call, Response<ResidenteModel> response) {
-                    if (response.isSuccessful()) {
-                        MyDataBase.databaseWriteExecutor.execute(new Runnable() {
-                            @Override
-                            public void run() {
-                                MyDataBase.databaseWriteExecutor.execute(new Runnable() {
-                                    @Override
-                                    public void run() {
-                                        residenteDao.delete(residenteDao.getById(id));
-                                        ready = true;
-                                    }
-                                });
-                                Toast.makeText(context,"Excluido com sucesso!", Toast.LENGTH_SHORT).show();
-                                Log.e("ResidenteRepository", "Excluido com sucesso!");
-                            }
-                        });
-                    }
-
-                }
-
-                @Override
-                public void onFailure(Call<ResidenteModel> call, Throwable t) {
-
-                }
-            });
-        }
         return ready;
     }
 }

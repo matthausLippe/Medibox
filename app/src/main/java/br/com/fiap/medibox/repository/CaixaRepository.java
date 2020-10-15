@@ -29,6 +29,7 @@ public class CaixaRepository {
 
     private List<CaixaModel> list = new ArrayList<CaixaModel>();
     private CaixaModel caixaModel;
+    private CaixaModel modelAnterior;
     private MutableLiveData<List<CaixaModel>> listaModel = new MutableLiveData<>();
 
     public CaixaRepository(Application application){
@@ -152,34 +153,38 @@ public class CaixaRepository {
     }
 
     public void delete(CaixaModel model){
-        CaixaModel modelAnterior = caixaDao.getById(model.getIdCaixa());
-        try{
-            MyDataBase.databaseWriteExecutor.execute(() ->{
-                caixaDao.delete(model);
-            });
-            Call<CaixaModel> call = caixaService.delete(model.getIdCaixa());
-            call.enqueue(new Callback<CaixaModel>() {
+        try {
+            MyDataBase.databaseWriteExecutor.execute(new Runnable() {
                 @Override
-                public void onResponse(Call<CaixaModel> call, Response<CaixaModel> response) {
-                    if (response.isSuccessful()){
-                        Toast.makeText(context, "Alteração realizada com sucesso!", Toast.LENGTH_SHORT).show();
-                    }else{
-                        MyDataBase.databaseWriteExecutor.execute(() ->{
-                            caixaDao.insert(modelAnterior);
-                        });
-                        Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
-                    }
-                }
-                @Override
-                public void onFailure(Call<CaixaModel> call, Throwable t) {
-                    MyDataBase.databaseWriteExecutor.execute(() ->{
-                        caixaDao.insert(modelAnterior);
+                public void run() {
+                    modelAnterior = caixaDao.getById(model.getIdCaixa());
+                    caixaDao.delete(model);
+                    Call<CaixaModel> call = caixaService.delete(model.getIdCaixa());
+                    call.enqueue(new Callback<CaixaModel>() {
+                        @Override
+                        public void onResponse(Call<CaixaModel> call, Response<CaixaModel> response) {
+                            if (response.isSuccessful()) {
+                                Toast.makeText(context, "Alteração realizada com sucesso!", Toast.LENGTH_SHORT).show();
+                            } else {
+                                MyDataBase.databaseWriteExecutor.execute(() -> {
+                                    caixaDao.insert(modelAnterior);
+                                });
+                                Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
+                            }
+                        }
+
+                        @Override
+                        public void onFailure(Call<CaixaModel> call, Throwable t) {
+                            MyDataBase.databaseWriteExecutor.execute(() -> {
+                                caixaDao.insert(modelAnterior);
+                            });
+                            Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
+                        }
                     });
-                    Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();
                 }
             });
-        }catch (Exception e){
-            MyDataBase.databaseWriteExecutor.execute(() ->{
+        } catch (Exception e) {
+            MyDataBase.databaseWriteExecutor.execute(() -> {
                 caixaDao.insert(modelAnterior);
             });
             Toast.makeText(context, "Falha ao realizar operação!", Toast.LENGTH_SHORT).show();

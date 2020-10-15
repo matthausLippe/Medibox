@@ -299,6 +299,11 @@ public class TimeLineRepository {
                             }
                         }
                         timeLineDao.insertAll(timeLineModels); //Inseri no banco de dados a linha atualizada, após realizar a exclusão dos repetidos
+                        try {
+                            Thread.sleep(1000);
+                        } catch (InterruptedException e) {
+                            e.printStackTrace();
+                        }
                         lista = timeLineDao.getByIdResidenteMedicamento(idResidenteMedicamento);
                         Call<List<TimeLineModel>> callList = timeLineService.findAll(); //obter lista atualizada do serviço
                         callList.enqueue(new Callback<List<TimeLineModel>>() {
@@ -352,6 +357,8 @@ public class TimeLineRepository {
                                 Log.e("TimeLineRepository", "falha ao realizar exclusão de item antigo no Serviço AQUI 3" + t.getMessage());
                             }
                         });
+
+
                     }
                 }
 
@@ -359,6 +366,39 @@ public class TimeLineRepository {
         }catch (SQLiteException sql){
             Log.e("TimeLineRepository","falha ao executar ação no DB "+sql.getMessage());
         }
+    }
+
+    public boolean eDataMaior(Date dataNova, Date dataComparada){
+        //data Nova é maior que data comparada?
+        boolean eDataMaior = false;
+        if(dataNova.getTime()<dataComparada.getTime()){
+            eDataMaior = true;
+        }
+        return eDataMaior;
+    }
+
+    public void medicar(long id){
+        MyDataBase.databaseWriteExecutor.execute(new Runnable() {
+            @Override
+            public void run() {
+                timeLineDao.medicar(id);
+                timeLineModel = timeLineDao.getById(id);
+                Call<TimeLineModel> call = timeLineService.save(timeLineModel);
+                call.enqueue(new Callback<TimeLineModel>() {
+                    @Override
+                    public void onResponse(Call<TimeLineModel> call, Response<TimeLineModel> response) {
+                        if(response.isSuccessful()){
+                            Log.e("TimeLineRepository", "Residente Medicado");
+                        }
+                    }
+
+                    @Override
+                    public void onFailure(Call<TimeLineModel> call, Throwable t) {
+
+                    }
+                });
+            }
+        });
     }
 
 

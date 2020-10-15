@@ -105,7 +105,7 @@ public class MedicamentoItemAdapter extends RecyclerView.Adapter<MedicamentoItem
         }else {
             MedicamentoModel currentItem = mListaMedicamento.get(position);
             holder.mTextNome.setText(currentItem.getNomeMedicamento());
-            holder.mTextCaixa.setText(currentItem.getNomeMedicamento());
+            holder.mTextCaixa.setText(currentItem.getGaveta().getNomeGaveta());
         }
         holder.setLongClickListener(new MyLongClickListener() {
             @Override

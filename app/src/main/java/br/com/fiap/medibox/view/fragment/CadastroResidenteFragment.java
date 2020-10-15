@@ -34,6 +34,10 @@ import br.com.fiap.medibox.viewModel.ResidenteViewModel;
 
 public class CadastroResidenteFragment extends Fragment {
 
+    private View view;
+    private Context context;
+    Bundle args;
+
     private EditText nome;
     private EditText dataNascimento;
     private EditText sexo;
@@ -41,29 +45,29 @@ public class CadastroResidenteFragment extends Fragment {
     private EditText telResponsavel;
     private EditText quarto;
     private EditText observacoes;
+    private RecyclerView recycler;
+    private Button salvar;
+    private Button cancelar;
+    private MedicamentoResidenteAdapter adapter;
 
     private DateFormat dataNascimentoFormat = new SimpleDateFormat("dd/MM/yyyy");
     private Date nascimento;
 
-    private RecyclerView recycler;
-    private Button salvar;
-    private Button cancelar;
     private List<ResidenteMedicamentoModel> list;
-    private MedicamentoResidenteAdapter adapter;
-    private View view;
-    private Context context;
-    private long idResidente;
+    private List<MedicamentoModel> listaMedicamentos;
+
     private ResidenteMedicamentoModel residenteMedicamentoModel;
     private ResidenteViewModel viewModel;
     private ResidenteModel residenteModel;
-    private List<MedicamentoModel> listaMedicamentos;
+
+    private long idResidente;
 
     private boolean editar = false;
 
+    private boolean retorno = false;
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        viewModel = new ViewModelProvider(this).get(ResidenteViewModel.class);
         return inflater.inflate(R.layout.fragment_cadastro_residente, container, false);
     }
 
@@ -72,12 +76,36 @@ public class CadastroResidenteFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         super.onCreate(savedInstanceState);
         initialization();
+        getArgs();
+        verificaEditarOuNovo();
+        botaoCancelar();
+        botaoSalvar();
+    }
+
+    @Override
+    public void onPause() {
+        super.onPause();
+        retorno = true;
+        initialization();
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        residenteMedicamentoModel = list.get(adapter.getSelectedPos());
+        if (item.getTitle() == "Editar") {
+            editarResidenteMedicamento();
+        } else if (item.getTitle() == "Deletar") {
+            viewModel.deleteResidenteMedicamento(residenteMedicamentoModel.getIdResidenteMedicamento());
+            adapter.deleteMedicamento();
+        }
+        return super.onContextItemSelected(item);
     }
 
     private void initialization() {
-        Bundle args = getArguments();
         view = getView();
-        context = getContext();
+        args = getArguments();
+        context = view.getContext();
+        viewModel = new ViewModelProvider(this).get(ResidenteViewModel.class);
         nome = view.findViewById(R.id.idNomeMedicamento);
         dataNascimento = view.findViewById(R.id.idNascimento);
         sexo = view.findViewById(R.id.idSexo);
@@ -88,75 +116,90 @@ public class CadastroResidenteFragment extends Fragment {
         recycler = view.findViewById(R.id.recyclerListaMedicamentosResidente);
         salvar = view.findViewById(R.id.idSalvarMedicamento);
         cancelar = view.findViewById(R.id.idCancelarMedicamento);
+        list = new ArrayList<ResidenteMedicamentoModel>();
         RecyclerView.LayoutManager layoutManager = new LinearLayoutManager(context, LinearLayoutManager.VERTICAL, false);
         recycler.setLayoutManager(layoutManager);
+        residenteModel = new ResidenteModel();
+    }
+
+    private void getArgs(){
+        if(args != null) {
+            idResidente = args.getLong("idResidente");
+        }
+    }
+
+    private void verificaEditarOuNovo(){
+        if(idResidente != 0 && !editar) {
+            editar = true;
+            if(!retorno){
+                obterDados(idResidente);
+            }else populateEditar();
+        }else {
+            obterResidenteMedicamento();
+        }
+    }
+
+    public void botaoCancelar(){
         cancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                activity.getSupportFragmentManager().isDestroyed();
+                activity.getSupportFragmentManager().popBackStack();
             }
         });
-        if (args != null && !editar) {
-            idResidente = args.getLong("idResidente");
-            obterDados(idResidente);
-            //editar = true;
-        //} else if(editar){
-           // populateEditar();
-        }else{
-            list = new ArrayList<ResidenteMedicamentoModel>();
-            populate(list);
-        }
+    }
 
+    public void botaoSalvar(){
         salvar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                residenteModel.setNomeResidente(nome.getText().toString());
-                residenteModel.setSexo(sexo.getText().toString());
-                residenteModel.setDataNascimento(getdataNascimento());
-                residenteModel.setNomeResponsavel(nomeResponsavel.getText().toString());
-                residenteModel.setTelResponsavel(telResponsavel.getText().toString());
-                residenteModel.setQuarto(quarto.getText().toString());
-                residenteModel.setObservacoes(observacoes.getText().toString());
-
-                if(viewModel.update(residenteModel)){
-                    Toast.makeText(context, "Residente Salvo com sucesso!",Toast.LENGTH_LONG).show();
-                    AppCompatActivity activity = (AppCompatActivity) view.getContext();
-                    activity.getSupportFragmentManager().isDestroyed();
+                ResidenteModel model = obterDadosTela();
+                try {
+                    Thread.sleep(200);
+                } catch (InterruptedException e) {
+                    e.printStackTrace();
                 }
-            }
+                viewModel.update(model).observe(getViewLifecycleOwner(), new Observer<Long>() {
+                    @Override
+                    public void onChanged(Long aLong) {
+                        editar = true;
+                        idResidente = aLong;
+                        Toast.makeText(context, "Residente Salvo com sucesso!",Toast.LENGTH_LONG).show();
+                        AppCompatActivity activity = (AppCompatActivity) view.getContext();
+                        activity.getSupportFragmentManager().popBackStack();
+                    }
+                });
+
+                }
         });
     }
 
-
-    public void populate(final List<ResidenteMedicamentoModel> medicametos) {
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                adapter = new MedicamentoResidenteAdapter((List<ResidenteMedicamentoModel>) medicametos, context);
-                recycler.setAdapter(adapter);
-            }
-        });
+    public ResidenteModel obterDadosTela(){
+        ResidenteModel model = new ResidenteModel();
+        model.setNomeResidente(nome.getText().toString());
+        model.setSexo(sexo.getText().toString());
+        model.setDataNascimento(getdataNascimento());
+        model.setNomeResponsavel(nomeResponsavel.getText().toString());
+        model.setTelResponsavel(telResponsavel.getText().toString());
+        model.setQuarto(quarto.getText().toString());
+        model.setObservacoes(observacoes.getText().toString());
+        model.setIdCliente(1);
+        model.setIdResidente(idResidente);
+        return model;
     }
 
-    @Override
-    public boolean onContextItemSelected(MenuItem item) {
-        residenteMedicamentoModel = list.get(adapter.getSelectedPos());
-        if (item.getTitle() == "Editar") {
-            editarResidenteMedicamento();
-        } else if (item.getTitle() == "Deletar") {
-            adapter.deleteMedicamento();
-        }
-        return super.onContextItemSelected(item);
+    public void populate(List<ResidenteMedicamentoModel> listaResidenteMedicamento) {
+        adapter = new MedicamentoResidenteAdapter(listaResidenteMedicamento, context, idResidente);
+        recycler.setAdapter(adapter);
     }
 
     private void editarResidenteMedicamento() {
         Fragment fragment = new CadastroMedicamentoResidenteFragment();
-        Bundle args = new Bundle();
-        args.putLong("idResidenteMedicamento", residenteMedicamentoModel.getIdResidenteMedicamento());
-        args.putLong("idResidente", residenteMedicamentoModel.getIdResidente());
-        fragment.setArguments(args);
-        getActivity().getSupportFragmentManager().beginTransaction().hide(this).add(R.id.fragment_container, fragment).addToBackStack(null).commit();
+        Bundle argsMedicamento = new Bundle();
+        argsMedicamento.putLong("idResidenteMedicamento", residenteMedicamentoModel.getIdResidenteMedicamento());
+        argsMedicamento.putLong("idResidente", residenteMedicamentoModel.getIdResidente());
+        fragment.setArguments(argsMedicamento);
+        getActivity().getSupportFragmentManager().beginTransaction().replace(R.id.fragment_container, fragment).addToBackStack(null).commit();
     }
 
     private void obterDados(long id) {
@@ -167,26 +210,33 @@ public class CadastroResidenteFragment extends Fragment {
                 viewModel.getClienteById(residenteModel.getIdCliente()).observe(getViewLifecycleOwner(), new Observer<ClienteModel>() {
                     @Override
                     public void onChanged(ClienteModel clienteModel) {
-                        viewModel.getListResidenteMedicamento(residenteModel.getIdResidente()).observe(getViewLifecycleOwner(), new Observer<List<ResidenteMedicamentoModel>>() {
-                            @Override
-                            public void onChanged(List<ResidenteMedicamentoModel> residenteMedicamentoModels) {
-                                list = residenteMedicamentoModels;
-                                if (residenteMedicamentoModels != null) {
-                                    viewModel.getListMedicamento().observe(getViewLifecycleOwner(), new Observer<List<MedicamentoModel>>() {
-                                        @Override
-                                        public void onChanged(List<MedicamentoModel> medicamentoModels) {
-                                            listaMedicamentos = medicamentoModels;
-                                            residenteModel.setCliente(clienteModel);
-                                            associarMedicamentosResidenteMedicamento();
-                                            residenteModel.setResidenteMedicamento(list);
-                                            populateEditar();
-                                        }
-                                    });
-                                }
-                            }
-                        });
+                        residenteModel.setCliente(clienteModel);
+                        obterResidenteMedicamento();
                     }
                 });
+            }
+        });
+    }
+
+    private void obterResidenteMedicamento(){
+        viewModel.getListResidenteMedicamento().observe(getViewLifecycleOwner(), new Observer<List<ResidenteMedicamentoModel>>() {
+            @Override
+            public void onChanged(List<ResidenteMedicamentoModel> residenteMedicamentoModels) {
+                if (residenteMedicamentoModels != null) {
+                    viewModel.getListMedicamento().observe(getViewLifecycleOwner(), new Observer<List<MedicamentoModel>>() {
+                        @Override
+                        public void onChanged(List<MedicamentoModel> medicamentoModels) {
+                            for(ResidenteMedicamentoModel rmm : residenteMedicamentoModels){
+                                if(rmm.getIdResidente() == idResidente){
+                                    list.add(rmm);
+                                }
+                            }
+                            listaMedicamentos = medicamentoModels;
+                            associarMedicamentosResidenteMedicamento();
+                            populateEditar();
+                        }
+                    });
+                }
             }
         });
     }
@@ -200,24 +250,22 @@ public class CadastroResidenteFragment extends Fragment {
                     }
                 }
             }
+            residenteModel.setResidenteMedicamento(list);
         }
     }
 
     private void populateEditar() {
-        nome.setText(residenteModel.getNomeResidente());
-        dataNascimento.setText(dataNascimentoFormat.format(residenteModel.getDataNascimento()));
-        sexo.setText(residenteModel.getSexo());
-        nomeResponsavel.setText(residenteModel.getNomeResponsavel());
-        telResponsavel.setText(residenteModel.getTelResponsavel());
-        quarto.setText(residenteModel.getQuarto());
-        observacoes.setText(residenteModel.getObservacoes() + residenteModel.getCliente().getNomeCliente());
-        getActivity().runOnUiThread(new Runnable() {
-            @Override
-            public void run() {
-                adapter = new MedicamentoResidenteAdapter((List<ResidenteMedicamentoModel>) residenteModel.getResidenteMedicamento(), context);
-                recycler.setAdapter(adapter);
-            }
-        });
+        if(editar && !retorno){
+            nome.setText(residenteModel.getNomeResidente());
+            dataNascimento.setText(dataNascimentoFormat.format(residenteModel.getDataNascimento()));
+            sexo.setText(residenteModel.getSexo());
+            nomeResponsavel.setText(residenteModel.getNomeResponsavel());
+            telResponsavel.setText(residenteModel.getTelResponsavel());
+            quarto.setText(residenteModel.getQuarto());
+            observacoes.setText(residenteModel.getObservacoes());
+            list =residenteModel.getResidenteMedicamento();
+        }
+        populate(residenteModel.getResidenteMedicamento());
     }
 
     private Date getdataNascimento(){

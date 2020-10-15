@@ -24,6 +24,7 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineViewHolder> {
     private Context context;
     private View view;
     private SimpleDateFormat horaFormat= new SimpleDateFormat("HH:mm");
+    private SimpleDateFormat dataFormat= new SimpleDateFormat("dd/MM/yyyy");
 
     public TimeLineAdapter(List<ItemTimeline> listItems, Context context) {
         this.listItems = listItems;
@@ -46,16 +47,17 @@ public class TimeLineAdapter extends RecyclerView.Adapter<TimeLineViewHolder> {
 
     @Override
     public void onBindViewHolder(@NonNull TimeLineViewHolder holder, int position) {
-        final ItemTimeline listItem = listItems.get(position);
+         final ItemTimeline listItem = listItems.get(position);
         holder.nomeResidente.setText(listItem.getNome());
         holder.nomeMedicamento.setText(listItem.getMedicamento());
         holder.dosegem.setText(listItem.getDose());
         holder.horario.setText(horaFormat.format(listItem.getDataHora()));
+        holder.dataMedicacao.setText(dataFormat.format(listItem.getDataHora()));
         holder.gaveta.setText(listItem.getGaveta());
         if (listItem.getSituacao() == ItemTimeline.MEDICADO){
             holder.image.setImageResource(R.drawable.icon_check);
         } else {
-            holder.image.setImageResource(R.drawable.icon_x);
+            holder.image.setImageResource(R.drawable.pendente);
         }
 
         holder.setClickListener(new MyClickListener() {

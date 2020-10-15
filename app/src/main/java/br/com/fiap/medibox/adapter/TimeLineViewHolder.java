@@ -18,6 +18,7 @@ public class TimeLineViewHolder extends RecyclerView.ViewHolder implements View.
     public TextView horario;
     public TextView gaveta;
     public ImageView image;
+    public TextView dataMedicacao;
     MyClickListener clickListener;
 
     public TimeLineViewHolder(@NonNull View itemView) {
@@ -28,6 +29,7 @@ public class TimeLineViewHolder extends RecyclerView.ViewHolder implements View.
         horario = (TextView) itemView.findViewById(R.id.idHorarioTimeLine);
         gaveta = (TextView) itemView.findViewById(R.id.idGavetaTimeLine);
         image = (ImageView) itemView.findViewById(R.id.imageViewTimeLine);
+        dataMedicacao = (TextView) itemView.findViewById(R.id.idDataTimeLineItem);
         itemView.setOnClickListener(this);
     }
 

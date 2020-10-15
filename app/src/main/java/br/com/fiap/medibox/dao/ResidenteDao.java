@@ -31,7 +31,7 @@ public interface ResidenteDao {
     void insertAll(List<ResidenteModel> list);
 
     @Insert(onConflict = OnConflictStrategy.REPLACE)
-    void insert(ResidenteModel residenteModel);
+    long insert(ResidenteModel residenteModel);
 
     @Update
     void update(ResidenteModel residenteModel);

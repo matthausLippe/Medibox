@@ -162,7 +162,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private void criaAlarmes(AlarmManager alarmManager) {
         Intent notificationIntent = new Intent("action.DISPLAY_NOTIFICATION");
 
-
         //chama query que traz o medicamento/paciente
         Date data = new Date(new java.util.Date().getTime());
         List<TimeLineModel> lista;
@@ -181,7 +180,6 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 for(int i = 0; i<timeLineModels.size(); i++){
                     PendingIntent broadcast = PendingIntent.getBroadcast(context, i, notificationIntent, PendingIntent.FLAG_UPDATE_CURRENT);
                     alarmManager.setExact(AlarmManager.RTC_WAKEUP, timeLineModels.get(i).getDataHoraMedicacao().getTime(), broadcast);
-
                 }
             }
         });
